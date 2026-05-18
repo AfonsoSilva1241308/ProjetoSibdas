@@ -10,9 +10,10 @@ html {
 }  
 
 body {
-    background-color: #f8fafd; /* Fundo suave para um ambiente médico/digital */
+    background-color: #f8fafd;
     color: #333333;
     line-height: 1.6;
+    overflow-x: hidden; /* IMPEDE BARRAS DE SCROLL HORIZONTAIS INDESEJADAS */
 }
 
 /* 2. BARRA DE NAVEGAÇÃO PRINCIPAL */
@@ -113,30 +114,52 @@ body {
 /* 4. RODAPÉ INSTITUCIONAL (FOOTER) */
 .footer-container {
     display: flex; 
-    background-color: #1e252b; /* Azul escuro corporativo muito elegante */
-    color: #ffffff; 
-    padding: 50px 5%; 
-    flex-wrap: wrap; 
-    gap: 30px;
+    background-color: #d6dbe1; 
+    justify-content: space-between; /* Distribui as 3 colunas uniformemente */
+    align-items: flex-start;
+    padding: 50px 10%; /* Espaçamento interno elegante */
     margin-top: 60px;
-    /* position: fixed REMOVIDO para o rodapé não tapar o teu site */
+    border-top: 1px solid #bbc3cd;
+
+    /* TRUQUE DE ENGENHARIA: Força o ecrã total mesmo que esteja preso no HTML */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
 } 
 
 .footer-section {
     flex: 1; 
-    min-width: 250px; 
+    min-width: 200px; /* Permite que as colunas encolham sem saltar de linha */
+    padding: 0 15px;
+    text-align: left; /* Alinhamento à esquerda fica muito mais profissional */
 } 
 
 .footer-section strong {
     font-size: 1rem; 
     display: block; 
     margin-bottom: 15px; 
-    color: #00c6ff; /* Tom ciano brilhante para destacar secções no escuro */
+    color: #0056b3; 
     letter-spacing: 1px;
 } 
 
 .footer-section p {
     font-size: 0.95rem; 
-    color: #cbd5e1; 
+    color: #212529; 
     line-height: 1.7;
+}
+.banner-hwmed {
+    width: 100%;
+    height: 450px; /* Altura ideal para exibir os ecrãs tecnológicos com impacto */
+    overflow: hidden;
+}
+
+.banner-hwmed img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta a imagem proporcionalmente para preencher o espaço */
+    object-position: center; /* Mantém o foco no centro da imagem */
+    display: block;
 }
