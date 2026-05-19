@@ -115,26 +115,26 @@ body {
 .footer-container {
     display: flex; 
     background-color: #d6dbe1; 
-    justify-content: space-between; /* Distribui as 3 colunas uniformemente */
+    justify-content: center; /* ALTERADO: Agrupa as colunas de forma centrada */
     align-items: flex-start;
-    padding: 50px 10%; /* Espaçamento interno elegante */
+    padding: 50px 10%; 
     margin-top: 60px;
     border-top: 1px solid #bbc3cd;
 
-    /* TRUQUE DE ENGENHARIA: Força o ecrã total mesmo que esteja preso no HTML */
+    /* Truque de Engenharia para Ecrã Total */
     width: 100vw;
     position: relative;
     left: 50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
-} 
+}
 
 .footer-section {
     flex: 1; 
-    min-width: 200px; /* Permite que as colunas encolham sem saltar de linha */
+    min-width: 200px; 
     padding: 0 15px;
-    text-align: left; /* Alinhamento à esquerda fica muito mais profissional */
+    text-align: center; /* Centra os blocos */
 } 
 
 .footer-section strong {
@@ -143,23 +143,28 @@ body {
     margin-bottom: 15px; 
     color: #0056b3; 
     letter-spacing: 1px;
+    text-align: center; /* Garante o título centrado */
 } 
 
 .footer-section p {
     font-size: 0.95rem; 
     color: #212529; 
     line-height: 1.7;
+    text-align: center; /* CORRIGIDO: Força cada linha do texto a centrar a 100% */
 }
-.banner-hwmed {
+.banner-medilink {
     width: 100%;
-    height: 450px; /* Altura ideal para exibir os ecrãs tecnológicos com impacto */
-    overflow: hidden;
+    overflow: hidden; /* Garante que nada sai fora das margens */
 }
 
-.banner-hwmed img {
+.banner-medilink img {
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* Recorta a imagem proporcionalmente para preencher o espaço */
-    object-position: center; /* Mantém o foco no centro da imagem */
+    height: 450px; /* Define a altura fixa do banner. Podes aumentar ou diminuir este valor ao teu gosto! */
+    object-fit: cover; /* A MAGIA ESTÁ AQUI: Corta as sobras em vez de espalmar a imagem */
+    object-position: center; /* Garante que o centro da imagem (o mais importante) está sempre visível */
     display: block;
+}
+#servicos .card-text {
+    text-align: center !important; /* O !important obriga o navegador a ignorar qualquer justificação anterior */
+    word-spacing: normal;
 }
