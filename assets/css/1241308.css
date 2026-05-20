@@ -168,3 +168,20 @@ body {
     text-align: center !important; /* O !important obriga o navegador a ignorar qualquer justificação anterior */
     word-spacing: normal;
 }
+.logo-cliente {
+    /* Aumentámos drasticamente a altura permitida (de 160px para 240px) */
+    max-height: 240px; 
+    
+    /* Permite que o logótipo ocupe quase a totalidade da sua coluna na grelha */
+    width: auto;
+    max-width: 95%; 
+    
+    /* Garante que a imagem cresce mas nunca distorce ou espalma */
+    object-fit: contain; 
+    
+    transition: transform 0.3s ease;
+}
+
+.logo-cliente:hover {
+    transform: scale(1.08);
+}
