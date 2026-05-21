@@ -53,7 +53,7 @@
             <div class="card shadow-sm border-0">
                 <div class="card-body p-4 p-md-5">
                     
-                    <form action="#" method="POST">
+                    <form id="formNovoEquipamento" action="#" method="POST" novalidate>
                         
                         <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Identificação e Características</h5>
                         
@@ -164,6 +164,16 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="sucessoToast" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fw-medium fs-6">
+                    <i class="fa-solid fa-circle-check me-2"></i> Equipamento registado com sucesso no inventário!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
         </div>
     </div>
 
