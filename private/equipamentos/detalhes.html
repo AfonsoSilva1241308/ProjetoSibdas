@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha do Equipamento — MediLink Digital</title>
+    
+    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
+    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/1241308.css">
+</head>
+<body>
+
+    <div class="d-flex vh-100">
+        
+        <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
+            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center">
+                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
+            </a>
+            
+            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-2">
+                <li class="nav-item">
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium">Visão Geral</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active fw-semibold shadow-sm" aria-current="page">Equipamentos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium">Manutenção</a>
+                </li>
+            </ul>
+            <hr class="text-muted mt-4">
+            <div>
+                <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">Sair do Sistema</a>
+            </div>
+        </div>
+
+        <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="../dashboard.html" class="btn btn-sm btn-outline-secondary px-3">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Voltar ao Painel
+                    </a>
+                </div>
+                <button class="utilizador">Administrador</button>
+            </div>
+
+            <div class="d-flex justify-content-center mt-4">
+                <div class="card w-100 shadow-sm rounded border-top border-secondary border-4" style="max-width: 1200px;">
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+                            <div>
+                                <h2 class="text-dark mb-1"><strong><i class="fa-solid fa-file-medical text-secondary me-2"></i> Ficha Técnica do Equipamento</strong></h2>
+                                <p class="text-muted m-0">Código de Inventário Hospitalar: <span class="badge bg-dark fs-6 font-monospace">EV500-2021</span></p>
+                            </div>
+                            <a href="editar.html" class="btn btn-outline-primary fw-semibold">
+                                <i class="fa-solid fa-pen-to-square me-1"></i> Editar Dados
+                            </a>
+                        </div>
+                        <hr class="mb-5">
+
+                        <div class="row g-4 mb-5">
+                            <div class="col-12">
+                                <h5 class="text-secondary fw-bold mb-3"><i class="fa-solid fa-circle-info me-2"></i>Especificações do Dispositivo</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Designação</span>
+                                <p class="fs-5 fw-medium text-dark">Ventilador Pulmonar</p>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Categoria / Grupo</span>
+                                <p class="fs-5 fw-medium text-dark">Suporte de Vida</p>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Número de Série</span>
+                                <p class="fs-5 font-monospace text-dark">DRG-984372-V5</p>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Marca</span>
+                                <p class="fs-5 text-dark">Dräger</p>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Modelo</span>
+                                <p class="fs-5 text-dark">Evita V500</p>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Fabricante</span>
+                                <p class="fs-5 text-dark">Dräger Medical GmbH</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mb-5 border-top pt-4">
+                            <div class="col-12">
+                                <h5 class="text-secondary fw-bold mb-3"><i class="fa-solid fa-shield-heart me-2"></i>Status e Classificação de Risco</h5>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Estado Atual</span>
+                                <p class="m-0 mt-1"><span class="badge bg-success rounded-pill px-4 py-2 fs-6">Ativo / Operacional</span></p>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Criticidade Clínica</span>
+                                <p class="m-0 mt-1"><span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill px-4 py-2 fs-6">Suporte de Vida (Crítico)</span></p>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Localização Atual</span>
+                                <p class="fs-5 text-dark">Unidade de Cuidados Intensivos (UCI) - Cama 4</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-4 mb-5 border-top pt-4">
+                            <div class="col-12">
+                                <h5 class="text-secondary fw-bold mb-3"><i class="fa-solid fa-euro-sign me-2"></i>Histórico de Aquisição</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Data de Aquisição</span>
+                                <p class="fs-5 text-dark">15 de Março de 2021</p>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Ano de Fabrico</span>
+                                <p class="fs-5 text-dark">2020</p>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Custo de Aquisição</span>
+                                <p class="fs-5 fw-bold text-dark">24.500,00 €</p>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="d-block text-muted small text-uppercase fw-semibold">Tipo de Entrada</span>
+                                <p class="fs-5 text-dark">Compra Direta</p>
+                            </div>
+                        </div>
+
+                        <div class="row g-4 border-top pt-4">
+                            <div class="col-12">
+                                <span class="d-block text-muted small text-uppercase fw-semibold mb-2">Observações / Notas Técnicas</span>
+                                <div class="p-3 bg-light rounded border text-dark">
+                                    Equipamento em pleno funcionamento. Última calibração realizada com sucesso em janeiro de 2026.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1241308.js"></script>
+</body>
+</html>
