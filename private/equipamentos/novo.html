@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Equipamento — MediLink Digital</title>
+    
+    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
+    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/1241308.css">
+</head>
+<body>
+
+    <div class="d-flex vh-100">
+        
+        <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
+            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center">
+                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
+            </a>
+            
+            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-2">
+                <li class="nav-item">
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium">Visão Geral</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active fw-semibold shadow-sm" aria-current="page">Equipamentos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium">Manutenção</a>
+                </li>
+            </ul>
+            <hr class="text-muted mt-4">
+            <div>
+                <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">Sair do Sistema</a>
+            </div>
+        </div>
+
+        <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                <div class="d-flex align-items-center gap-3">
+                    <a href="../dashboard.html" class="btn btn-sm btn-outline-secondary px-3">&larr; Voltar</a>
+                    <h2 class="m-0 fw-bold text-primary">Registar Novo Equipamento</h2>
+                </div>
+                <button class="utilizador">Administrador</button>
+            </div>
+
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <form action="#" method="POST">
+                        
+                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Identificação e Características</h5>
+                        
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-3">
+                                <label class="form-label fw-medium">Código Interno *</label>
+                                <input type="text" class="form-control" placeholder="Ex: EQ-001" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-medium">Designação do Equipamento *</label>
+                                <input type="text" class="form-control" placeholder="Ex: Ventilador Pulmonar" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Categoria / Grupo</label>
+                                <select class="form-select">
+                                    <option selected disabled>Selecione...</option>
+                                    <option value="monitorizacao">Monitorização</option>
+                                    <option value="suporte_vida">Suporte de Vida</option>
+                                    <option value="terapia">Terapia</option>
+                                    <option value="diagnostico">Diagnóstico</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Marca</label>
+                                <input type="text" class="form-control" placeholder="Ex: Philips">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Modelo</label>
+                                <input type="text" class="form-control" placeholder="Ex: IntelliVue MP5">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Número de Série</label>
+                                <input type="text" class="form-control" placeholder="Ex: SN-123456">
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Dados de Aquisição e Estado</h5>
+
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Fabricante</label>
+                                <input type="text" class="form-control" placeholder="Ex: Dräger">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Data de Aquisição</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Tipo de Entrada</label>
+                                <select class="form-select">
+                                    <option value="compra" selected>Compra</option>
+                                    <option value="doacao">Doação</option>
+                                    <option value="aluguer">Aluguer</option>
+                                    <option value="emprestimo">Empréstimo</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Ano de Fabrico</label>
+                                <input type="number" class="form-control" min="1990" max="2026" placeholder="YYYY">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Custo de Aquisição (€)</label>
+                                <input type="number" class="form-control" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium">Estado Atual *</label>
+                                <select class="form-select border-success" required>
+                                    <option value="ativo" selected>Ativo / Operacional</option>
+                                    <option value="manutencao">Em Manutenção</option>
+                                    <option value="inativo">Inativo</option>
+                                    <option value="abatido">Abatido</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Classificação Clínica e Notas</h5>
+
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium">Criticidade Clínica *</label>
+                                <select class="form-select border-warning" required>
+                                    <option selected disabled>Definir nível...</option>
+                                    <option value="baixa">Baixa </option>
+                                    <option value="media">Média</option>
+                                    <option value="alta">Alta </option>
+                                    <option value="suporte_vida">Suporte de Vida </option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-medium">Observações</label>
+                                <textarea class="form-control" rows="3" placeholder="Informações adicionais relevantes, garantias ou notas técnicas..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
+                            <button type="reset" class="btn btn-light px-4 fw-medium border">Limpar</button>
+                            <button type="submit" class="btn btn-primary px-5 fw-bold">Guardar Registo</button>
+                        </div>
+
+                    </form>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1241308.js"></script>
+</body>
+</html>
