@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Fornecedor — MediLink Digital</title>
+    
+    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
+    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/1241308.css">
+</head>
+<body class="bg-light">
+
+    <div class="d-flex vh-100">
+        
+        <div class="bg-white p-3 d-flex flex-column border-end shadow-sm" style="width: 260px; min-width: 260px;">
+            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
+                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
+            </a>
+            
+            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-3">
+                <li class="nav-item">
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-chart-pie me-2 text-secondary"></i>Visão Geral
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../equipamentos/lista.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-stethoscope me-2 text-secondary"></i>Equipamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-map-location-dot me-2 text-secondary"></i>Localizações
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-screwdriver-wrench me-2 text-secondary"></i>Manutenção
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active fw-semibold shadow-sm" aria-current="page">
+                        <i class="fa-solid fa-truck-medical me-2"></i>Fornecedores
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../documentacao/lista.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-folder-open me-2 text-secondary"></i>Documentação
+                    </a>
+                </li>
+            </ul>
+            <hr class="text-muted mt-4">
+            <div>
+                <a href="../../public/index.html" class="btn btn-outline-danger w-100 fw-bold">
+                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sair
+                </a>
+            </div>
+        </div>
+
+        <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                <div>
+                    <a href="lista.html" class="btn btn-sm btn-outline-secondary mb-2">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Cancelar Edição
+                    </a>
+                    <h2 class="m-0 fw-bold text-dark"><i class="fa-solid fa-pen-to-square me-2"></i>Modificar Fornecedor</h2>
+                    <p class="text-muted m-0 mt-1">Atualize as informações contratuais ou contactos operacionais da entidade.</p>
+                </div>
+                <button class="utilizador">Administrador</button>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-4 max-w-800">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <form id="formEditarFornecedor" action="lista.html">
+                        
+                        <h5 class="fw-bold text-primary mb-4 border-bottom pb-2">1. Dados da Entidade</h5>
+                        
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-8">
+                                <label class="form-label fw-medium text-dark">Nome da Empresa / Marca *</label>
+                                <input type="text" class="form-control" value="Dräger Portugal Lda" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-medium text-dark">NIF *</label>
+                                <input type="text" class="form-control" value="501234567" required readonly style="background-color: #e9ecef;">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium text-dark">Categoria Principal</label>
+                                <select class="form-select">
+                                    <option value="1" selected>Fabricante de Equipamentos</option>
+                                    <option value="2">Prestador de Manutenção Técnica</option>
+                                    <option value="3">Fornecedor de Consumíveis</option>
+                                    <option value="4">Distribuidor Multimarca</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium text-dark">Tempo Máx. de Resposta (SLA)</label>
+                                <select class="form-select">
+                                    <option value="12h" selected>Nível Crítico - Até 12h</option>
+                                    <option value="24h">Nível Alto - Até 24h</option>
+                                    <option value="48h">Nível Normal - Até 48h</option>
+                                    <option value="72h">Nível Baixo - Até 72h</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold text-primary mb-4 border-bottom pb-2 mt-5">2. Informações de Contacto</h5>
+                        
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium text-dark">Pessoa de Contacto (Gestor de Conta)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fa-solid fa-user text-muted"></i></span>
+                                    <input type="text" class="form-control border-start-0 ps-0" value="Eng. Carlos Mendes">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium text-dark">Cargo / Departamento</label>
+                                <input type="text" class="form-control" value="Key Account Manager Saúde">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium text-dark">Email de Assistência *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fa-solid fa-envelope text-muted"></i></span>
+                                    <input type="email" class="form-control border-start-0 ps-0" value="suporte@draeger.pt" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-medium text-dark">Telefone / Linha de Apoio *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="fa-solid fa-phone text-muted"></i></span>
+                                    <input type="tel" class="form-control border-start-0 ps-0" value="+351 210 000 000" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-medium text-dark">Observações Adicionais</label>
+                            <textarea class="form-control" rows="3">Contrato Full-Risk ativo para os ventiladores da Ala de Cuidados Intensivos. O portal externo de abertura de avarias exige o número de série do equipamento colado no chassis.</textarea>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
+                            <a href="lista.html" class="btn btn-light border fw-semibold px-4">Cancelar</a>
+                            <button type="submit" class="btn btn-primary fw-semibold px-4">
+                                <i class="fa-solid fa-floppy-disk me-2"></i>Gravar Alterações
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1241308.js"></script>
+</body>
+</html>
