@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fornecedores — MediLink Digital</title>
+    
+    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
+    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/1241308.css">
+</head>
+<body class="bg-light">
+
+    <div class="d-flex vh-100">
+        
+        <div class="bg-white p-3 d-flex flex-column border-end shadow-sm" style="width: 260px; min-width: 260px;">
+            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
+                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
+            </a>
+            
+            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-3">
+                <li class="nav-item">
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-chart-pie me-2 text-secondary"></i>Visão Geral
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../equipamentos/lista.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-stethoscope me-2 text-secondary"></i>Equipamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-map-location-dot me-2 text-secondary"></i>Localizações
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-screwdriver-wrench me-2 text-secondary"></i>Manutenção
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active fw-semibold shadow-sm" aria-current="page">
+                        <i class="fa-solid fa-truck-medical me-2"></i>Fornecedores
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../documentacao/lista.html" class="nav-link text-dark fw-medium">
+                        <i class="fa-solid fa-folder-open me-2 text-secondary"></i>Documentação
+                    </a>
+                </li>
+            </ul>
+            <hr class="text-muted mt-4">
+            <div>
+                <a href="../../public/index.html" class="btn btn-outline-danger w-100 fw-bold">
+                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Sair
+                </a>
+            </div>
+        </div>
+
+        <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                <div>
+                    <h2 class="m-0 fw-bold text-dark"><i class="fa-solid fa-truck-medical me-2"></i>Entidades e Fornecedores</h2>
+                    <p class="text-muted m-0 mt-1">Gestão de fabricantes, distribuidores e parceiros de assistência técnica.</p>
+                </div>
+                <button class="utilizador">Administrador</button>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4">
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="input-group w-50">
+                            <span class="input-group-text bg-white"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" placeholder="Pesquisar por nome, NIF ou categoria...">
+                        </div>
+                        <a href="novo.html" class="btn btn-primary fw-semibold">
+                            <i class="fa-solid fa-plus me-1"></i> Novo Fornecedor
+                        </a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col" class="text-muted fw-semibold">Entidade / Marca</th>
+                                    <th scope="col" class="text-muted fw-semibold">Categoria</th>
+                                    <th scope="col" class="text-muted fw-semibold">Contacto Principal</th>
+                                    <th scope="col" class="text-muted fw-semibold">Tempo Resposta (SLA)</th>
+                                    <th scope="col" class="text-end text-muted fw-semibold pe-4">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-top-0">
+                                <tr>
+                                    <td>
+                                        <span class="d-block fw-bold text-dark">Dräger Portugal Lda</span>
+                                        <small class="text-muted">NIF: 501234567</small>
+                                    </td>
+                                    <td><span class="badge bg-primary bg-opacity-10 text-primary border border-primary rounded-pill px-3 py-2">Fabricante</span></td>
+                                    <td>
+                                        <span class="d-block text-dark">suporte@draeger.pt</span>
+                                        <small class="text-muted">+351 210 000 000</small>
+                                    </td>
+                                    <td><span class="badge bg-danger rounded-pill px-3 py-2"><i class="fa-solid fa-bolt me-1"></i> Até 12h</span></td>
+                                    <td class="text-end pe-4">
+                                        <a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="fa-solid fa-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="d-block fw-bold text-dark">MedTech Assist</span>
+                                        <small class="text-muted">NIF: 509876543</small>
+                                    </td>
+                                    <td><span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary rounded-pill px-3 py-2">Assistência Técnica</span></td>
+                                    <td>
+                                        <span class="d-block text-dark">geral@medtech.pt</span>
+                                        <small class="text-muted">+351 222 111 333</small>
+                                    </td>
+                                    <td><span class="badge bg-warning text-dark rounded-pill px-3 py-2"><i class="fa-solid fa-clock me-1"></i> Até 24h</span></td>
+                                    <td class="text-end pe-4">
+                                        <a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="fa-solid fa-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="d-block fw-bold text-dark">ConsumaMed Lda</span>
+                                        <small class="text-muted">NIF: 512345678</small>
+                                    </td>
+                                    <td><span class="badge bg-info bg-opacity-10 text-info border border-info rounded-pill px-3 py-2">Consumíveis</span></td>
+                                    <td>
+                                        <span class="d-block text-dark">encomendas@consumamed.pt</span>
+                                        <small class="text-muted">+351 213 444 555</small>
+                                    </td>
+                                    <td><span class="badge bg-light text-dark border rounded-pill px-3 py-2">Até 72h</span></td>
+                                    <td class="text-end pe-4">
+                                        <a href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="fa-solid fa-eye"></i></a>
+                                        <a href="#" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                        <span class="text-muted small">A mostrar 3 de 45 registos</span>
+                        <nav>
+                            <ul class="pagination pagination-sm m-0">
+                                <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../../assets/Bootstrap/bootstrap.bundle.min.js1"></script>
+    <script src="../../assets/js/1241308.js"></script>
+</body>
+</html>
