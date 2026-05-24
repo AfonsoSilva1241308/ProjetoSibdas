@@ -14,7 +14,7 @@
 
     <div class="d-flex vh-100">
         
-         <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
+        <div class="bg-white p-3 d-flex flex-column border-end shadow-sm" style="width: 260px; min-width: 260px;">
             <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
                 <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
             </a>
@@ -58,113 +58,121 @@
                 </a>
             </div>
         </div>
+
         <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
             
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                <div>
-                    <a href="lista.html" class="btn btn-sm btn-outline-secondary mb-2">
-                        <i class="fa-solid fa-arrow-left me-1"></i> Voltar à Lista
-                    </a>
-                    <h2 class="m-0 fw-bold text-dark">Ficha do Fornecedor</h2>
-                    <p class="text-muted m-0 mt-1">Consulta de informações comerciais, contratuais e de contacto técnico.</p>
-                </div>
-                <div class="d-flex gap-2">
-                    <a href="editar.html" class="btn btn-primary fw-semibold">
-                        <i class="fa-solid fa-pen me-1"></i> Editar Dados
+                <div class="d-flex align-items-center gap-3">
+                    <a href="lista.html" class="btn btn-sm btn-outline-secondary px-3">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Voltar 
                     </a>
                 </div>
+                <button class="utilizador">Administrador</button>
             </div>
 
-            <div class="row g-4">
-                
-                <div class="col-lg-8">
-                    <div class="card shadow-sm border-0 rounded-4 p-4 mb-4">
-                        <div class="d-flex align-items-center mb-4">
-                            <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-3 me-3">
-                                <i class="fa-solid fa-building fa-2x"></i>
-                            </div>
-                            <div>
-                                <h3 class="fw-bold m-0 text-dark">Dräger Portugal Lda</h3>
-                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary rounded-pill mt-1">Fabricante Oficial</span>
-                            </div>
-                        </div>
-
-                        <div class="row g-3 border-top pt-3">
-                            <div class="col-sm-6">
-                                <small class="text-muted d-block text-uppercase fw-bold small">Número de Identificação Fiscal (NIF)</small>
-                                <span class="fw-medium text-dark">501234567</span>
-                            </div>
-                            <div class="col-sm-6">
-                                <small class="text-muted d-block text-uppercase fw-bold small">Nível de Acordo de Serviço (SLA)</small>
-                                <span class="badge bg-danger rounded-pill mt-1"><i class="fa-solid fa-bolt me-1"></i> Crítico (Até 12h)</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 border-top pt-3">
-                            <small class="text-muted d-block text-uppercase fw-bold small mb-2">Observações Internas</small>
-                            <p class="text-dark bg-light p-3 rounded border m-0 small">
-                                Contrato Full-Risk ativo para os ventiladores da Ala de Cuidados Intensivos. O portal externo de abertura de avarias exige o número de série do equipamento colado no chassis.
+            <div class="card w-100 shadow-sm rounded border-top border-secondary border-4" style="max-width: 1200px;">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="fw-bold text-dark m-0 d-flex align-items-center mb-2">
+                                <i class="fa-solid fa-file-contract text-secondary me-3"></i> Ficha do Fornecedor
+                            </h2>
+                            <p class="text-muted m-0" style="font-size: 0.95rem;">
+                                NIF da Entidade: <span class="badge bg-dark text-white rounded-1 px-2 ms-1" style="font-size: 0.85rem;">501234567</span>
                             </p>
                         </div>
-                    </div>
-
-                    <div class="card shadow-sm border-0 rounded-4 p-4">
-                        <h5 class="fw-bold text-dark mb-3">Equipamentos Sob Assistência Desta Entidade</h5>
-                        <div class="table-responsive">
-                            <table class="table table-sm align-middle table-hover m-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Cód. Interno</th>
-                                        <th>Equipamento</th>
-                                        <th>Serviço Alocado</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="fw-bold text-primary">EQ-V500-01</td>
-                                        <td>Ventilador Pulmonar Evita V500</td>
-                                        <td>Cuidados Intensivos</td>
-                                        <td><span class="badge bg-success rounded-pill">Ativo</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-bold text-primary">EQ-V500-02</td>
-                                        <td>Ventilador Pulmonar Evita V500</td>
-                                        <td>Cuidados Intensivos</td>
-                                        <td><span class="badge bg-warning text-dark rounded-pill">Manutenção</span></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="card shadow-sm border-0 rounded-4 p-4 bg-white">
-                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Canais de Suporte</h5>
-                        
-                        <div class="mb-4">
-                            <small class="text-muted d-block text-uppercase fw-bold small mb-1">Gestor de Conta</small>
-                            <span class="fw-bold text-dark d-block">Eng. Carlos Mendes</span>
-                            <small class="text-muted">Key Account Manager Saúde</small>
-                        </div>
-
-                        <div class="mb-4">
-                            <small class="text-muted d-block text-uppercase fw-bold small mb-1">Linha Telefónica Direta</small>
-                            <a href="tel:+351210000000" class="text-decoration-none fw-bold text-primary d-block">
-                                <i class="fa-solid fa-phone me-1"></i> +351 210 000 000
+                        <a href="editar.html" class="btn btn-outline-primary fw-semibold">
+                                <i class="fa-solid fa-pen-to-square me-1"></i> Editar Dados
                             </a>
-                        </div>
+                    </div>
 
-                        <div>
-                            <small class="text-muted d-block text-uppercase fw-bold small mb-1">Email Técnico</small>
-                            <a href="mailto:suporte@draeger.pt" class="text-decoration-none fw-bold text-primary d-block">
-                                <i class="fa-solid fa-envelope me-1"></i> suporte@draeger.pt
-                            </a>
+                    <hr class="my-4 text-muted opacity-25">
+
+                    <h5 class="fw-bold text-secondary mb-4" style="font-size: 1.1rem;">
+                        <i class="fa-solid fa-circle-info me-2"></i> Dados da Entidade
+                    </h5>
+                    
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-4">
+                            <small class="text-muted d-block text-uppercase fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Empresa / Marca</small>
+                            <p class="text-dark mb-0 fs-6">Dräger Portugal Lda</p>
+                        </div>
+                        <div class="col-md-4">
+                            <small class="text-muted d-block text-uppercase fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Categoria</small>
+                            <p class="text-dark mb-0 fs-6">Fabricante Oficial</p>
+                        </div>
+                        <div class="col-md-4">
+                            <small class="text-muted d-block text-uppercase fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Tempo Máx. Resposta (SLA)</small>
+                            <p class="text-dark mb-0 fs-6">Crítico (Até 12h)</p>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <small class="text-muted d-block text-uppercase fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Observações Internas</small>
+                            <p class="text-dark mb-0 fs-6">Contrato Full-Risk ativo para os ventiladores da Ala de Cuidados Intensivos. O portal externo de abertura de avarias exige o número de série do equipamento colado no chassis.</p>
                         </div>
                     </div>
-                </div>
 
+                    <hr class="my-4 text-muted opacity-25" style="border-width: 2px;">
+
+                    <h5 class="fw-bold text-secondary mb-4" style="font-size: 1.1rem;">
+                        <i class="fa-solid fa-address-book me-2"></i> Contactos e Assistência
+                    </h5>
+                    
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-4">
+                            <small class="text-muted d-block text-uppercase fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Gestor de Conta</small>
+                            <p class="text-dark mb-0 fs-6">Eng. Carlos Mendes</p>
+                        </div>
+                        <div class="col-md-4">
+                            <small class="text-muted d-block text-uppercase fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Cargo / Departamento</small>
+                            <p class="text-dark mb-0 fs-6">Key Account Manager Saúde</p>
+                        </div>
+                        <div class="col-md-4">
+                            </div>
+                        <div class="col-md-4 mt-4">
+                            <small class="text-muted d-block text-uppercase fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Linha Telefónica Direta</small>
+                            <p class="text-dark mb-0 fs-6">+351 210 000 000</p>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <small class="text-muted d-block text-uppercase fw-bold mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">Email Técnico</small>
+                            <p class="text-dark mb-0 fs-6">suporte@draeger.pt</p>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 text-muted opacity-25" style="border-width: 2px;">
+
+                    <h5 class="fw-bold text-secondary mb-4" style="font-size: 1.1rem;">
+                        <i class="fa-solid fa-stethoscope me-2"></i> Equipamentos Cobertos
+                    </h5>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle mb-0">
+                            <thead class="border-bottom">
+                                <tr>
+                                    <th class="text-muted small text-uppercase fw-bold pb-2 px-0">Cód. Interno</th>
+                                    <th class="text-muted small text-uppercase fw-bold pb-2">Equipamento</th>
+                                    <th class="text-muted small text-uppercase fw-bold pb-2">Serviço Alocado</th>
+                                    <th class="text-muted small text-uppercase fw-bold pb-2 text-center">Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-bottom">
+                                    <td class="fw-bold text-dark px-0 py-3">EQ-V500-01</td>
+                                    <td class="text-dark py-3">Ventilador Pulmonar Evita V500</td>
+                                    <td class="text-dark py-3">Cuidados Intensivos</td>
+                                    <td class="text-center py-3"><span class="badge bg-success rounded-pill px-3 py-1">Ativo</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold text-dark px-0 py-3">EQ-V500-02</td>
+                                    <td class="text-dark py-3">Ventilador Pulmonar Evita V500</td>
+                                    <td class="text-dark py-3">Cuidados Intensivos</td>
+                                    <td class="text-center py-3"><span class="badge bg-warning text-dark rounded-pill px-3 py-1">Manutenção</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
 
         </div>
