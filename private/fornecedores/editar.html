@@ -76,76 +76,71 @@
                     <hr class="mb-5">
                     <form id="formEditarFornecedor" action="lista.html">
                         
-                        <h5 class="fw-bold text-primary mb-4 border-bottom pb-2">1. Dados da Entidade</h5>
+                        <h5 class="text-dark mb-4 border-bottom pb-2">Dados da Entidade</h5>
                         
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-8">
-                                <label class="form-label fw-medium text-dark">Nome da Empresa / Marca *</label>
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark">Nome da Empresa / Marca *</label>
                                 <input type="text" class="form-control" value="Dräger Portugal Lda" required>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium text-dark">NIF *</label>
-                                <input type="text" class="form-control" value="501234567" required readonly style="background-color: #e9ecef;">
+                            <div class="col-md-6">
+                                <label class="form-label text-dark">NIF (Não editável) *</label>
+                                <input type="text" class="form-control bg-light" value="501234567" readonly>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark">Categoria Principal</label>
-                                <select class="form-select">
-                                    <option value="1" selected>Fabricante de Equipamentos</option>
-                                    <option value="2">Prestador de Manutenção Técnica</option>
-                                    <option value="3">Fornecedor de Consumíveis</option>
-                                    <option value="4">Distribuidor Multimarca</option>
+                                <label class="form-label text-dark">Tipo de Fornecedor *</label>
+                                <select class="form-select" required>
+                                    <option value="Fabricante" selected>Fabricante</option>
+                                    <option value="Distribuidor">Distribuidor ou fornecedor comercial</option>
+                                    <option value="Assistencia">Empresa de assistência técnica</option>
+                                    <option value="Consumiveis">Fornecedor de consumíveis ou acessórios</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark">Tempo Máx. de Resposta (SLA)</label>
-                                <select class="form-select">
-                                    <option value="12h" selected>Nível Crítico - Até 12h</option>
-                                    <option value="24h">Nível Alto - Até 24h</option>
-                                    <option value="48h">Nível Normal - Até 48h</option>
-                                    <option value="72h">Nível Baixo - Até 72h</option>
-                                </select>
+                                <label class="form-label text-dark">Contacto Telefónico (Geral) *</label>
+                                <input type="tel" class="form-control" value="+351 210 123 456" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark">Email da Empresa *</label>
+                                <input type="email" class="form-control" value="geral@draeger.pt" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark">Website</label>
+                                <input type="url" class="form-control" value="https://www.draeger.com">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-dark">Morada *</label>
+                                <input type="text" class="form-control" value="Rua Professor Doutor Egas Moniz, nº 100, 2745-000 Queluz" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-dark">Observações</label>
+                                <textarea class="form-control" rows="3">Contrato Full-Risk ativo para os ventiladores da Ala de Cuidados Intensivos.</textarea>
                             </div>
                         </div>
 
-                        <h5 class="fw-bold text-primary mb-4 border-bottom pb-2 mt-5">2. Informações de Contacto</h5>
+                        <h5 class="text-dark mb-4 border-bottom pb-2 mt-4">Pessoa de Contacto</h5>
                         
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark">Pessoa de Contacto (Gestor de Conta)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white"><i class="fa-solid fa-user text-muted"></i></span>
-                                    <input type="text" class="form-control border-start-0 ps-0" value="Eng. Carlos Mendes">
-                                </div>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label text-dark">Nome do Contacto *</label>
+                                <input type="text" class="form-control" value="Eng. Carlos Mendes" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark">Cargo / Departamento</label>
-                                <input type="text" class="form-control" value="Key Account Manager Saúde">
+                            <div class="col-md-4">
+                                <label class="form-label text-dark">Telefone Direto *</label>
+                                <input type="tel" class="form-control" value="+351 912 345 678" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark">Email de Assistência *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white"><i class="fa-solid fa-envelope text-muted"></i></span>
-                                    <input type="email" class="form-control border-start-0 ps-0" value="suporte@draeger.pt" required>
-                                </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-dark">Email Direto *</label>
+                                <input type="email" class="form-control" value="carlos.mendes@draeger.pt" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium text-dark">Telefone / Linha de Apoio *</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-white"><i class="fa-solid fa-phone text-muted"></i></span>
-                                    <input type="tel" class="form-control border-start-0 ps-0" value="+351 210 000 000" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-medium text-dark">Observações Adicionais</label>
-                            <textarea class="form-control" rows="3">Contrato Full-Risk ativo para os ventiladores da Ala de Cuidados Intensivos. O portal externo de abertura de avarias exige o número de série do equipamento colado no chassis.</textarea>
                         </div>
 
                         <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
-                            <a href="lista.html" class="btn btn-light border fw-semibold px-4">Cancelar</a>
-                            <button type="submit" class="btn btn-primary fw-semibold px-4">
-                                <i class="fa-solid fa-floppy-disk me-2"></i>Gravar Alterações
+                            <a href="lista.html" class="btn btn-light border px-4 d-flex align-items-center">
+                                <i class="fa-solid fa-xmark me-2"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary px-4 d-flex align-items-center">
+                                <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Alterações
                             </button>
                         </div>
                     </form>

@@ -78,60 +78,67 @@
                     
                     <form id="formNovoFornecedor" action="lista.html">
                         
-                        <h5 class="text-dark mb-4 border-bottom pb-2">Dados da Entidade</h5>
+                       <h5 class="text-dark mb-4 border-bottom pb-2">Dados da Entidade</h5>
                         
                         <div class="row g-4 mb-5">
                             <div class="col-md-6">
                                 <label class="form-label text-dark">Nome da Empresa / Marca *</label>
-                                <input type="text" class="form-control" placeholder="Ex: Philips Healthcare Portugal" required>
+                                <input type="text" class="form-control" placeholder="Ex: Dräger Portugal Lda" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-dark">NIF *</label>
-                                <input type="text" class="form-control" placeholder="Ex: 501234567" required>
+                                <input type="text" class="form-control" placeholder="Ex: 501234567" maxlength="9" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label text-dark">Categoria Principal</label>
-                                <select class="form-select">
-                                    <option selected disabled>Selecione...</option>
-                                    <option value="1">Fabricante de Equipamentos</option>
-                                    <option value="2">Prestador de Manutenção Técnica</option>
-                                    <option value="3">Fornecedor de Consumíveis</option>
-                                    <option value="4">Distribuidor Multimarca</option>
+                                <label class="form-label text-dark">Tipo de Fornecedor *</label>
+                                <select class="form-select" required>
+                                    <option value="" disabled selected>Selecione uma opção...</option>
+                                    <option value="Fabricante">Fabricante</option>
+                                    <option value="Distribuidor">Distribuidor ou fornecedor comercial</option>
+                                    <option value="Assistencia">Empresa de assistência técnica</option>
+                                    <option value="Consumiveis">Fornecedor de consumíveis ou acessórios</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label text-dark">Tempo Máx. de Resposta (SLA)</label>
-                                <select class="form-select">
-                                    <option value="12h">Nível Crítico - Até 12h</option>
-                                    <option value="24h" selected>Nível Alto - Até 24h</option>
-                                    <option value="48h">Nível Normal - Até 48h</option>
-                                    <option value="72h">Nível Baixo - Até 72h</option>
-                                </select>
+                                <label class="form-label text-dark">Contacto Telefónico (Geral) *</label>
+                                <input type="tel" class="form-control" placeholder="Ex: +351 210 123 456" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark">Email da Empresa *</label>
+                                <input type="email" class="form-control" placeholder="Ex: geral@empresa.pt" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-dark">Website</label>
+                                <input type="url" class="form-control" placeholder="Ex: https://www.empresa.com">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-dark">Morada *</label>
+                                <input type="text" class="form-control" placeholder="Ex: Rua Direita, nº 10, Porto" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label text-dark">Observações</label>
+                                <textarea class="form-control" rows="3" placeholder="Notas internas, restrições ou informações sobre contratos..."></textarea>
                             </div>
                         </div>
 
-                        <h5 class="text-dark mb-4 border-bottom pb-2 mt-4">Informações de Contacto</h5>
+                        <h5 class="text-dark mb-4 border-bottom pb-2 mt-4">Pessoa de Contacto</h5>
                         
-                        <div class="row g-4 mb-5">
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Pessoa de Contacto (Gestor de Conta)</label>
-                                <input type="text" class="form-control" placeholder="Ex: Carlos Mendes">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label text-dark">Nome do Contacto *</label>
+                                <input type="text" class="form-control" placeholder="Ex: Eng. Carlos Mendes" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Cargo / Departamento</label>
-                                <input type="text" class="form-control" placeholder="Ex: Key Account Manager Saúde">
+                            <div class="col-md-4">
+                                <label class="form-label text-dark">Telefone Pessoal*</label>
+                                <input type="tel" class="form-control" placeholder="Ex: +351 912 345 678" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Email de Assistência *</label>
-                                <input type="email" class="form-control" placeholder="Ex: suporte@empresa.pt" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Telefone / Linha de Apoio *</label>
-                                <input type="tel" class="form-control" placeholder="Ex: +351 210 000 000" required>
+                            <div class="col-md-4">
+                                <label class="form-label text-dark">Email Pessoal *</label>
+                                <input type="email" class="form-control" placeholder="Ex: carlos.mendes@empresa.pt" required>
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
+                       <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
                             <button type="reset" class="btn btn-outline-secondary px-4 fw-medium">
                               <i class="fa-solid fa-eraser me-1"></i> Limpar
                             </button>
