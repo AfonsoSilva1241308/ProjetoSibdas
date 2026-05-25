@@ -112,9 +112,18 @@
                                         <span class="badge bg-success rounded-pill px-3 py-1">Ativo</span>
                                     </td>
                                     <td class="text-end pe-3">
-                                        <a href="detalhes.html" class="btn btn-sm btn-outline-secondary fw-medium px-3 me-1">Ficha</a>
-                                        <a href="editar.html" class="btn btn-sm btn-outline-primary fw-medium px-3">Editar</a>
-                                    </td>
+                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
+                                      <i class="fa-solid fa-eye"></i>
+                                      </a>
+    
+                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
+                                      <i class="fa-solid fa-pen-to-square"></i>
+                                      </a>
+    
+                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemover">
+                                       <i class="fa-solid fa-trash"></i>
+                                       </button>
+                                       </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3">
@@ -133,9 +142,18 @@
                                         <span class="badge bg-success rounded-pill px-3 py-1">Ativo</span>
                                     </td>
                                     <td class="text-end pe-3">
-                                        <a href="detalhes.html" class="btn btn-sm bg-white border border-secondary text-secondary fw-medium px-3 me-1">Ficha</a>
-                                        <a href="editar.html" class="btn btn-sm bg-white border border-primary text-primary fw-medium px-3">Editar</a>
-                                    </td>
+                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
+                                      <i class="fa-solid fa-eye"></i>
+                                      </a>
+    
+                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
+                                      <i class="fa-solid fa-pen-to-square"></i>
+                                      </a>
+    
+                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemover">
+                                       <i class="fa-solid fa-trash"></i>
+                                       </button>
+                                       </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3">
@@ -154,9 +172,18 @@
                                         <span class="badge bg-secondary rounded-pill px-3 py-1">Inativo</span>
                                     </td>
                                     <td class="text-end pe-3">
-                                        <a href="detalhes.html" class="btn btn-sm btn-outline-secondary fw-medium px-3 me-1">Ficha</a>
-                                        <a href="editar.html" class="btn btn-sm btn-outline-primary fw-medium px-3">Editar</a>
-                                    </td>
+                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
+                                      <i class="fa-solid fa-eye"></i>
+                                      </a>
+    
+                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
+                                      <i class="fa-solid fa-pen-to-square"></i>
+                                      </a>
+    
+                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemover">
+                                       <i class="fa-solid fa-trash"></i>
+                                       </button>
+                                       </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -176,7 +203,38 @@
 
         </div>
     </div>
+<div class="modal fade" id="modalRemover" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-body text-center p-5">
+                    
+                    <i class="fa-solid fa-triangle-exclamation text-warning mb-4" style="font-size: 4rem;"></i>
+                    
+                    <h5 class="text-dark mb-2">Deseja eliminar o fornecedor?</h5>
+                    <h3 class="fw-bold text-dark mb-4">Dräger Portugal Lda</h3>
+                    
+                    <div class="mb-4">
+                        <span class="d-block text-dark fw-bold mb-1">
+                            <i class="fa-solid fa-envelope me-2"></i> suporte@draeger.pt
+                        </span>
+                        <span class="d-block text-dark fw-bold">
+                            <i class="fa-solid fa-phone me-2"></i> +351 210 000 000
+                        </span>
+                    </div>
 
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <button type="button" class="btn btn-light border fw-medium px-4 py-2" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark me-2 text-secondary"></i> Não
+                        </button>
+                        <button type="button" class="btn btn-danger fw-medium px-4 py-2" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-check me-2"></i> Sim
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/1241308.js"></script>
 </body>

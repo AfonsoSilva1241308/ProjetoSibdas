@@ -90,9 +90,18 @@
                                     <td class="text-dark">Dräger Evita V500</td>
                                     <td><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-2">Suporte de Vida</span></td>
                                     <td><span class="badge bg-success rounded-pill px-3 py-2">Ativo</span></td>
-                                    <td class="text-end">
-                                        <a href="detalhes.html" class="btn btn-sm btn-outline-secondary me-1">Ficha</a>
-                                        <a href="editar.html" class="btn btn-sm btn-outline-primary">Editar</a>
+                                    <td class="text-end pe-3">
+                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
+                                      <i class="fa-solid fa-eye"></i>
+                                      </a>
+    
+                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
+                                      <i class="fa-solid fa-pen-to-square"></i>
+                                      </a>
+    
+                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento">
+                                       <i class="fa-solid fa-trash"></i>
+                                       </button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -104,9 +113,18 @@
                                     <td class="text-dark">Philips IntelliVue MP5</td>
                                     <td><span class="badge bg-warning bg-opacity-10 text-dark border border-warning rounded-pill px-3 py-2">Alta</span></td>
                                     <td><span class="badge bg-success rounded-pill px-3 py-2">Ativo</span></td>
-                                    <td class="text-end">
-                                        <a href="detalhes.html" class="btn btn-sm btn-outline-secondary me-1">Ficha</a>
-                                        <a href="editar.html" class="btn btn-sm btn-outline-primary">Editar</a>
+                                    <td class="text-end pe-3">
+                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
+                                      <i class="fa-solid fa-eye"></i>
+                                      </a>
+    
+                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
+                                      <i class="fa-solid fa-pen-to-square"></i>
+                                      </a>
+    
+                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento">
+                                       <i class="fa-solid fa-trash"></i>
+                                       </button>
                                     </td>
                                 </tr>
                                 <tr>
@@ -118,9 +136,18 @@
                                     <td class="text-dark">Zoll R Series</td>
                                     <td><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-2">Suporte de Vida</span></td>
                                     <td><span class="badge bg-warning text-dark rounded-pill px-3 py-2">Manutenção</span></td>
-                                    <td class="text-end">
-                                        <a href="detalhes.html" class="btn btn-sm btn-outline-secondary me-1">Ficha</a>
-                                        <a href="editar.html" class="btn btn-sm btn-outline-primary">Editar</a>
+                                    <td class="text-end pe-3">
+                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
+                                      <i class="fa-solid fa-eye"></i>
+                                      </a>
+    
+                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
+                                      <i class="fa-solid fa-pen-to-square"></i>
+                                      </a>
+    
+                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento">
+                                       <i class="fa-solid fa-trash"></i>
+                                       </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -140,7 +167,38 @@
 
                 </div>
             </div>
+<div class="modal fade" id="modalRemoverEquipamento" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-body text-center p-5">
+                    
+                    <i class="fa-solid fa-triangle-exclamation text-warning mb-4" style="font-size: 4rem;"></i>
+                    
+                    <h5 class="text-dark mb-2">Deseja eliminar o equipamento do inventário?</h5>
+                    <h3 class="fw-bold text-dark mb-4">Ventilador Pulmonar Evita V500</h3>
+                    
+                    <div class="mb-4">
+                        <span class="d-block text-dark fw-bold mb-1" style="font-size: 0.95rem;">
+                            Cód. Interno: <span class="text-secondary fw-medium">EQ-V500-01</span>
+                        </span>
+                        <span class="d-block text-dark fw-bold" style="font-size: 0.95rem;">
+                            Serviço Alocado: <span class="text-secondary fw-medium">Cuidados Intensivos (UCI)</span>
+                        </span>
+                    </div>
 
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <button type="button" class="btn btn-light border fw-medium px-4 py-2" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark me-2 text-secondary"></i> Não
+                        </button>
+                        <button type="button" class="btn btn-danger fw-medium px-4 py-2" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-check me-2"></i> Sim
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/1241308.js"></script>
 </body>
