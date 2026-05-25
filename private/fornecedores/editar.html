@@ -134,7 +134,47 @@
                                 <input type="email" class="form-control" value="carlos.mendes@draeger.pt" required>
                             </div>
                         </div>
+<h5 class="text-dark mb-4 border-bottom pb-2 mt-5">Equipamentos Associados</h5>
+                        
+                        <div class="row g-2 mb-4 bg-light p-3 rounded border">
+                            <div class="col-md-8">
+                                <select class="form-select border-secondary">
+                                    <option selected disabled>Selecione um equipamento do inventário para associar...</option>
+                                    <option value="1">Bomba de Infusão Alaris (EQ-BMB-12)</option>
+                                    <option value="2">Monitor de Sinais Vitais (EQ-MON-05)</option>
+                                    <option value="3">Desfibrilhador ZOLL (EQ-DEF-02)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-outline-primary w-100 fw-medium">
+                                    <i class="fa-solid fa-link me-2"></i> Associar Equipamento
+                                </button>
+                            </div>
+                        </div>
 
+                        <div class="table-responsive border rounded mb-2">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="small text-uppercase fw-bold text-muted border-0">Código</th>
+                                        <th class="small text-uppercase fw-bold text-muted border-0">Equipamento</th>
+                                        <th class="small text-uppercase fw-bold text-muted border-0 text-end">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fw-medium text-dark">EV500-2021</td>
+                                        <td>Ventilador Pulmonar Evita V500</td>
+                                        <td class="text-end">
+                                            <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover Associação" onclick="confirm('Tem a certeza que deseja desassociar este equipamento deste fornecedor?')">
+                                                <i class="fa-solid fa-link-slash"></i> Desassociar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <small class="text-muted d-block mb-4"><i class="fa-solid fa-circle-info me-1"></i> A desassociação não elimina o equipamento do sistema, apenas remove a ligação a este fornecedor.</small>
                         <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
                             <a href="lista.html" class="btn btn-light border px-4 d-flex align-items-center">
                                 <i class="fa-solid fa-xmark me-2"></i> Cancelar
