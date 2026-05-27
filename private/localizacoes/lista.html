@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Localizações — MediLink Digital</title>
+    
+    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
+    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/1241308.css">
+</head>
+<body class="bg-light">
+
+    <div class="d-flex vh-100">
+        
+        <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
+            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
+                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
+            </a>
+            
+            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-3">
+                <li class="nav-item">
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium px-3">
+                        Visão Geral
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../equipamentos/lista.html" class="nav-link text-dark fw-medium px-3">
+                        Equipamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active fw-semibold shadow-sm px-3" aria-current="page">
+                        Localizações
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium px-3">
+                        Manutenção
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium px-3">
+                        Fornecedores
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../documentacao/lista.html" class="nav-link text-dark fw-medium px-3">
+                        Documentação e Contratos
+                    </a>
+                </li>
+            </ul>
+            <hr class="text-muted mt-4">
+            <div>
+                <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">
+                    Sair do Sistema
+                </a>
+            </div>
+        </div>
+
+        <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
+                <div>
+                    <h2 class="m-0 fw-bold text-primary"><i class="fa-solid fa-stethoscope me-2"></i>Gestão de Localizações</h2>
+                    <p class="text-muted m-0 mt-1">Consulte e administre os edifícios, serviços e salas do hospital.</p>
+                </div>
+                <button class="utilizador">Administrador</button>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                        <h3 class="m-0 fw-bold text-dark">Gestão de Localizações</h3>
+                        
+                        <div class="d-flex gap-2">
+                            <input type="text" class="form-control" placeholder="Pesquisar edídicio,serviço ou sala..." style="width: 250px;">
+                            <a href="novo.html" class="btn btn-primary fw-semibold">+ Nova Localização</a>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr class="text-muted small">
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Edifício / Piso</th>
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Serviço / Departamento</th>
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Sala / Gabinete</th>
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light text-center">Equipamentos</th>
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light text-end">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-top-0">
+                                <tr>
+                                    <td class="py-3">
+                                        <span class="d-block fw-bold text-dark">Edifício Principal</span>
+                                        <small class="text-muted">Piso 2</small>
+                                    </td>
+                                    <td>Cuidados Intensivos (UCI)</td>
+                                    <td>Box 4</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-primary rounded-pill px-3 py-1">3 alocados</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group gap-2">
+                                            <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" onclick="confirm('Tem a certeza que deseja remover esta localização?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3">
+                                        <span class="d-block fw-bold text-dark">Edifício Sul</span>
+                                        <small class="text-muted">Piso 0</small>
+                                    </td>
+                                    <td>Imagiologia</td>
+                                    <td>Sala de RX 1</td>
+                                    <td class="text-center">
+                                        <span class="badge bg-primary rounded-pill px-3 py-1">1 alocado</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group gap-2">
+                                            <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" onclick="confirm('Tem a certeza que deseja remover esta localização?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-4 border-top text-muted small">
+                        <span>A mostrar 2 de 2 registos</span>
+                        <nav>
+                            <ul class="pagination pagination-sm m-0">
+                                <li class="page-item disabled">
+                                    <span class="page-link text-muted">Anterior</span>
+                                </li>
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link bg-primary border-primary">1</span>
+                                </li>
+                                <li class="page-item disabled">
+                                    <span class="page-link text-muted">Próxima</span>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1241308.js"></script>
+</body>
+</html>
