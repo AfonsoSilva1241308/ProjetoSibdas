@@ -128,6 +128,9 @@
                             <button type="submit" class="btn btn-primary px-4 d-flex align-items-center">
                                 <i class="fa-solid fa-floppy-disk me-2"></i> Registar Localização
                             </button>
+                            <div class="alert alert-danger text-center d-none mt-3" role="alert" id="mensagemErro">
+                              <i class="fa-solid fa-triangle-exclamation me-2"></i> Ocorreu um erro ao registar a localização. Verifique os dados.
+                            </div>
                         </div>
                     </form>
 
@@ -136,7 +139,16 @@
 
         </div>
     </div>
-
+       <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+         <div id="sucessoToastLocalizacao" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body fw-medium fs-6">
+                <i class="fa-solid fa-circle-check me-2"></i> Localização registada com sucesso!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+         </div>
+        </div>
     <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/1241308.js"></script>
 </body>
