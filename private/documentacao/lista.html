@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação e Contratos — MediLink Digital</title>
+    
+    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
+    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/1241308.css">
+</head>
+<body class="bg-light">
+
+    <div class="d-flex vh-100">
+        
+        <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
+            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
+                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
+            </a>
+            
+            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-2">
+                <li class="nav-item">
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium px-3">
+                        Visão Geral
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../equipamentos/lista.html" class="nav-link text-dark fw-medium px-3">
+                        Equipamentos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium px-3">
+                        Localizações
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium px-3">
+                        Manutenção
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium px-3">
+                        Fornecedores
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link active fw-semibold shadow-sm px-3" aria-current="page">
+                        Documentação e Contratos
+                    </a>
+                </li>
+            </ul>
+            <hr class="text-muted mt-4">
+            <div>
+                <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">
+                    Sair do Sistema
+                </a>
+            </div>
+        </div>
+
+        <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
+            
+            <div class="d-flex justify-content-between align-items-start mb-4 pb-3 border-bottom">
+                <div>
+                    <h2 class="m-0 fw-bold text-primary" style="font-size: 2.2rem;">
+                        <i class="fa-solid fa-file-contract me-2"></i> Documentação e Contratos
+                    </h2>
+                    <p class="text-muted m-0 mt-2" style="font-size: 1.05rem;">Gerencie manuais técnicos, apólices de seguros, contratos de manutenção e garantias.</p>
+                </div>
+                <div class="d-flex gap-3 align-items-center mt-2">
+                    <button class="utilizador">Administrador</button>
+                </div>
+            </div>
+            <div class="card w-100 shadow-sm rounded border-top border-primary border-4" style="max-width: 1200px; margin: 0 auto;">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                        <h3 class="m-0 fw-bold text-dark">Documentação e Contratos</h3>
+                        
+                        <div class="d-flex gap-3 align-items-center">
+                            <input type="text" class="form-control" placeholder="Pesquisar documento ou equipamento..." style="min-width: 280px;">
+                            <a href="novo.html" class="btn btn-primary fw-medium px-4 text-nowrap">
+                               + Novo Documento
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr class="text-muted small">
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Equipamento </th>
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Tipo de Ficheiro </th>
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Garantia</th>
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light text-center">Estado</th>
+                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light text-end">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="border-top-0">
+                                <tr>
+                                    <td class="py-3">
+                                        <span class="d-block fw-bold text-dark">EV500-2021</span>
+                                        <small class="text-muted">Ventilador Pulmonar</small>
+                                    </td>
+                                    <td>
+                                        <span class="d-block fw-medium"><i class="fa-solid fa-file-contract text-primary me-2"></i>Contrato de Garantia de Fábrica</span>
+                                        <small class="text-muted">Ficheiro: <span class="text-primary text-decoration-underline">garantia_ev500.pdf</span></small>
+                                    </td>
+                                    <td>
+                                        <span class="d-block text-dark fw-medium">15/03/2021 - 15/03/2027</span>
+                                        <small class="text-muted">Periodicidade de Revisão: Anual</small>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1">Válido</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group gap-2">
+                                            <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" onclick="confirm('Tem a certeza que deseja remover este documento permanentemente?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3">
+                                        <span class="d-block fw-bold text-dark">MON-883-X</span>
+                                        <small class="text-muted">Monitor de Sinais Vitais</small>
+                                    </td>
+                                    <td>
+                                        <span class="d-block fw-medium"><i class="fa-solid fa-file-pdf text-danger me-2"></i>Manual de Operação e Técnico</span>
+                                        <small class="text-muted">Ficheiro: <span class="text-primary text-decoration-underline">manual_philips_v2.pdf</span></small>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted">— Indeterminado —</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-1">Permanente</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group gap-2">
+                                            <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes"><i class="fa-solid fa-eye"></i></a>
+                                            <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" onclick="confirm('Tem a certeza que deseja remover este documento permanentemente?')"><i class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-4 border-top text-muted small">
+                        <span>A mostrar 2 de 2 registos</span>
+                        <nav>
+                            <ul class="pagination pagination-sm m-0">
+                                <li class="page-item disabled">
+                                    <span class="page-link text-muted">Anterior</span>
+                                </li>
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link bg-primary border-primary">1</span>
+                                </li>
+                                <li class="page-item disabled">
+                                    <span class="page-link text-muted">Próxima</span>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/1241308.js"></script>
+</body>
+</html>
