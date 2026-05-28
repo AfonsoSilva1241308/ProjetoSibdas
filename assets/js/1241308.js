@@ -29,5 +29,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 3. Módulo de Localizações 
     configurarFormularioComToast("formNovaLocalizacao", "sucessoToastLocalizacao");
-
+    configurarFormularioComToast("formNovoDocumento", "sucessoToastDocumento");
 });
