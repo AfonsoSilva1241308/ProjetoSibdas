@@ -111,8 +111,8 @@
                                             <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
                                                 <i class="fa-solid fa-pen-to-square"></i>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" onclick="confirm('Tem a certeza que deseja remover esta localização?')">
-                                                <i class="fa-solid fa-trash"></i>
+                                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverLocalizacao">
+                                               <i class="fa-solid fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -168,7 +168,37 @@
 
         </div>
     </div>
+<div class="modal fade" id="modalRemoverLocalizacao" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4">
+                <div class="modal-body text-center p-5">
+                    
+                    <i class="fa-solid fa-triangle-exclamation text-warning mb-4" style="font-size: 4rem;"></i>
+                    
+                    <h5 class="text-dark mb-2">Deseja eliminar esta localização do sistema?</h5>
+                    <h3 class="fw-bold text-dark mb-4">Cuidados Intensivos (UCI)</h3>
+                    
+                    <div class="mb-4">
+                        <span class="d-block text-dark fw-bold mb-1" style="font-size: 0.95rem;">
+                            Edifício: <span class="text-secondary fw-medium">Edifício Principal (Piso 2)</span>
+                        </span>
+                        <span class="d-block text-dark fw-bold" style="font-size: 0.95rem;">
+                            Sala / Gabinete: <span class="text-secondary fw-medium">Box 4</span>
+                        </span>
+                    </div>
 
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <button type="button" class="btn btn-light border fw-medium px-4 py-2" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark me-2 text-secondary"></i> Não
+                        </button>
+                        <a href="lista.html" class="btn btn-danger fw-medium px-4 py-2">
+                            <i class="fa-solid fa-check me-2"></i> Sim
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/1241308.js"></script>
 </body>
