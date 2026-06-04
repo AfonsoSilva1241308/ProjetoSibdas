@@ -70,12 +70,20 @@
 </div>
             </div>
 
-            <div class="row mb-4">
-                <div class="col-12">
-                    <p class="text-muted fs-5 m-0">Bem-vindo à central de gestão de infraestruturas clínicas. O sistema está operacional.</p>
-                </div>
-            </div>
-
+           <div class="d-flex justify-content-between align-items-center mb-4">
+    <p class="text-muted fs-6 m-0">Bem-vindo à central de gestão de infraestruturas clínicas.</p>
+    <span class="badge bg-light text-secondary border px-3 py-2 fw-medium shadow-sm">
+        <i class="fa-regular fa-clock me-1"></i> Atualizado hoje às 09:14
+    </span>
+</div>
+<div class="alert border-danger bg-danger bg-opacity-10 text-danger border border-start border-4 d-flex align-items-center mb-4 shadow-sm" role="alert">
+    <i class="fa-solid fa-triangle-exclamation fs-4 me-3"></i>
+    <div>
+        <h6 class="alert-heading fw-bold mb-1">Atenção: Equipamentos Críticos</h6>
+        <p class="mb-0 small">Existem <strong>2 equipamentos de Suporte de Vida</strong> atualmente sinalizados com estado "Em Manutenção" (Ventilador - UCI; Desfibrilhador - Urgência).</p>
+    </div>
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
             <div class="row g-4 mb-5">
     
     <!-- Total Equipamentos -->
@@ -122,26 +130,51 @@
 <div class="row g-4 mb-5">
     
     <div class="col-12 col-lg-8">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body p-4 p-md-5">
-                <h5 class="fw-bold text-dark mb-4">Equipamentos por Serviço</h5>
-                <canvas id="graficoServicos" height="100"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-12 col-lg-4">
-        <div class="card shadow-sm border-0 h-100">
-            <div class="card-body p-4 p-md-5 d-flex flex-column">
-                <h5 class="fw-bold text-dark mb-4">Nível de Criticidade</h5>
-                <div class="flex-grow-1 d-flex align-items-center justify-content-center">
-                    <canvas id="graficoCriticidade" height="200"></canvas>
-                </div>
+    <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4 p-md-5">
+            <h5 class="fw-bold text-dark mb-4">Equipamentos por Serviço</h5>
+            <div style="position: relative; height: 300px; width: 100%;">
+                <canvas id="graficoServicos"></canvas>
             </div>
         </div>
     </div>
 </div>
 
+   <div class="col-12 col-lg-4">
+    <div class="card shadow-sm border-0 h-100">
+        <div class="card-body p-4 p-md-5 d-flex flex-column">
+            <h5 class="fw-bold text-dark mb-4">Nível de Criticidade</h5>
+            <div class="flex-grow-1 d-flex align-items-center justify-content-center" style="position: relative; height: 300px; width: 100%;">
+                <canvas id="graficoCriticidade"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="row g-4 mb-5">
+    
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-dark mb-4">Os Principais Forncedores</h5>
+                <div style="position: relative; height: 250px; width: 100%;">
+                    <canvas id="graficoFornecedores"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+                <h5 class="fw-bold text-dark mb-4">Idade dos Equipamentos </h5>
+                <div style="position: relative; height: 250px; width: 100%;">
+                    <canvas id="graficoIdade"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row g-4 mb-4">
     
     <!-- Alertas: Garantia Expirada -->
@@ -231,57 +264,7 @@
     </div>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 1. Gráfico de Equipamentos por Serviço (Barras)
-        const ctxServicos = document.getElementById('graficoServicos').getContext('2d');
-        new Chart(ctxServicos, {
-            type: 'bar',
-            data: {
-                labels: ['Urgência', 'Cuidados Intensivos', 'Bloco Operatório', 'Imagiologia', 'Internamento'],
-                datasets: [{
-                    label: 'Nº Equipamentos',
-                    data: [145, 89, 120, 45, 210],
-                    backgroundColor: '#0d6efd',
-                    borderRadius: 4
-                },
-                {
-                    label: 'Suporte de Vida',
-                    data: [40, 65, 30, 2, 10],
-                    backgroundColor: '#dc3545',
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'top' } },
-                scales: { y: { beginAtZero: true, grid: { borderDash: [4, 4] } } }
-            }
-        });
-
-        // 2. Gráfico de Criticidade (Donut)
-        const ctxCriticidade = document.getElementById('graficoCriticidade').getContext('2d');
-        new Chart(ctxCriticidade, {
-            type: 'doughnut',
-            data: {
-                labels: ['Baixa', 'Média', 'Alta', 'Suporte de Vida'],
-                datasets: [{
-                    data: [450, 320, 180, 147],
-                    backgroundColor: ['#198754', '#ffc107', '#fd7e14', '#dc3545'],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { position: 'bottom' } },
-                cutout: '75%'
-            }
-        });
-    });
-</script>
             <div class="row">
                 <div class="col-12">
                     
@@ -340,6 +323,7 @@
         </div>
     </div>
     <script src="../assets/Bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../assets/js/1241308.js"></script>
 </body>
 </html>

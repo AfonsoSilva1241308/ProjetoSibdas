@@ -45,3 +45,125 @@ function togglePassword(inputId, iconId) {
         icon.classList.add("fa-eye");
     }
 }
+// 3. Gráfico de Fornecedores (Barras Horizontais)
+        // 3. Gráfico de Fornecedores (Barras Horizontais)
+        const ctxFornecedores = document.getElementById('graficoFornecedores').getContext('2d');
+        new Chart(ctxFornecedores, {
+            type: 'bar',
+            data: {
+                labels: ['GE Healthcare', 'Philips', 'Siemens Healthineers', 'Medtronic', 'Dräger'],
+                datasets: [{
+                    label: 'Nº de Equipamentos',
+                    data: [210, 185, 142, 98, 65],
+                    backgroundColor: '#0d6efd', // O mesmo Azul exato do primeiro gráfico
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { beginAtZero: true, grid: { borderDash: [4, 4] } } }
+            }
+        });
+
+       // 4. Gráfico de Idade do Parque (Barras Verticais Coloridas)
+        const ctxIdade = document.getElementById('graficoIdade').getContext('2d');
+        new Chart(ctxIdade, {
+            type: 'bar',
+            data: {
+                // Ao colocar o último label entre parênteses retos, ele divide em duas linhas!
+                labels: ['< 2 Anos', '2 a 5 Anos', '5 a 10 Anos', ['> 10 Anos', '(Fim de Vida)']],
+                datasets: [{
+                    label: 'Número de Equipamentos',
+                    data: [350, 480, 290, 125],
+                    backgroundColor: [
+                        '#198754', // Verde 
+                        '#0d6efd', // Azul 
+                        '#ffc107', // Amarelo 
+                        '#dc3545'  // Vermelho 
+                    ],
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    x: { 
+                        ticks: {
+                            maxRotation: 0, // Impede o texto de rodar
+                            minRotation: 0  // Força a ficar na horizontal
+                        }
+                    },
+                    y: { 
+                        beginAtZero: true, 
+                        grid: { borderDash: [4, 4] } 
+                    } 
+                }
+            }
+        });
+        // 1. Gráfico de Equipamentos por Serviço
+    const canvasServicos = document.getElementById('graficoServicos');
+    if (canvasServicos) {
+        const ctxServicos = canvasServicos.getContext('2d');
+        new Chart(ctxServicos, {
+            type: 'bar',
+            data: {
+                labels: ['Urgência', 'Cuidados Intensivos', 'Bloco Operatório', 'Imagiologia', 'Internamento'],
+                datasets: [{
+                    label: 'Nº Equipamentos',
+                    data: [145, 89, 120, 45, 210],
+                    backgroundColor: '#0d6efd',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Suporte de Vida',
+                    data: [40, 65, 30, 2, 10],
+                    backgroundColor: '#dc3545',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'top' } },
+                scales: { y: { beginAtZero: true, grid: { borderDash: [4, 4] } } }
+            }
+        });
+    }
+
+    // 2. Gráfico de Criticidade (Donut Premium)
+    const canvasCriticidade = document.getElementById('graficoCriticidade');
+    if (canvasCriticidade) {
+        const ctxCriticidade = canvasCriticidade.getContext('2d');
+        new Chart(ctxCriticidade, {
+            type: 'doughnut',
+            data: {
+                labels: ['Baixa: 450', 'Média: 320', 'Alta: 180', 'Suporte de Vida: 147'],
+                datasets: [{
+                    data: [450, 320, 180, 147],
+                    backgroundColor: ['#198754', '#ffc107', '#fd7e14', '#dc3545'],
+                    borderWidth: 0,
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: { 
+                    legend: { 
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            font: { size: 13, family: "'Segoe UI', Roboto, Helvetica, Arial, sans-serif" }
+                        }
+                    } 
+                }
+            }
+        });
+    }
