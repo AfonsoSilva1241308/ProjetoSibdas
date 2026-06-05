@@ -50,20 +50,37 @@
             
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
                 <h2 class="m-0 fw-bold text-primary">Visão Geral do Sistema</h2>
-                <div class="dropdown m-0 mt-2">
-    <button class="btn btn-light border shadow-sm fw-medium text-secondary dropdown-toggle" type="button" id="dropdownUtilizador" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa-solid fa-user-circle me-1"></i> Administrador
+                <div class="dropdown">
+    <!-- O teu botão cinzento atual -->
+    <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-user-circle text-secondary"></i> Administrador
     </button>
-    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="dropdownUtilizador">
+    
+    <!-- O menu branco -->
+    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+        <!-- Opção 1: Password -->
         <li>
-            <a class="dropdown-item text-secondary fw-medium py-2" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarPassword">
-                <i class="fa-solid fa-key me-2 text-primary"></i> Alterar Password
+            <a class="dropdown-item py-2 text-secondary fw-medium" href="#">
+                <i class="fa-solid fa-key text-primary me-2"></i> Alterar Password
             </a>
         </li>
+        
         <li><hr class="dropdown-divider"></li>
+        
+        <!-- Opção 2: A nossa nova página de Gestão -->
         <li>
-            <a class="dropdown-item text-secondary fw-medium py-2" href="../public/index.html">
-                <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i> Sair da Conta
+            <!-- Ajusta o href para o caminho correto do teu ficheiro site.html -->
+            <a class="dropdown-item py-2 text-secondary fw-medium" href="definicoes/website.html">
+                <i class="fa-solid fa-globe text-primary me-2"></i> Gestão do Site Público
+            </a>
+        </li>
+        
+        <li><hr class="dropdown-divider"></li>
+        
+        <!-- Opção 3: Sair da Conta -->
+        <li>
+            <a class="dropdown-item py-2 text-secondary fw-medium" href="../public/index.html">
+                <i class="fa-solid fa-arrow-right-from-bracket text-primary me-2"></i> Sair da Conta
             </a>
         </li>
     </ul>

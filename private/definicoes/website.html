@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Conteúdos - SIBDAS</title>
+    
+    <!-- Bootstrap 5 CSS (ajusta os caminhos se usares os teus ficheiros locais) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- O teu CSS personalizado -->
+    <link rel="stylesheet" href="../../assets/css/1241308.css">
+</head>
+<body>
+
+    <!-- Grelha Principal que divide o ecrã -->
+    <div class="d-flex vh-100">
+
+        <!-- 1. BARRA LATERAL (Sidebar idêntica à do Dashboard) -->
+        <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
+            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-3">
+                <!-- Ajusta o caminho da imagem do logo se necessário -->
+                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
+            </a>
+            
+            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-2">
+                <li class="nav-item">
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium">Visão Geral</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../equipamentos/lista.html" class="nav-link text-dark fw-medium">Equipamentos</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium">Localizações</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium">Manutenção</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium">Fornecedores</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../documentacao/lista.html" class="nav-link text-dark fw-medium">Documentação e Contratos</a>
+                </li>
+                <hr>
+                <li class="nav-item mt-2">
+                    <!-- Botão Ativo da página atual -->
+                    <a href="#" class="nav-link active fw-semibold shadow-sm" aria-current="page">Gestão de Site</a>
+                </li>
+            </ul>
+            
+            <a href="../../public/index.html" class="btn btn-outline-primary w-100 mt-4">Sair do Sistema</a>
+        </div>
+
+        <!-- 2. ÁREA PRINCIPAL DE CONTEÚDO (Fundo Cinza) -->
+        <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
+            
+            <!-- Cabeçalho (Idêntico ao Visão Geral) -->
+            <div class="d-flex justify-content-between align-items-center mb-5 border-bottom pb-3">
+                <h2 class="fw-bold text-primary mb-0">Gestão de Conteúdos</h2>
+                
+                <div class="d-flex align-items-center gap-3">
+                    <a href="../dashboard.html" class="btn btn-outline-secondary btn-sm bg-white shadow-sm">
+                        <i class="fa-solid fa-arrow-left me-2"></i>Voltar
+                    </a>
+                    <div class="dropdown">
+                        <button class="btn border bg-white shadow-sm d-flex align-items-center gap-2" type="button">
+                            <i class="fa-solid fa-user-circle text-secondary"></i> Administrador
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Texto descritivo -->
+            <p class="text-muted mb-4">Edite os textos e informações visíveis na área pública do site.</p>
+
+            <!-- O Accordion Principal -->
+            <div class="accordion shadow-sm border-0 rounded-3 overflow-hidden mb-5" id="accordionGestaoSite">
+
+                <!-- Secção 1: Quem Somos / Missão -->
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header" id="headingQuemSomos">
+                        <button class="accordion-button fw-bold text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseQuemSomos" aria-expanded="true" aria-controls="collapseQuemSomos">
+                            <i class="fa-solid fa-hospital-user text-primary me-3"></i> 1. Secção: Quem Somos e Missão
+                        </button>
+                    </h2>
+                    <div id="collapseQuemSomos" class="accordion-collapse collapse show" aria-labelledby="headingQuemSomos" data-bs-parent="#accordionGestaoSite">
+                        <div class="accordion-body p-4 bg-white border-top">
+                            <form class="form-editar-conteudo">
+                                <div class="mb-3">
+                                    <label for="textoMissao" class="form-label fw-medium text-secondary">Texto Principal (Apresentado na página inicial)</label>
+                                    <textarea class="form-control bg-light border-0 shadow-sm" id="textoMissao" rows="4">A nossa missão é garantir a excelência e a prontidão de todo o parque tecnológico hospitalar, assegurando a segurança dos pacientes através de uma gestão rigorosa.</textarea>
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-primary px-4 btn-guardar">
+                                        <i class="fa-solid fa-floppy-disk me-2"></i>Guardar Alterações
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secção 2: Contactos e Localização -->
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header" id="headingContactos">
+                        <button class="accordion-button collapsed fw-bold text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContactos" aria-expanded="false" aria-controls="collapseContactos">
+                            <i class="fa-solid fa-address-book text-success me-3"></i> 2. Secção: Contactos Oficiais
+                        </button>
+                    </h2>
+                    <div id="collapseContactos" class="accordion-collapse collapse" aria-labelledby="headingContactos" data-bs-parent="#accordionGestaoSite">
+                        <div class="accordion-body p-4 bg-white border-top">
+                            <form class="form-editar-conteudo">
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label for="emailGeral" class="form-label fw-medium text-secondary">E-mail Geral</label>
+                                        <input type="email" class="form-control bg-light border-0 shadow-sm" id="emailGeral" value="geral@hospital-medilink.pt">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="telefoneGeral" class="form-label fw-medium text-secondary">Telefone (Urgências/Geral)</label>
+                                        <input type="text" class="form-control bg-light border-0 shadow-sm" id="telefoneGeral" value="+351 220 000 000">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="moradaOficial" class="form-label fw-medium text-secondary">Morada</label>
+                                        <input type="text" class="form-control bg-light border-0 shadow-sm" id="moradaOficial" value="Rua Dr. António Bernardino de Almeida, 431, 4249-015 Porto">
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-success px-4 btn-guardar">
+                                        <i class="fa-solid fa-floppy-disk me-2"></i>Guardar Alterações
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secção 3: Mensagem de Rodapé -->
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="headingRodape">
+                        <button class="accordion-button collapsed fw-bold text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRodape" aria-expanded="false" aria-controls="collapseRodape">
+                            <i class="fa-solid fa-shoe-prints text-warning me-3"></i> 3. Secção: Rodapé (Footer)
+                        </button>
+                    </h2>
+                    <div id="collapseRodape" class="accordion-collapse collapse" aria-labelledby="headingRodape" data-bs-parent="#accordionGestaoSite">
+                        <div class="accordion-body p-4 bg-white border-top">
+                            <form class="form-editar-conteudo">
+                                <div class="mb-3">
+                                    <label for="textoRodape" class="form-label fw-medium text-secondary">Aviso Legal / Copyright</label>
+                                    <input type="text" class="form-control bg-light border-0 shadow-sm" id="textoRodape" value="© 2026 Sistema de Gestão Hospitalar. Todos os direitos reservados.">
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-warning text-dark fw-medium px-4 btn-guardar">
+                                        <i class="fa-solid fa-floppy-disk me-2"></i>Guardar Alterações
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- O Componente Toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-4" style="z-index: 1055;">
+        <div id="toastGravacao" class="toast align-items-center text-bg-dark border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center">
+                    <i class="fa-solid fa-circle-check text-success fs-5 me-2"></i>
+                    <span class="fw-medium">Conteúdo atualizado com sucesso no site público!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.css"></script>
+    <!-- O teu ficheiro JS -->
+    <script src="../../assets/js/1241308.js"></script>
+
+    <!-- Script específico desta página para o Toast -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const toastElement = document.getElementById('toastGravacao');
+            const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+
+            const botoesGuardar = document.querySelectorAll('.btn-guardar');
+            botoesGuardar.forEach(function(botao) {
+                botao.addEventListener('click', function() {
+                    toast.show();
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -167,3 +167,4 @@ function togglePassword(inputId, iconId) {
             }
         });
     }
+    
