@@ -167,4 +167,22 @@ function togglePassword(inputId, iconId) {
             }
         });
     }
+ document.addEventListener("DOMContentLoaded", function() {
     
+    // Procura o Toast na página atual
+    const toastElement = document.getElementById('toastGravacao');
+    
+    // Só avança se o Toast realmente existir nesta página HTML
+    if (toastElement) {
+        const toast = new bootstrap.Toast(toastElement, { delay: 3000 });
+
+        const botoesGuardar = document.querySelectorAll('.btn-guardar');
+        botoesGuardar.forEach(function(botao) {
+            botao.addEventListener('click', function() {
+                toast.show();
+            });
+        });
+    }
+    
+    // Podes adicionar mais scripts globais do teu projeto abaixo desta linha
+});   
