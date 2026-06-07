@@ -10,44 +10,43 @@
     <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
     <link rel="stylesheet" href="../../assets/css/1241308.css">
 </head>
-<body>
+<body class="bg-light">
 
     <div class="d-flex vh-100">
             
-            <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
-            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center">
+        <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
+            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
                 <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
             </a>
             
-            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-2">
+            <ul class="nav nav-pills flex-column mb-auto gap-1 mt-2">
                 <li class="nav-item">
-                    <a href="../dashboard.html" class="nav-link text-dark fw-medium">Visão Geral</a>
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium px-3 py-2">Visão Geral</a>
                 </li>
                 <li class="nav-item">
-                    <a href="lista.html" class="nav-link active fw-semibold shadow-sm" aria-current="page">Equipamentos</a>
+                    <a href="#" class="nav-link active fw-semibold shadow-sm px-3 py-2" aria-current="page">Equipamentos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium">Localizações</a>
+                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Localizações</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium">Manutenção</a>
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Manutenção</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium">Fornecedores</a>
+                    <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Fornecedores</a>
                 </li>
-                <hr class="text-secondary">
-                <li class="nav-item">
-                    <a href="../definicoes/site.html" class="nav-link text-dark fw-medium">Gestão de Site</a>
+                
+                <li class="nav-item mt-2 pt-2 border-top border-secondary border-opacity-25">
+                    <a href="../definicoes/website.html" class="nav-link text-dark fw-medium px-3 py-2">Gestão de Site</a>
                 </li>
             </ul>
             
-            <hr class="text-muted mt-4">
-            <div>
+            <div class="mt-4 pt-4 border-top border-secondary border-opacity-25">
                 <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">Sair do Sistema</a>
             </div>
-    </div>
+        </div>
 
-        <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
+        <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
             
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
                 <div class="d-flex align-items-center gap-3">
@@ -75,8 +74,8 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-center mt-4">
-                <div class="card w-100 shadow-sm rounded border-top border-secondary border-4" style="max-width: 1200px;">
+            <div class="d-flex justify-content-center align-items-start mt-4 mb-5">
+                <div class="card w-100 shadow-sm rounded border-top border-secondary border-4 h-auto" style="max-width: 1200px;">
                     <div class="card-body p-4 p-md-5">
                         
                         <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
@@ -84,7 +83,6 @@
                                 <h2 class="text-dark mb-1"><strong><i class="fa-solid fa-file-medical text-secondary me-2"></i> Ficha Técnica do Equipamento</strong></h2>
                                 <p class="text-muted m-0">Código de Inventário Hospitalar: <span class="badge bg-dark fs-6 font-monospace">EV500-2021</span></p>
                             </div>
-                            
                         </div>
                         
                         <ul class="nav nav-tabs mb-4" id="equipamentoTabs" role="tablist">
@@ -103,6 +101,7 @@
                         <div class="tab-content" id="equipamentoTabsContent">
                             
                             <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">
+                                
                                 <div class="row g-4 mb-5 mt-2">
                                     <div class="col-12">
                                         <h5 class="text-secondary fw-bold mb-3"><i class="fa-solid fa-circle-info me-2"></i>Especificações do Dispositivo</h5>
@@ -174,7 +173,97 @@
                                     </div>
                                 </div>
 
-                                <div class="row g-4 border-top pt-4">
+                                <div class="row g-4 border-top pt-4 mt-2">
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="text-secondary fw-bold m-0"><i class="fa-solid fa-sitemap text-primary me-2"></i>Componentes e Acessórios Associados</h5>
+                                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-3 py-1">Equipamento Principal</span>
+                                        </div>
+                                        
+                                        <div class="table-responsive border rounded bg-white shadow-sm">
+                                            <table class="table align-middle mb-0">
+                                                <thead class="bg-light">
+                                                    <tr class="text-muted small">
+                                                        <th class="py-2 px-4 border-0">Cód. Componente</th>
+                                                        <th class="py-2 border-0">Designação</th>
+                                                        <th class="py-2 border-0 text-center">Estado Atual</th>
+                                                        <th class="py-2 px-4 border-0 text-end">Ação</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="border-top-0">
+                                                    <tr>
+                                                        <td class="py-3 px-4 font-monospace text-muted small">EV500-2021-C01</td>
+                                                        <td class="py-3 fw-medium text-dark">Humidificador Aquecido MR850</td>
+                                                        <td class="py-3 text-center"><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2">Ativo</span></td>
+                                                        <td class="py-3 px-4 text-end">
+                                                            <a href="#" class="btn btn-sm btn-light border px-2 text-secondary" title="Ver ficha do componente"><i class="fa-solid fa-eye"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-3 px-4 font-monospace text-muted small">EV500-2021-C02</td>
+                                                        <td class="py-3 fw-medium text-dark">Braço Articulado de Suporte</td>
+                                                        <td class="py-3 text-center"><span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2">Ativo</span></td>
+                                                        <td class="py-3 px-4 text-end">
+                                                            <a href="#" class="btn btn-sm btn-light border px-2 text-secondary" title="Ver ficha do componente"><i class="fa-solid fa-eye"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-4 border-top pt-4 mt-2">
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="text-secondary fw-bold m-0"><i class="fa-solid fa-box-open text-warning me-2"></i>Consumíveis e Material Clínico Compatível</h5>
+                                        </div>
+                                        
+                                        <div class="table-responsive border rounded bg-white shadow-sm">
+                                            <table class="table align-middle mb-0">
+                                                <thead class="bg-light">
+                                                    <tr class="text-muted small">
+                                                        <th class="py-2 px-4 border-0" style="width: 50%;">Designação do Consumível</th>
+                                                        <th class="py-2 border-0" style="width: 25%;">Categoria</th>
+                                                        <th class="py-2 px-4 border-0 text-center" style="width: 25%;">Frequência de Troca</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="border-top-0">
+                                                    <tr>
+                                                        <td class="py-3 px-4 fw-medium text-dark">
+                                                            <i class="fa-solid fa-lungs-virus text-secondary me-2 opacity-50"></i>Filtros Antibacterianos / Virais (HMEF)
+                                                        </td>
+                                                        <td class="py-3 text-muted small">Proteção Respiratória</td>
+                                                        <td class="py-3 px-4 text-center">
+                                                            <span class="badge bg-secondary bg-opacity-10 text-secondary border rounded-pill px-3 py-1">Por Paciente</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-3 px-4 fw-medium text-dark">
+                                                            <i class="fa-solid fa-pump-medical text-secondary me-2 opacity-50"></i>Circuitos Respiratórios Descartáveis
+                                                        </td>
+                                                        <td class="py-3 text-muted small">Tubulagem / Cânulas</td>
+                                                        <td class="py-3 px-4 text-center">
+                                                            <span class="badge bg-secondary bg-opacity-10 text-secondary border rounded-pill px-3 py-1">Por Paciente</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="py-3 px-4 fw-medium text-dark">
+                                                            <i class="fa-solid fa-plug-circle-bolt text-secondary me-2 opacity-50"></i>Células de Oxigénio (O2 Sensors)
+                                                        </td>
+                                                        <td class="py-3 text-muted small">Sensor Interno</td>
+                                                        <td class="py-3 px-4 text-center">
+                                                            <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill px-3 py-1">Anual</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <small class="text-muted fst-italic mt-2 d-block"><i class="fa-solid fa-circle-info me-1"></i>O material de desgaste rápido não é inventariado individualmente. O seu fornecimento deve ser gerido através do economato/armazém.</small>
+                                    </div>
+                                </div>
+
+                                <div class="row g-4 border-top pt-4 mt-2">
                                     <div class="col-12">
                                         <span class="d-block text-muted small text-uppercase fw-semibold mb-2">Observações / Notas Técnicas</span>
                                         <div class="p-3 bg-light rounded border text-dark">
@@ -182,197 +271,198 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="tab-pane fade" id="documentacao" role="tabpanel" aria-labelledby="documentacao-tab">
-    
-    <div class="card border-0 shadow-sm p-4 bg-white mb-4">
-        <h5 class="text-secondary fw-bold mb-4 pb-2 border-bottom">
-            <i class="fa-solid fa-shield-halved text-success me-2"></i>1. Informação de Garantia e Contrato de Manutenção
-        </h5>
-        
-        <div class="row g-4">
-            <div class="col-md-4 border-end">
-                <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Período de Garantia</span>
-                <p class="m-0 fw-medium text-dark">
-                    <i class="fa-solid fa-calendar-days text-secondary me-1"></i> 15/03/2021 a 15/03/2027
-                </p>
-                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill mt-2 px-3 py-1">
-                    Garantia Válida
-                </span>
-            </div>
+                            </div> <div class="tab-pane fade" id="documentacao" role="tabpanel" aria-labelledby="documentacao-tab">
+                                
+                                <div class="card border-0 shadow-sm p-4 bg-white mb-4">
+                                    <h5 class="text-secondary fw-bold mb-4 pb-2 border-bottom">
+                                        <i class="fa-solid fa-shield-halved text-success me-2"></i>1. Informação de Garantia e Contrato de Manutenção
+                                    </h5>
+                                    
+                                    <div class="row g-4">
+                                        <div class="col-md-4 border-end">
+                                            <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Período de Garantia</span>
+                                            <p class="m-0 fw-medium text-dark">
+                                                <i class="fa-solid fa-calendar-days text-secondary me-1"></i> 15/03/2021 a 15/03/2027
+                                            </p>
+                                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill mt-2 px-3 py-1">
+                                                Garantia Válida
+                                            </span>
+                                        </div>
 
-            <div class="col-md-4 border-end">
-                <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Contrato de Manutenção</span>
-                <p class="m-0 fw-bold text-dark">
-                    <i class="fa-solid fa-file-signature text-primary me-1"></i> Sim — Preventivo e Corretivo
-                </p>
-                <small class="text-muted d-block mt-1">Periodicidade de Revisão: <strong>Anual</strong></small>
-            </div>
+                                        <div class="col-md-4 border-end">
+                                            <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Contrato de Manutenção</span>
+                                            <p class="m-0 fw-bold text-dark">
+                                                <i class="fa-solid fa-file-signature text-primary me-1"></i> Sim — Preventivo e Corretivo
+                                            </p>
+                                            <small class="text-muted d-block mt-1">Periodicidade de Revisão: <strong>Anual</strong></small>
+                                        </div>
 
-            <div class="col-md-4">
-                <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Entidade Responsável</span>
-                <p class="m-0 fw-medium text-dark">
-                    <i class="fa-solid fa-building text-secondary me-1"></i> Dräger Medical GmbH
-                </p>
-                <small class="text-muted d-block mt-1">Contacto Direto: suporte@draeger.pt</small>
-            </div>
+                                        <div class="col-md-4">
+                                            <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Entidade Responsável</span>
+                                            <p class="m-0 fw-medium text-dark">
+                                                <i class="fa-solid fa-building text-secondary me-1"></i> Dräger Medical GmbH
+                                            </p>
+                                            <small class="text-muted d-block mt-1">Contacto Direto: suporte@draeger.pt</small>
+                                        </div>
 
-            <div class="col-12 mt-3 pt-3 border-top">
-                <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Observações do Contrato</span>
-                <div class="p-3 bg-light rounded text-secondary small fst-italic">
-                    <i class="fa-solid fa-circle-info me-1 text-primary"></i> 
-                    O contrato cobre a substituição preventiva de células de O2, calibração anual rastreável de acordo com as normas ISO e assistência técnica corretiva com substituição de peças originais incluída em caso de avaria.
+                                        <div class="col-12 mt-3 pt-3 border-top">
+                                            <span class="d-block text-muted small text-uppercase fw-semibold mb-1">Observações do Contrato</span>
+                                            <div class="p-3 bg-light rounded text-secondary small fst-italic">
+                                                <i class="fa-solid fa-circle-info me-1 text-primary"></i> 
+                                                O contrato cobre a substituição preventiva de células de O2, calibração anual rastreável de acordo com as normas ISO e assistência técnica corretiva com substituição de peças originais incluída em caso de avaria.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card border-0 shadow-sm p-4 bg-white">
+                                    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                                        <h5 class="text-secondary fw-bold m-0">
+                                            <i class="fa-solid fa-folder-open text-primary me-2"></i>2. Documentação Técnica do Equipamento
+                                        </h5>
+                                        <span class="badge bg-dark rounded-pill px-3 py-2 font-monospace">7 Categorias Analisadas</span>
+                                    </div>
+
+                                    <div class="table-responsive border rounded bg-white shadow-sm">
+                                        <table class="table align-middle mb-0">
+                                            <thead>
+                                                <tr class="text-muted small">
+                                                    <th class="py-3 px-4 text-uppercase fw-bold border-0 bg-light" style="width: 35%;">Tipo de Documento </th>
+                                                    <th class="py-3 px-4 text-uppercase fw-bold border-0 bg-light" style="width: 35%;">Detalhes do Ficheiro </th>
+                                                    <th class="py-3 px-4 text-uppercase fw-bold border-0 bg-light text-center" style="width: 15%;">Estado</th>
+                                                    <th class="py-3 px-4 text-uppercase fw-bold border-0 bg-light text-end" style="width: 15%;">Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="border-top-0">
+                                                
+                                                <tr>
+                                                    <td class="py-3 px-4">
+                                                        <span class="d-block fw-bold text-dark"><i class="fa-solid fa-book text-primary me-2"></i>Manual de Utilizador</span>
+                                                        <small class="text-muted">Instruções de operação clínica diária</small>
+                                                    </td>
+                                                    <td class="px-4">
+                                                        <span class="d-block fw-medium text-dark">manual_utilizador_v500.pdf</span>
+                                                        <small class="text-secondary d-block">Submetido em: 15/03/2021 | Por: Dräger</small>
+                                                    </td>
+                                                    <td class="text-center px-4">
+                                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Disponível</span>
+                                                    </td>
+                                                    <td class="text-end px-4">
+                                                        <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="py-3 px-4">
+                                                        <span class="d-block fw-bold text-dark"><i class="fa-solid fa-gears text-danger me-2"></i>Manual de Serviço</span>
+                                                        <small class="text-muted">Esquemas técnicos e engenharia de blocos</small>
+                                                    </td>
+                                                    <td class="px-4">
+                                                        <span class="d-block fw-medium text-dark">service_manual_evita_v5.pdf</span>
+                                                        <small class="text-secondary d-block">Submetido em: 15/03/2021 | Por: Dräger</small>
+                                                    </td>
+                                                    <td class="text-center px-4">
+                                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Disponível</span>
+                                                    </td>
+                                                    <td class="text-end px-4">
+                                                        <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="py-3 px-4">
+                                                        <span class="d-block fw-bold text-dark"><i class="fa-solid fa-scale-balanced text-warning me-2"></i>Certificado de Calibração</span>
+                                                        <small class="text-muted">Rastreabilidade e padrões metrológicos</small>
+                                                    </td>
+                                                    <td class="px-4">
+                                                        <span class="d-block fw-medium text-dark">cert_calibracao_2026_jan.pdf</span>
+                                                        <small class="text-secondary d-block">Emitido em: 10/01/2026 | Validade: 10/01/2027</small>
+                                                    </td>
+                                                    <td class="text-center px-4">
+                                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Válido</span>
+                                                    </td>
+                                                    <td class="text-end px-4">
+                                                        <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="py-3 px-4">
+                                                        <span class="d-block fw-bold text-dark"><i class="fa-solid fa-file-contract text-info me-2"></i>Contrato de Manutenção</span>
+                                                        <small class="text-muted">Apólice de assistência e SLAs</small>
+                                                    </td>
+                                                    <td class="px-4">
+                                                        <span class="d-block fw-medium text-dark">contrato_manut_integral_draeger.pdf</span>
+                                                        <small class="text-secondary d-block">Vigência até: 15/03/2027</small>
+                                                    </td>
+                                                    <td class="text-center px-4">
+                                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Ativo</span>
+                                                    </td>
+                                                    <td class="text-end px-4">
+                                                        <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="py-3 px-4">
+                                                        <span class="d-block fw-bold text-dark"><i class="fa-solid fa-receipt text-secondary me-2"></i>Fatura ou Guia de Aquisição</span>
+                                                        <small class="text-muted">Comprovativo financeiro e registo patrimonial</small>
+                                                    </td>
+                                                    <td class="px-4">
+                                                        <span class="d-block fw-medium text-dark">fatura_compra_2021_4402.pdf</span>
+                                                        <small class="text-secondary d-block">Data do documento: 12/03/2021</small>
+                                                    </td>
+                                                    <td class="text-center px-4">
+                                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Disponível</span>
+                                                    </td>
+                                                    <td class="text-end px-4">
+                                                        <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td class="py-3 px-4">
+                                                        <span class="d-block fw-bold text-dark"><i class="fa-solid fa-certificate text-purple me-2" style="color: #6f42c1;"></i>Declaração de Conformidade</span>
+                                                        <small class="text-muted">Marcação CE e conformidade com diretivas médicas</small>
+                                                    </td>
+                                                    <td class="px-4">
+                                                        <span class="d-block fw-medium text-dark">ce_declaration_evita_v500.pdf</span>
+                                                        <small class="text-secondary d-block">Registo do fabricante original</small>
+                                                    </td>
+                                                    <td class="text-center px-4">
+                                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Disponível</span>
+                                                    </td>
+                                                    <td class="text-end px-4">
+                                                        <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
+                                                    </td>
+                                                </tr>
+
+                                                <tr class="table-light bg-opacity-10">
+                                                    <td class="py-3 px-4">
+                                                        <span class="d-block fw-bold text-muted"><i class="fa-solid fa-clipboard-check text-muted me-2"></i>Relatório Técnico</span>
+                                                        <small class="text-muted">Relatórios avulsos de peritagem ou modificação</small>
+                                                    </td>
+                                                    <td class="px-4 text-muted fst-italic small">
+                                                        <i class="fa-solid fa-ban me-1 text-secondary"></i> Nenhum relatório técnico arquivado para este dispositivo.
+                                                    </td>
+                                                    <td class="text-center px-4">
+                                                        <span class="badge bg-light text-secondary border rounded-pill px-3 py-1">Opcional</span>
+                                                    </td>
+                                                    <td class="text-end px-4">
+                                                        <button class="btn btn-sm btn-light border px-2 rounded disabled" disabled><i class="fa-solid fa-download text-muted"></i></button>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div> </div> </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="card border-0 shadow-sm p-4 bg-white">
-        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-            <h5 class="text-secondary fw-bold m-0">
-                <i class="fa-solid fa-folder-open text-primary me-2"></i>2.Documentação Técnica do Equipamento
-            </h5>
-            <span class="badge bg-dark rounded-pill px-3 py-2 font-monospace">7 Categorias Analisadas</span>
-        </div>
-
-        <div class="table-responsive border rounded bg-white shadow-sm">
-            <table class="table align-middle mb-0">
-                <thead>
-                    <tr class="text-muted small">
-                        <th class="py-3 px-4 text-uppercase fw-bold border-0 bg-light" style="width: 35%;">Tipo de Documento </th>
-                        <th class="py-3 px-4 text-uppercase fw-bold border-0 bg-light" style="width: 35%;">Detalhes do Ficheiro </th>
-                        <th class="py-3 px-4 text-uppercase fw-bold border-0 bg-light text-center" style="width: 15%;">Estado</th>
-                        <th class="py-3 px-4 text-uppercase fw-bold border-0 bg-light text-end" style="width: 15%;">Ações</th>
-                    </tr>
-                </thead>
-                <tbody class="border-top-0">
-                    
-                    <tr>
-                        <td class="py-3 px-4">
-                            <span class="d-block fw-bold text-dark"><i class="fa-solid fa-book text-primary me-2"></i>Manual de Utilizador</span>
-                            <small class="text-muted">Instruções de operação clínica diária</small>
-                        </td>
-                        <td class="px-4">
-                            <span class="d-block fw-medium text-dark">manual_utilizador_v500.pdf</span>
-                            <small class="text-secondary d-block">Submetido em: 15/03/2021 | Por: Dräger</small>
-                        </td>
-                        <td class="text-center px-4">
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Disponível</span>
-                        </td>
-                        <td class="text-end px-4">
-                            <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="py-3 px-4">
-                            <span class="d-block fw-bold text-dark"><i class="fa-solid fa-gears text-danger me-2"></i>Manual de Serviço</span>
-                            <small class="text-muted">Esquemas técnicos e engenharia de blocos</small>
-                        </td>
-                        <td class="px-4">
-                            <span class="d-block fw-medium text-dark">service_manual_evita_v5.pdf</span>
-                            <small class="text-secondary d-block">Submetido em: 15/03/2021 | Por: Dräger</small>
-                        </td>
-                        <td class="text-center px-4">
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Disponível</span>
-                        </td>
-                        <td class="text-end px-4">
-                            <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="py-3 px-4">
-                            <span class="d-block fw-bold text-dark"><i class="fa-solid fa-scale-balanced text-warning me-2"></i>Certificado de Calibração</span>
-                            <small class="text-muted">Rastreabilidade e padrões metrológicos</small>
-                        </td>
-                        <td class="px-4">
-                            <span class="d-block fw-medium text-dark">cert_calibracao_2026_jan.pdf</span>
-                            <small class="text-secondary d-block">Emitido em: 10/01/2026 | Validade: 10/01/2027</small>
-                        </td>
-                        <td class="text-center px-4">
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Válido</span>
-                        </td>
-                        <td class="text-end px-4">
-                            <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="py-3 px-4">
-                            <span class="d-block fw-bold text-dark"><i class="fa-solid fa-file-contract text-info me-2"></i>Contrato de Manutenção</span>
-                            <small class="text-muted">Apólice de assistência e SLAs</small>
-                        </td>
-                        <td class="px-4">
-                            <span class="d-block fw-medium text-dark">contrato_manut_integral_draeger.pdf</span>
-                            <small class="text-secondary d-block">Vigência até: 15/03/2027</small>
-                        </td>
-                        <td class="text-center px-4">
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Ativo</span>
-                        </td>
-                        <td class="text-end px-4">
-                            <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="py-3 px-4">
-                            <span class="d-block fw-bold text-dark"><i class="fa-solid fa-receipt text-secondary me-2"></i>Fatura ou Guia de Aquisição</span>
-                            <small class="text-muted">Comprovativo financeiro e registo patrimonial</small>
-                        </td>
-                        <td class="px-4">
-                            <span class="d-block fw-medium text-dark">fatura_compra_2021_4402.pdf</span>
-                            <small class="text-secondary d-block">Data do documento: 12/03/2021</small>
-                        </td>
-                        <td class="text-center px-4">
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Disponível</span>
-                        </td>
-                        <td class="text-end px-4">
-                            <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td class="py-3 px-4">
-                            <span class="d-block fw-bold text-dark"><i class="fa-solid fa-certificate text-purple me-2" style="color: #6f42c1;"></i>Declaração de Conformidade</span>
-                            <small class="text-muted">Marcação CE e conformidade com diretivas médicas</small>
-                        </td>
-                        <td class="px-4">
-                            <span class="d-block fw-medium text-dark">ce_declaration_evita_v500.pdf</span>
-                            <small class="text-secondary d-block">Registo do fabricante original</small>
-                        </td>
-                        <td class="text-center px-4">
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1">Disponível</span>
-                        </td>
-                        <td class="text-end px-4">
-                            <button class="btn btn-sm btn-light border px-2 rounded" title="Transferir Ficheiro"><i class="fa-solid fa-download text-secondary"></i></button>
-                        </td>
-                    </tr>
-
-                    <tr class="table-light bg-opacity-10">
-                        <td class="py-3 px-4">
-                            <span class="d-block fw-bold text-muted"><i class="fa-solid fa-clipboard-check text-muted me-2"></i>Relatório Técnico</span>
-                            <small class="text-muted">Relatórios avulsos de peritagem ou modificação</small>
-                        </td>
-                        <td class="px-4 text-muted fst-italic small">
-                            <i class="fa-solid fa-ban me-1 text-secondary"></i> Nenhum relatório técnico arquivado para este dispositivo.
-                        </td>
-                        <td class="text-center px-4">
-                            <span class="badge bg-light text-secondary border rounded-pill px-3 py-1">Opcional</span>
-                        </td>
-                        <td class="text-end px-4">
-                            <button class="btn btn-sm btn-light border px-2 rounded disabled" disabled><i class="fa-solid fa-download text-muted"></i></button>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-    <div class="modal fade" id="modalAlterarPassword" tabindex="-1" aria-hidden="true">
+        </div> </div> <div class="modal fade" id="modalAlterarPassword" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg rounded-4">
                 <div class="modal-header border-0 pb-0 mt-3 px-4">

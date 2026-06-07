@@ -186,3 +186,42 @@ function togglePassword(inputId, iconId) {
     
     // Podes adicionar mais scripts globais do teu projeto abaixo desta linha
 });   
+document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Mostrar/Esconder Hierarquia
+            const checkComponente = document.getElementById('checkComponente');
+            const divPai = document.getElementById('divEquipamentoPai');
+            if (checkComponente && divPai) {
+                checkComponente.addEventListener('change', function() {
+                    divPai.style.display = this.checked ? 'block' : 'none';
+                });
+            }
+
+            // 2. Lógica do Toast e Redirecionamento
+            const btnGuardar = document.querySelector('.btn-guardar');
+            const toastEl = document.getElementById('toastGravacao');
+            if(btnGuardar && toastEl) {
+                const toast = new bootstrap.Toast(toastEl, { delay: 1500 });
+                btnGuardar.addEventListener('click', function() {
+                    toast.show();
+                    setTimeout(() => { window.location.href = 'detalhes.html'; }, 1500);
+                });
+            }
+
+            // 3. Remover Linhas Iniciais da Tabela de Documentos
+            document.querySelectorAll('.btn-remover-linha').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('tr').remove();
+                    verificarTabelaVazia();
+                });
+            });
+
+            // Lógica partilhada com o JS global para adicionar novas linhas
+            function verificarTabelaVazia() {
+                const corpo = document.getElementById('corpoTabelaDocs');
+                if (corpo && corpo.children.length === 0) {
+                    document.getElementById('contentorTabelaDocs').classList.add('d-none');
+                    document.getElementById('msgSemDocs').classList.remove('d-none');
+                }
+            }
+        });
