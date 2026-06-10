@@ -107,16 +107,119 @@ document.addEventListener("DOMContentLoaded", function() {
 // ==========================================
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 3.1 Mostrar/Esconder Equipamento Pai
-    const checkComponente = document.getElementById('checkComponente');
-    const divPai = document.getElementById('divEquipamentoPai');
-    if (checkComponente && divPai) {
-        checkComponente.addEventListener('change', function() {
-            divPai.style.display = this.checked ? 'block' : 'none';
+ const checkEComponente = document.getElementById('checkEComponente');
+    const blocoPai = document.getElementById('blocoEquipamentoPai');
+    const blocoFilhos = document.getElementById('blocoGerirFilhos'); // O contentor da tabela e botão vincular
+    
+    if (checkEComponente && blocoPai && blocoFilhos) {
+        checkEComponente.addEventListener('change', function() {
+            if (this.checked) {
+                // É um COMPONENTE: Mostra o dropdown do Pai, Esconde a tabela de filhos
+                blocoPai.classList.remove('d-none');
+                blocoFilhos.classList.add('d-none');
+            } else {
+                // É EQUIPAMENTO PRINCIPAL: Esconde o dropdown do Pai, Mostra a tabela de filhos
+                blocoPai.classList.add('d-none');
+                blocoFilhos.classList.remove('d-none');
+            }
+        });
+    }
+    // --------------------------------------------------------
+    // 3.1 Gestão de Hierarquia (Vincular/Desvincular Componentes COM MODAL)
+    // --------------------------------------------------------
+
+    // 1. Função preparatória para a Modal
+    let linhaComponenteAtual = null;
+
+    function ligarBotaoDesvincular(botao) {
+        botao.addEventListener('click', function() {
+            linhaComponenteAtual = this.closest('tr');
+            // Vai buscar o nome do equipamento à 2ª coluna
+            const nomeComponente = linhaComponenteAtual.querySelector('td:nth-child(2)').innerText;
+            const modalTexto = document.getElementById('textoComponenteModal');
+            if(modalTexto) modalTexto.innerText = nomeComponente;
         });
     }
 
+    // 2. Função para verificar se a tabela ficou vazia e mostrar a mensagem
+    function verificarTabelaComponentes() {
+        const corpo = document.getElementById('corpoTabelaComp');
+        if (corpo && corpo.children.length === 0) {
+            document.getElementById('contentorTabelaComp').classList.add('d-none');
+            document.getElementById('msgSemComp').classList.remove('d-none');
+        }
+    }
+
+    // 3. Vincular Novo Componente (Adicionar à Tabela)
+    const btnVincularComponente = document.getElementById('btnVincularComponente');
+    if (btnVincularComponente) {
+        btnVincularComponente.addEventListener('click', function() {
+            const selectComp = document.getElementById('novoComponenteSelect');
+            if (!selectComp.value) {
+                alert("Por favor, selecione um equipamento da lista.");
+                return;
+            }
+
+            const dados = selectComp.value.split('|');
+            const designacao = dados[0];
+            const codigo = dados[1];
+
+            const novaLinha = document.createElement('tr');
+            // Botão atualizado com os atributos da Modal
+            novaLinha.innerHTML = `
+                <td class="py-3 px-3 border-0 text-muted font-monospace small">${codigo}</td>
+                <td class="py-3 border-0 fw-medium text-dark">${designacao}</td>
+                <td class="py-3 border-0 text-center">
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">Ativo</span>
+                </td>
+                <td class="py-3 border-0 text-end pe-3">
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-remover-componente px-2" title="Desvincular" data-bs-toggle="modal" data-bs-target="#modalDesvincularComponente">
+                        <i class="fa-solid fa-link-slash"></i>
+                    </button>
+                </td>
+            `;
+
+            // Ligar o novo botão à lógica da Modal
+            ligarBotaoDesvincular(novaLinha.querySelector('.btn-remover-componente'));
+
+            document.getElementById('corpoTabelaComp').appendChild(novaLinha);
+            document.getElementById('contentorTabelaComp').classList.remove('d-none');
+            document.getElementById('msgSemComp').classList.add('d-none');
+            
+            // Fecha o painel
+            const painelVincular = document.getElementById('painelVincularComponente');
+            if (painelVincular.classList.contains('show')) {
+                new bootstrap.Collapse(painelVincular).hide();
+            }
+            selectComp.value = ""; // Limpa a seleção
+        });
+    }
+
+    // 4. Ligar os botões das linhas que já vêm no HTML ao carregar a página
+    document.querySelectorAll('.btn-remover-componente').forEach(btn => {
+        ligarBotaoDesvincular(btn);
+    });
+
+    // 5. Executar a remoção apenas quando clica em "Sim" na Modal
+    const btnConfirmarDesvincular = document.getElementById('btnConfirmarDesvincular');
+    if (btnConfirmarDesvincular) {
+        btnConfirmarDesvincular.addEventListener('click', function() {
+            if (linhaComponenteAtual) {
+                linhaComponenteAtual.remove();
+                verificarTabelaComponentes();
+                linhaComponenteAtual = null;
+                
+                // Fechar a modal
+                const modalEl = document.getElementById('modalDesvincularComponente');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) modalInstance.hide();
+            }
+        });
+    }
+
+    // --------------------------------------------------------
     // 3.2 Alerta (Toast) ao Guardar Alterações
+    // --------------------------------------------------------
     const btnGuardar = document.querySelector('.btn-guardar');
     const toastEl = document.getElementById('toastGravacao');
     if (btnGuardar && toastEl) {
@@ -128,32 +231,58 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 3.3 Remover Consumíveis (Ação com Modal)
+    // --------------------------------------------------------
+    // 3.3 Remover Consumíveis (Ação com Modal e Nome Dinâmico)
+    // --------------------------------------------------------
     let linhaAtualConsumivel = null;
-    document.querySelectorAll('.btn-abrir-modal-remover').forEach(botao => {
+
+    // Função que ensina o botão a ir ler o nome do consumível antes de abrir a modal
+    function ligarBotaoRemoverConsumivel(botao) {
         botao.addEventListener('click', function() {
             linhaAtualConsumivel = this.closest('tr');
-        });
-    });
-
-    const btnConfirmarRemocao = document.getElementById('btnConfirmarRemocaoConsumivel');
-    if (btnConfirmarRemocao) {
-        btnConfirmarRemocao.addEventListener('click', function() {
-            if (linhaAtualConsumivel) {
-                linhaAtualConsumivel.remove();
-                const modalInstancia = bootstrap.Modal.getInstance(document.getElementById('modalRemoverConsumivel'));
-                if (modalInstancia) modalInstancia.hide();
-                linhaAtualConsumivel = null;
-                
-                const corpoConsumiveis = document.getElementById('corpoTabelaConsumiveis');
-                if (corpoConsumiveis && corpoConsumiveis.children.length === 0) {
-                    document.getElementById('contentorTabelaConsumiveis').classList.add('d-none');
-                    document.getElementById('msgSemConsumiveis').classList.remove('d-none');
-                }
+            
+            // Vai à primeira coluna da linha e procura o <input> que tem o texto
+            const inputNome = linhaAtualConsumivel.querySelector('td:nth-child(1) input');
+            const nomeConsumivel = inputNome ? inputNome.value : "Consumível não especificado";
+            
+            // Escreve o nome capturado na Modal
+            const modalTexto = document.getElementById('textoConsumivelModal');
+            if (modalTexto) {
+                // Se a caixa estiver em branco (value vazio), mete um texto de segurança
+                modalTexto.innerText = nomeConsumivel.trim() === "" ? "Consumível sem nome" : nomeConsumivel;
             }
         });
     }
 
+    // Ligar os botões de remover das linhas que já vêm carregadas no HTML
+    document.querySelectorAll('.btn-abrir-modal-remover').forEach(botao => {
+        ligarBotaoRemoverConsumivel(botao);
+    });
+
+    // Ação principal de confirmar a remoção ("Sim" na Modal)
+    const btnConfirmarRemocaoConsumivel = document.getElementById('btnConfirmarRemoverConsumivel');
+    if (btnConfirmarRemocaoConsumivel) {
+        btnConfirmarRemocaoConsumivel.addEventListener('click', function() {
+            if (linhaAtualConsumivel) {
+                linhaAtualConsumivel.remove();
+                
+                // Verifica se a tabela ficou vazia para mostrar a mensagem
+                const corpoConsumiveis = document.getElementById('corpoTabelaConsumiveis');
+                if (corpoConsumiveis && corpoConsumiveis.children.length === 0) {
+                    document.getElementById('contentorTabelaConsumiveis').classList.add('d-none');
+                    const msgVazia = document.getElementById('msgSemConsumiveis');
+                    if (msgVazia) msgVazia.classList.remove('d-none');
+                }
+                
+                linhaAtualConsumivel = null;
+                
+                // Fechar a modal suavemente
+                const modalEl = document.getElementById('modalRemoverConsumivel');
+                const modalInstancia = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstancia) modalInstancia.hide();
+            }
+        });
+    }
     // 3.4 Remover Documentos (Ação com Modal Dinâmica)
     let linhaAtualDoc = null;
     document.querySelectorAll('.btn-abrir-modal-remover-doc').forEach(botao => {
@@ -236,3 +365,45 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+const btnGuardarNovoConsumivel = document.getElementById('btnGuardarNovoConsumivel');
+    if (btnGuardarNovoConsumivel) {
+        btnGuardarNovoConsumivel.addEventListener('click', function() {
+            const designacao = document.getElementById('novoConsDesignacao').value;
+            const categoria = document.getElementById('novoConsCategoria').value;
+            const freq = document.getElementById('novoConsFreq').value;
+
+            if (!designacao || !categoria || !freq) {
+                alert("Por favor, preencha a Designação, a Categoria e a Frequência do Consumível.");
+                return;
+            }
+
+            const novaLinha = document.createElement('tr');
+            novaLinha.innerHTML = `
+                <td class="py-3 px-3 border-0 fw-medium text-dark">${designacao}</td>
+                <td class="py-3 border-0 text-muted">${categoria}</td>
+                <td class="py-3 border-0 text-muted">${freq}</td>
+                <td class="py-3 pe-3 border-0 text-end">
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverConsumivel">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </td>
+            `;
+
+            // Dá vida ao botão de lixo desta nova linha
+            novaLinha.querySelector('.btn-abrir-modal-remover').addEventListener('click', function() {
+                linhaAtualConsumivel = this.closest('tr');
+            });
+
+            document.getElementById('corpoTabelaConsumiveis').appendChild(novaLinha);
+            document.getElementById('contentorTabelaConsumiveis').classList.remove('d-none');
+            document.getElementById('msgSemConsumiveis').classList.add('d-none');
+
+            // Limpa o form e fecha o collapse
+            document.getElementById('novoConsDesignacao').value = '';
+            document.getElementById('novoConsCategoria').value = '';
+            const modalEl = document.getElementById('painelNovoConsumivel');
+            if (modalEl.classList.contains('show')) {
+                new bootstrap.Collapse(modalEl).hide();
+            }
+        });
+    }

@@ -79,116 +79,312 @@
             <div class="card w-100 shadow-sm rounded border-top border-primary border-4" style="max-width: 1200px;">
                 <div class="card-body p-4 p-md-5">
                     
-                    <form id="formNovoEquipamento" action="lista.html" method="POST" novalidate>
-                        
-                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Identificação e Características</h5>
-                        
-                        <div class="row g-4 mb-5">
-                            <div class="col-md-3">
-                                <label class="form-label fw-medium">Código Interno *</label>
-                                <input type="text" class="form-control" placeholder="Ex: EQ-001" required>
-                            </div>
-                            <div class="col-md-5">
-                                <label class="form-label fw-medium">Designação do Equipamento *</label>
-                                <input type="text" class="form-control" placeholder="Ex: Ventilador Pulmonar" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Categoria / Grupo</label>
-                                <select class="form-select">
-                                    <option selected disabled>Selecione...</option>
-                                    <option value="monitorizacao">Monitorização</option>
-                                    <option value="suporte_vida">Suporte de Vida</option>
-                                    <option value="terapia">Terapia</option>
-                                    <option value="diagnostico">Diagnóstico</option>
-                                </select>
-                            </div>
+                    <form id="formNovoEquipamento" action="detalhes.html" method="POST" novalidate>
+                            
+    <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">
+        <i class="fa-solid fa-microchip text-secondary me-2"></i>1. Identificação Técnica
+    </h5>
+    <div class="row g-4 mb-3">
+        <div class="col-md-3">
+            <label class="form-label fw-medium">Código Interno <span class="text-danger">*</span></label>
+            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: EQ-001" required>
+        </div>
+        <div class="col-md-5">
+            <label class="form-label fw-medium">Designação do Equipamento <span class="text-danger">*</span></label>
+            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Ventilador Pulmonar" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Categoria / Grupo</label>
+            <select class="form-select border-0 bg-light shadow-sm">
+                <option value="" selected disabled>Selecione...</option>
+                <option value="monitorizacao">Monitorização</option>
+                <option value="suporte_vida">Suporte de Vida</option>
+                <option value="terapia">Terapia</option>
+                <option value="diagnostico">Diagnóstico</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Marca</label>
+            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Philips">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Modelo</label>
+            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: IntelliVue MP5">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Número de Série</label>
+            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: SN-123456">
+        </div>
+    </div>
 
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Marca</label>
-                                <input type="text" class="form-control" placeholder="Ex: Philips">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Modelo</label>
-                                <input type="text" class="form-control" placeholder="Ex: IntelliVue MP5">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Número de Série</label>
-                                <input type="text" class="form-control" placeholder="Ex: SN-123456">
-                            </div>
-                        </div>
+    <div class="col-md-12 mb-5 p-3 bg-white border rounded shadow-sm">
+        <div class="form-check form-switch mb-2">
+            <input class="form-check-input" type="checkbox" id="checkComponente" role="switch">
+            <label class="form-check-label fw-bold text-dark" for="checkComponente">Este item é um componente/acessório de outro equipamento?</label>
+        </div>
+        <div class="mt-2" id="divEquipamentoPai" style="display: none;">
+            <label class="form-label fw-medium text-secondary small">Selecione o Equipamento Principal a que pertence:</label>
+            <select class="form-select bg-light border-0 shadow-sm">
+                <option value="" selected disabled>Pesquisar unidade principal...</option>
+                <option value="4002">04.002 - Monitor Multiparamétrico</option>
+            </select>
+        </div>
+    </div>
 
-                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Dados de Aquisição e Estado</h5>
+    <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">
+        <i class="fa-solid fa-cart-shopping text-secondary me-2"></i>2. Dados de Aquisição e Estado
+    </h5>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Fabricante</label>
+            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Dräger">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Data de Aquisição</label>
+            <input type="date" class="form-control border-0 bg-light shadow-sm">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Tipo de Entrada</label>
+            <select class="form-select border-0 bg-light shadow-sm">
+                <option value="compra" selected>Compra</option>
+                <option value="doacao">Doação</option>
+                <option value="aluguer">Aluguer</option>
+                <option value="emprestimo">Empréstimo</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Ano de Fabrico</label>
+            <input type="number" class="form-control border-0 bg-light shadow-sm" min="1990" max="2026" placeholder="YYYY">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Custo de Aquisição (€)</label>
+            <input type="number" class="form-control border-0 bg-light shadow-sm" step="0.01" placeholder="0.00">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium">Estado Inicial <span class="text-danger">*</span></label>
+            <select class="form-select border-success shadow-sm" required>
+                <option value="ativo" selected>Ativo</option>
+                <option value="manutencao">Em Manutenção</option>
+                <option value="inativo">Inativo</option>
+            </select>
+        </div>
+    </div>
 
-                        <div class="row g-4 mb-5">
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Fabricante</label>
-                                <input type="text" class="form-control" placeholder="Ex: Dräger">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Data de Aquisição</label>
-                                <input type="date" class="form-control">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Tipo de Entrada</label>
-                                <select class="form-select">
-                                    <option value="compra" selected>Compra</option>
-                                    <option value="doacao">Doação</option>
-                                    <option value="aluguer">Aluguer</option>
-                                    <option value="emprestimo">Empréstimo</option>
-                                </select>
-                            </div>
+    <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">
+        <i class="fa-solid fa-location-dot text-secondary me-2"></i>3. Classificação Clínica e Localização
+    </h5>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <label class="form-label fw-medium" style="color: #6c757d;">Criticidade Clínica <span class="text-danger">*</span></label>
+            <select class="form-select border-warning shadow-sm" required>
+                <option value="" selected disabled>Definir nível...</option>
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+                <option value="suporte_vida">Suporte de Vida</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium" style="color: #6c757d;">Serviço / Departamento <span class="text-danger">*</span></label>
+            <select class="form-select border-0 bg-light shadow-sm" required>
+                <option value="" selected disabled>Selecione o serviço...</option>
+                <option value="urgencia">Urgência Geral</option>
+                <option value="uci">Cuidados Intensivos (UCI)</option>
+                <option value="bloco">Bloco Operatório</option>
+                <option value="imagiologia">Imagiologia</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium" style="color: #6c757d;">Sala / Gabinete / Box <span class="text-danger">*</span></label>
+            <select class="form-select border-0 bg-light shadow-sm" required>
+                <option value="" selected disabled>Selecione a sala...</option>
+                <option value="box1">Box 1</option>
+                <option value="box2">Box 2</option>
+                <option value="isolamento">Sala de Raio X</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <label class="form-label fw-medium" style="color: #6c757d;">Observações Iniciais</label>
+            <textarea class="form-control border-0 bg-light shadow-sm" rows="3" placeholder="Informações adicionais relevantes..."></textarea>
+        </div>
+    </div>
 
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Ano de Fabrico</label>
-                                <input type="number" class="form-control" min="1990" max="2026" placeholder="YYYY">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Custo de Aquisição (€)</label>
-                                <input type="number" class="form-control" step="0.01" placeholder="0.00">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Estado Atual *</label>
-                                <select class="form-select border-success" required>
-                                    <option value="ativo" selected>Ativo</option>
-                                    <option value="manutencao">Em Manutenção</option>
-                                    <option value="inativo">Inativo</option>
-                                    <option value="abatido">Abatido</option>
-                                    <option value="calibracao">Em calibração</option>
-                                </select>
-                            </div>
-                        </div>
+    <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-5">
+        <i class="fa-solid fa-box-open text-warning me-2"></i>4. Consumíveis e Material Compatível
+    </h5>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h6 class="fw-bold text-dark m-0">Consumíveis</h6>
+        </div>
+        <button class="btn btn-sm btn-outline-warning text-dark fw-medium px-3" type="button" data-bs-toggle="collapse" data-bs-target="#painelNovoConsumivel">
+            <i class="fa-solid fa-plus me-1"></i>Adicionar Consumível
+        </button>
+    </div>
 
-                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Classificação Clínica e Observações</h5>
+    <div class="collapse mb-4 mt-3" id="painelNovoConsumivel">
+        <div class="card card-body bg-white border border-warning border-opacity-50 shadow-sm rounded p-4">
+            <div class="row g-4">
+                <div class="col-md-5">
+                    <label class="form-label fw-medium text-dark">Designação do Material</label>
+                    <input type="text" class="form-control border-0 bg-light shadow-sm" id="novoConsDesignacao" placeholder="Ex: Filtro HMEF">
+                </div>
+                <div class="col-md-4">
+    <label class="form-label fw-medium text-dark">Categoria <span class="text-danger">*</span></label>
+    <select class="form-select border-0 bg-light shadow-sm" id="novoConsCategoria" required>
+        <option value="" selected disabled>Selecione a categoria...</option>
+        <option value="Materiais de Injeção e Punção">Materiais de Injeção e Punção</option>
+        <option value="Higiene e Descartáveis">Higiene e Descartáveis</option>
+        <option value="Eletrónica de Monitorização">Eletrónica de Monitorização</option>
+        <option value="Tubagens e Acessórios de Imagiologia/Fluídos">Tubagens e Acessórios de Imagiologia/Fluídos</option>
+        <option value="Agentes de Contraste e Desinfetantes">Agentes de Desinfeção</option>
+    </select>
+</div>
+                <div class="col-md-3">
+    <label class="form-label fw-medium text-dark">Frequência <span class="text-danger">*</span></label>
+    <select class="form-select border-0 bg-light shadow-sm" id="novoConsFreq" required>
+        <option value="" selected disabled>Selecione...</option>
+        <option value="Por Paciente / Uso Único">Por Paciente </option>
+        <option value="Diário">Diário</option>
+        <option value="Mensal">Mensal</option>
+        <option value="Anual / Preventivo">Anual </option>
+    </select>
+</div>
+                <div class="col-12 d-flex justify-content-end gap-3 pt-3 border-top">
+                    <button type="button" class="btn btn-outline-secondary fw-medium px-4" data-bs-toggle="collapse" data-bs-target="#painelNovoConsumivel">Cancelar</button>
+                    <button type="button" class="btn btn-warning fw-bold px-4" id="btnGuardarNovoConsumivel">
+                        <i class="fa-solid fa-plus me-1"></i> Adicionar à Lista
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        <div class="row g-4 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium">Criticidade Clínica *</label>
-                                <select class="form-select border-warning" required>
-                                    <option selected disabled>Definir nível...</option>
-                                    <option value="baixa">Baixa </option>
-                                    <option value="media">Média</option>
-                                    <option value="alta">Alta </option>
-                                    <option value="suporte_vida">Suporte de Vida </option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-medium">Observações</label>
-                                <textarea class="form-control" rows="3" placeholder="Informações adicionais relevantes, garantias ou notas técnicas..."></textarea>
-                            </div>
-                        </div>
+    <div class="table-responsive bg-white border rounded shadow-sm d-none" id="contentorTabelaConsumiveis">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr class="text-muted small">
+                    <th class="py-2 border-0 bg-light" style="width: 45%;">Designação</th>
+                    <th class="py-2 border-0 bg-light" style="width: 25%;">Categoria</th>
+                    <th class="py-2 border-0 bg-light" style="width: 20%;">Frequência</th>
+                    <th class="py-2 border-0 bg-light text-end" style="width: 10%;">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabelaConsumiveis">
+                </tbody>
+        </table>
+    </div>
+    <div class="text-center py-4 bg-white border rounded shadow-sm text-muted small" id="msgSemConsumiveis">
+        <i class="fa-solid fa-box-open fs-4 d-block mb-2 text-secondary opacity-50"></i>
+        Nenhum consumível adicionado.
+    </div>
 
-                        <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
-                            <button type="reset" class="btn btn-outline-secondary px-4 fw-medium">
-                              <i class="fa-solid fa-eraser me-1"></i> Limpar
-                            </button>
-                            <button type="submit" class="btn btn-primary px-5 fw-bold">
-                              <i class="fa-regular fa-floppy-disk me-1"></i> Guardar Registo
-                            </button>
-                        </div>
-                                <div class="alert alert-danger text-center d-none" role="alert" id="mensagemErro">
-                                <i class="fa-solid fa-triangle-exclamation me-2"></i> Ocorreu um erro ao registar o equipamento. Verifique se preencheu todos os campos corretamente.
-                            </div>
-                    </form>
+    <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-5">
+        <i class="fa-solid fa-shield-halved text-success me-2"></i>5. Garantias e Contratos Iniciais
+    </h5>
+    <div class="row g-4 mb-5 p-3 bg-white border rounded shadow-sm">
+        <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">Início da Garantia</label>
+            <input type="date" class="form-control bg-light border-0 shadow-sm">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">Fim da Garantia</label>
+            <input type="date" class="form-control bg-light border-0 shadow-sm">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-medium text-secondary">Contrato de Manutenção</label>
+            <select class="form-select bg-light border-0 shadow-sm">
+                <option value="nao" selected>Não definido</option>
+                <option value="sim_preventivo">Sim (Preventivo)</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-medium text-secondary">Entidade Responsável</label>
+            <select class="form-select bg-light border-0 shadow-sm">
+                <option value="" selected disabled>Selecione...</option>
+                <option value="draeger">Dräger Medical GmbH</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-medium text-secondary">Periodicidade</label>
+            <select class="form-select bg-light border-0 shadow-sm">
+                <option value="" selected disabled>Selecione...</option>
+                <option value="anual">Anual</option>
+            </select>
+        </div>
+    </div>
+
+    <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-5">
+        <i class="fa-solid fa-folder-open text-primary me-2"></i>6. Documentação Inicial
+    </h5>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h6 class="fw-bold text-dark m-0">Ficheiros</h6>
+        </div>
+        <button class="btn btn-sm btn-outline-primary fw-medium px-3" type="button" data-bs-toggle="collapse" data-bs-target="#painelNovoDocumento">
+            <i class="fa-solid fa-plus me-1"></i>Anexar Documento
+        </button>
+    </div>
+
+    <div class="collapse mb-4 mt-3" id="painelNovoDocumento">
+        <div class="card card-body bg-white border border-primary border-opacity-25 shadow-sm rounded p-4">
+            <form id="formNovoDocInline">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-medium text-dark">Título do Documento *</label>
+                        <input type="text" class="form-control border-0 bg-light shadow-sm" id="novoDocTitulo" placeholder="Ex: Manual de Serviço">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-medium text-dark">Categoria *</label>
+                        <select class="form-select border-0 bg-light shadow-sm" id="novoDocCategoria">
+                            <option value="" selected disabled>Selecione...</option>
+                            <option value="Manual de Utilizador">Manual de Utilizador</option>
+                            <option value="Certificado de Garantia">Certificado de Garantia</option>
+                            <option value="Contrato de Manutenção">Contrato de Manutenção</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-medium text-dark">Ficheiro *</label>
+                        <input type="file" class="form-control border-0 bg-light shadow-sm" id="novoDocFicheiro">
+                    </div>
+                    <div class="col-12 d-flex justify-content-end gap-3 pt-3 border-top">
+                        <button type="button" class="btn btn-outline-secondary fw-medium px-4" data-bs-toggle="collapse" data-bs-target="#painelNovoDocumento">Cancelar</button>
+                        <button type="button" class="btn btn-primary fw-bold px-4" id="btnGuardarNovoDoc">
+                            <i class="fa-solid fa-plus me-1"></i> Adicionar à Lista
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive bg-white border rounded shadow-sm d-none" id="contentorTabelaDocs">
+        <table class="table align-middle mb-0">
+            <thead>
+                <tr class="text-muted small">
+                    <th class="py-2 px-3 border-0 bg-light" style="width: 25%;">Categoria</th>
+                    <th class="py-2 border-0 bg-light" style="width: 65%;">Título / Ficheiro</th>
+                    <th class="py-2 pe-3 border-0 bg-light text-end" style="width: 10%;">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabelaDocs">
+                </tbody>
+        </table>
+    </div>
+    <div class="text-center py-4 bg-white border rounded shadow-sm text-muted small" id="msgSemDocs">
+        <i class="fa-solid fa-folder-open fs-4 d-block mb-2 text-secondary opacity-50"></i>
+        Nenhum documento anexado.
+    </div>
+
+    <div class="d-flex justify-content-end gap-3 mt-5 pt-4 border-top">
+        <button type="reset" class="btn btn-outline-secondary px-4 fw-medium">
+            <i class="fa-solid fa-eraser me-1"></i> Limpar Formulário
+        </button>
+        <button type="submit" class="btn btn-primary px-5 fw-bold btn-guardar">
+            <i class="fa-solid fa-cloud-arrow-up me-1"></i> Guardar Registo Completo
+        </button>
+    </div>
+
+</form>
                     
                 </div>
             </div>
