@@ -105,22 +105,27 @@ document.addEventListener("DOMContentLoaded", function() {
 // ==========================================
 // 3. PÁGINA DE EDITAR / DETALHES
 // ==========================================
+// ==========================================
+// 3. PÁGINA DE EDITAR / DETALHES / NOVO
+// ==========================================
 document.addEventListener('DOMContentLoaded', function() {
     
- const checkEComponente = document.getElementById('checkEComponente');
+    const checkEComponente = document.getElementById('checkEComponente');
     const blocoPai = document.getElementById('blocoEquipamentoPai');
-    const blocoFilhos = document.getElementById('blocoGerirFilhos'); // O contentor da tabela e botão vincular
+    const blocoFilhos = document.getElementById('blocoGerirFilhos'); // Opcional (só existe no Editar)
     
-    if (checkEComponente && blocoPai && blocoFilhos) {
+    if (checkEComponente && blocoPai) {
         checkEComponente.addEventListener('change', function() {
             if (this.checked) {
-                // É um COMPONENTE: Mostra o dropdown do Pai, Esconde a tabela de filhos
+                // É um COMPONENTE: Mostra o dropdown do Pai
                 blocoPai.classList.remove('d-none');
-                blocoFilhos.classList.add('d-none');
+                // Se o bloco de filhos existir (página Editar), esconde-o
+                if (blocoFilhos) blocoFilhos.classList.add('d-none');
             } else {
-                // É EQUIPAMENTO PRINCIPAL: Esconde o dropdown do Pai, Mostra a tabela de filhos
+                // É EQUIPAMENTO PRINCIPAL: Esconde o dropdown do Pai
                 blocoPai.classList.add('d-none');
-                blocoFilhos.classList.remove('d-none');
+                // Se o bloco de filhos existir (página Editar), mostra-o
+                if (blocoFilhos) blocoFilhos.classList.remove('d-none');
             }
         });
     }
