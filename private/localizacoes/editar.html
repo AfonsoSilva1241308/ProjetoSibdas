@@ -80,49 +80,67 @@
                         <hr class="mb-5">
 
                         <form id="formNovaLocalizacao" action="lista.html" method="POST" novalidate>
-                            
-                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Dados da Instalação</h5>
-                        
-                        <div class="row g-4 mb-5">
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium">Edifício / Bloco <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" value="Edifício Principal" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium">Piso <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" value="Piso 2" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium">Serviço / Departamento <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" value="Cuidados Intensivos (UCI)" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium">Sala / Gabinete</label>
-                                <input type="text" class="form-control" value="Box 4">
-                            </div>
-                        </div>
+    
+    <input type="hidden" name="id_localizacao" value="1">
 
-                        <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-4">Capacidade e Requisitos Técnicos</h5>
-                        
-                        <div class="row g-4 mb-4">
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium">Capacidade Máxima (Equipamentos)</label>
-                                <input type="number" class="form-control" value="15">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-medium">Infraestrutura Disponível</label>
-                                <select class="form-select">
-                                    <option selected>Tomadas UPS e Ponto de Rede Disponíveis</option>
-                                    <option>Apenas Tomadas Normais</option>
-                                    <option>Tomadas UPS (Sem Rede)</option>
-                                    <option>Sem Requisitos Especiais</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-medium">Observações Adicionais</label>
-                                <textarea class="form-control" rows="3">Restrições de acesso biológico elevado. Necessita de fardamento específico para manutenção local.</textarea>
-                            </div>
-                        </div>
+    <h5 class="fw-bold text-dark mb-4 border-bottom pb-2">Dados da Instalação</h5>
+    
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <label class="form-label fw-medium">Edifício / Bloco <span class="text-danger">*</span></label>
+            <input type="text" name="edificio" class="form-control" value="Edifício Principal" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-medium">Piso <span class="text-danger">*</span></label>
+            <input type="text" name="piso" class="form-control" value="Piso 2" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-medium">Serviço / Departamento <span class="text-danger">*</span></label>
+            <select name="servico" class="form-select" required>
+                <option value="" disabled>Selecione o serviço...</option>
+                <option value="urgencia">Urgência Geral</option>
+                <option value="uci" selected>Cuidados Intensivos (UCI)</option>
+                <option value="bloco">Bloco Operatório</option>
+                <option value="imagiologia">Imagiologia</option>
+                <option value="internamento">Internamento</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-medium">Sala / Gabinete</label>
+            <select name="sala" class="form-select">
+                <option value="" disabled>Selecione a sala...</option>
+                <option value="box1">Box 1</option>
+                <option value="box2">Box 2</option>
+                <option value="box3">Box 3</option>
+                <option value="box4" selected>Box 4</option>
+                <option value="isolamento">Sala de Raio X</option>
+                <option value="triagem">Triagem</option>
+                <option value="gabinete_medico">Gabinete Médico</option>
+            </select>
+        </div>
+    </div>
+
+    <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-4">Capacidade e Requisitos Técnicos</h5>
+    
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <label class="form-label fw-medium">Capacidade Máxima (Equipamentos)</label>
+            <input type="number" name="capacidade_maxima" class="form-control" value="15">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label fw-medium">Infraestrutura Disponível</label>
+            <select name="infraestrutura" class="form-select">
+                <option value="ups_rede" selected>Tomadas UPS e Ponto de Rede Disponíveis</option>
+                <option value="tomadas_normais">Apenas Tomadas Normais</option>
+                <option value="ups_sem_rede">Tomadas UPS (Sem Rede)</option>
+                <option value="sem_requisitos">Sem Requisitos Especiais</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <label class="form-label fw-medium">Observações Adicionais</label>
+            <textarea name="observacoes" class="form-control" rows="3">Restrições de acesso biológico elevado. Necessita de fardamento específico para manutenção local.</textarea>
+        </div>
+    </div>
 
                         <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
                             <a href="lista.html" class="btn btn-outline-secondary px-4 fw-medium">

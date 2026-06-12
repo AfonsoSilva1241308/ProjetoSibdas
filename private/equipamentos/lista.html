@@ -281,9 +281,13 @@
                         <button type="button" class="btn btn-light border fw-medium px-4 py-2" data-bs-dismiss="modal">
                             <i class="fa-solid fa-xmark me-2 text-secondary"></i> Não
                         </button>
-                        <button type="button" class="btn btn-danger fw-medium px-4 py-2" data-bs-dismiss="modal">
-                            <i class="fa-solid fa-check me-2"></i> Sim
-                        </button>
+                        
+                        <form action="apagar_equipamento.php" method="POST" class="m-0">
+                            <input type="hidden" name="codigo_interno" value="EV500-2021">
+                            <button type="submit" class="btn btn-danger fw-medium px-4 py-2">
+                                <i class="fa-solid fa-check me-2"></i> Sim
+                            </button>
+                        </form>
                     </div>
 
                 </div>
