@@ -85,25 +85,23 @@
     </div>
 </div>
 
-<!-- Módulo de Consulta, Pesquisa e Filtragem (11.6) -->
 <div class="card w-100 shadow-sm rounded border-0 mb-4" style="max-width: 1200px;">
     <div class="card-body p-4 bg-white rounded">
         <form action="lista.html" method="GET">
             
-            <!-- Linha 1: Pesquisa Rápida e Ordenação -->
             <div class="row g-3 align-items-center">
                 <div class="col-md-7">
                     <div class="input-group shadow-sm">
                         <span class="input-group-text bg-white border-end-0 text-primary">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </span>
-                        <input type="text" class="form-control border-start-0 ps-0" placeholder="Pesquisar por código, designação, marca, modelo ou nº de série...">
+                        <input type="text" name="pesquisa" class="form-control border-start-0 ps-0" placeholder="Pesquisar por código, designação, marca, modelo ou nº de série...">
                     </div>
                 </div>
                 <div class="col-md-5 d-flex justify-content-md-end gap-2">
                     <div class="input-group shadow-sm w-auto">
                         <span class="input-group-text bg-light text-muted small"><i class="fa-solid fa-arrow-down-a-z"></i></span>
-                        <select class="form-select border-start-0 text-muted" style="min-width: 140px;">
+                        <select name="ordenacao" class="form-select border-start-0 text-muted" style="min-width: 140px;">
                             <option value="recentes" selected>Mais Recentes</option>
                             <option value="az">Designação (A-Z)</option>
                             <option value="za">Designação (Z-A)</option>
@@ -116,43 +114,43 @@
                 </div>
             </div>
 
-            <!-- Linha 2: Filtros Avançados (Escondidos por defeito) -->
             <div class="collapse" id="filtrosAvancados">
                 <div class="row g-3 pt-4 mt-3 border-top border-light">
                     <div class="col-md-3">
                         <label class="form-label small text-muted text-uppercase fw-bold mb-1">Categoria</label>
-                        <select class="form-select form-select-sm">
+                        <select name="categoria" class="form-select form-select-sm">
                             <option value="">Todas as categorias...</option>
                             <option value="suporte_vida">Suporte de Vida</option>
                             <option value="monitorizacao">Monitorização</option>
-                            <option value="imagem">Terapia</option>
-                            <option value="imagem">Diagnóstico</option>
+                            <option value="terapia">Terapia</option>
+                            <option value="diagnostico">Diagnóstico</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label small text-muted text-uppercase fw-bold mb-1">Estado</label>
-                        <select class="form-select form-select-sm">
+                        <select name="estado" class="form-select form-select-sm">
                             <option value="">Todos...</option>
-                            <option value="operacional">Ativo</option>
+                            <option value="ativo">Ativo</option>
                             <option value="manutencao">Em Manutenção</option>
-                           <option value="calibracao">Em calibração</option>
-                            <option value="operacional">Abatido</option>
-                            <option value="inativo">Inativo </option>
+                            <option value="calibracao">Em calibração</option>
+                            <option value="inativo">Inativo</option>
+                            <option value="abatido">Abatido</option>
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label small text-muted text-uppercase fw-bold mb-1">Criticidade</label>
-                        <select class="form-select form-select-sm">
+                        <select name="criticidade" class="form-select form-select-sm">
                             <option value="">Todas...</option>
                             <option value="alta">Alta</option>
                             <option value="media">Média</option>
                             <option value="baixa">Baixa</option>
-                            <option value="baixa">Suporte de Vida</option>
+                            <option value="critico_suporte">Suporte de Vida</option>
+
                         </select>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label small text-muted text-uppercase fw-bold mb-1">Serviço</label>
-                        <select class="form-select form-select-sm">
+                        <select name="servico" class="form-select form-select-sm">
                             <option value="">Todos...</option>
                             <option value="uci">Cuidados Intensivos</option>
                             <option value="urgencia">Urgência</option>
@@ -163,7 +161,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label small text-muted text-uppercase fw-bold mb-1">Fornecedor</label>
-                        <select class="form-select form-select-sm">
+                        <select name="fornecedor" class="form-select form-select-sm">
                             <option value="">Todos os fornecedores...</option>
                             <option value="1">Dräger Medical</option>
                             <option value="2">Philips Healthcare</option>
@@ -171,7 +169,6 @@
                         </select>
                     </div>
                     
-                    <!-- Botões de Ação dos Filtros -->
                     <div class="col-12 d-flex justify-content-end gap-2 mt-4">
                         <button type="reset" class="btn btn-sm btn-light border fw-medium px-4 text-secondary">
                             <i class="fa-solid fa-eraser me-1"></i> Limpar Tudo
@@ -187,93 +184,68 @@
     </div>
 </div>
 
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead class="table-light text-muted small fw-bold">
-                                <tr>
-                                    <th scope="col">CÓDIGO INTERNO</th>
-                                    <th scope="col">DESIGNAÇÃO</th>
-                                    <th scope="col">MARCA / MODELO</th>
-                                    <th scope="col">CRITICIDADE</th>
-                                    <th scope="col">ESTADO ATUAL</th>
-                                    <th scope="col" class="text-end">AÇÕES</th>
-                                </tr>
-                            </thead>
-                            <tbody class="border-top-0">
-                                <tr>
-                                    <td class="fw-bold text-dark">EV500-2021</td>
-                                    <td>
-                                        <span class="d-block text-dark">Ventilador Pulmonar</span>
-                                        <small class="text-muted">Suporte de vida</small>
-                                    </td>
-                                    <td class="text-dark">Dräger Evita V500</td>
-                                    <td><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-2">Suporte de Vida</span></td>
-                                    <td><span class="badge bg-success rounded-pill px-3 py-2">Ativo</span></td>
-                                    <td class="text-end pe-3">
-                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
-                                      <i class="fa-solid fa-eye"></i>
-                                      </a>
-    
-                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                      </a>
-    
-                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento">
-                                       <i class="fa-solid fa-trash"></i>
-                                       </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold text-dark">MP5-2022</td>
-                                    <td>
-                                        <span class="d-block text-dark">Monitor Multiparamétrico</span>
-                                        <small class="text-muted">Monitorização</small>
-                                    </td>
-                                    <td class="text-dark">Philips IntelliVue MP5</td>
-                                    <td><span class="badge bg-warning bg-opacity-10 text-dark border border-warning rounded-pill px-3 py-2">Alta</span></td>
-                                    <td><span class="badge bg-success rounded-pill px-3 py-2">Ativo</span></td>
-                                    <td class="text-end pe-3">
-                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
-                                      <i class="fa-solid fa-eye"></i>
-                                      </a>
-    
-                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                      </a>
-    
-                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento">
-                                       <i class="fa-solid fa-trash"></i>
-                                       </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-bold text-dark">ZR-2021</td>
-                                    <td>
-                                        <span class="d-block text-dark">Desfibrilhador</span>
-                                        <small class="text-muted">Terapia</small>
-                                    </td>
-                                    <td class="text-dark">Zoll R Series</td>
-                                    <td><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-2">Suporte de Vida</span></td>
-                                    <td><span class="badge bg-warning text-dark rounded-pill px-3 py-2">Manutenção</span></td>
-                                    <td class="text-end pe-3">
-                                      <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
-                                      <i class="fa-solid fa-eye"></i>
-                                      </a>
-    
-                                      <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                      </a>
-    
-                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento">
-                                       <i class="fa-solid fa-trash"></i>
-                                       </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+<div class="table-responsive shadow-sm rounded border bg-white mb-3">
+    <table class="table table-hover align-middle mb-0">
+        <thead class="table-light text-muted small fw-bold">
+            <tr>
+                <th scope="col" class="py-3 px-4 border-0">CÓDIGO INTERNO</th>
+                <th scope="col" class="py-3 border-0">DESIGNAÇÃO</th>
+                <th scope="col" class="py-3 border-0">MARCA / MODELO</th>
+                <th scope="col" class="py-3 border-0">CRITICIDADE</th>
+                <th scope="col" class="py-3 border-0">ESTADO ATUAL</th>
+                <th scope="col" class="text-end py-3 px-4 border-0">AÇÕES</th>
+            </tr>
+        </thead>
+        <tbody class="border-top-0">
+            <tr>
+                <td class="fw-bold text-dark px-4 py-3">EV500-2021</td>
+                <td>
+                    <span class="d-block text-dark fw-medium">Ventilador Pulmonar</span>
+                    <small class="text-muted">Suporte de Vida</small>
+                </td>
+                <td class="text-dark">Dräger Evita V500</td>
+                <td><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-1">Alta</span></td>
+                <td><span class="badge bg-success rounded-pill px-3 py-1">Ativo</span></td>
+                <td class="text-end px-4">
+                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
+                    <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold text-dark px-4 py-3">MP5-2022</td>
+                <td>
+                    <span class="d-block text-dark fw-medium">Monitor Multiparamétrico</span>
+                    <small class="text-muted">Monitorização</small>
+                </td>
+                <td class="text-dark">Philips IntelliVue MP5</td>
+                <td><span class="badge bg-warning bg-opacity-10 text-dark border border-warning rounded-pill px-3 py-1">Média</span></td>
+                <td><span class="badge bg-success rounded-pill px-3 py-1">Ativo</span></td>
+                <td class="text-end px-4">
+                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
+                    <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold text-dark px-4 py-3">ZR-2021</td>
+                <td>
+                    <span class="d-block text-dark fw-medium">Desfibrilhador</span>
+                    <small class="text-muted">Terapia</small>
+                </td>
+                <td class="text-dark">Zoll R Series</td>
+                <td><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-1">Alta</span></td>
+                <td><span class="badge bg-warning text-dark rounded-pill px-3 py-1">Manutenção</span></td>
+                <td class="text-end px-4">
+                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
+                    <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>
+       </tbody>
+    </table>
+</div> <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+    <span class="text-muted small">A mostrar 3 de 1,245 registos</span>
                         <span class="text-muted small">A mostrar 3 de 1,245 registos</span>
                         <nav>
                             <ul class="pagination pagination-sm m-0">

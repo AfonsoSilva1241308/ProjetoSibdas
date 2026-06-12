@@ -7,8 +7,8 @@
     
     <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="../../assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
     <link rel="stylesheet" href="../../assets/css/1241308.css">
 </head>
 <body>
@@ -20,77 +20,65 @@
                 <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
             </a>
             
-            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-2">
+            <ul class="nav nav-pills flex-column mb-auto gap-1 mt-2">
                 <li class="nav-item">
-                    <a href="../dashboard.html" class="nav-link text-dark fw-medium">Visão Geral</a>
+                    <a href="../dashboard.html" class="nav-link text-dark fw-medium px-3 py-2">Visão Geral</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../equipamentos/lista.html" class="nav-link text-dark fw-medium">Equipamentos</a>
+                    <a href="../equipamentos/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Equipamentos</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium">Localizações</a>
+                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Localizações</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium">Manutenção</a>
+                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Manutenção</a>
                 </li>
                 <li class="nav-item">
-                    <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium">Fornecedores</a>
+                    <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Fornecedores</a>
                 </li>
-                <li class="nav-item">
-                    <a href="../documentacao/lista.html" class="nav-link text-dark fw-medium">Documentação e Contratos</a>
-                </li>
-                <hr class="text-secondary">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active fw-semibold shadow-sm" aria-current="page">Gestão de Site</a>
+                
+                <li class="nav-item mt-2 pt-2 border-top border-secondary border-opacity-25">
+                    <a href="#" class="nav-link active fw-semibold shadow-sm px-3 py-2" aria-current="page">Gestão de Site</a>
                 </li>
             </ul>
+            
+            <div class="mt-4 pt-4 border-top border-secondary border-opacity-25">
+                <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">Sair do Sistema</a>
+            </div>
         </div>
 
         <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
             
             <div class="d-flex justify-content-between align-items-center mb-5 border-bottom pb-3">
-                <h2 class="fw-bold text-primary mb-0">Gestão de Conteúdos</h2>
-                
-                <div class="d-flex align-items-center gap-3">
-                    <a href="../dashboard.html" class="btn btn-light border shadow-sm btn-sm text-secondary fw-medium">
-                        <i class="fa-solid fa-arrow-left me-2"></i>Voltar
-                    </a>
-                    
-                    <div class="dropdown">
-                        <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2 dropdown-toggle text-secondary fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user-circle text-secondary"></i> Administrador
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
-                            <li>
-                                <a class="dropdown-item py-2 text-secondary fw-medium" href="#">
-                                    <i class="fa-solid fa-key text-primary me-2"></i> Alterar Password
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item py-2 text-secondary fw-medium" href="#">
-                                    <i class="fa-solid fa-globe text-primary me-2"></i> Gestão do Site Público
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <a class="dropdown-item py-2 text-secondary fw-medium" href="../../public/index.html">
-                                    <i class="fa-solid fa-arrow-right-from-bracket text-primary me-2"></i> Sair da Conta
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="d-flex align-items-center">
+                    <h2 class="fw-bold text-primary mb-0">Gestão de Conteúdos</h2>
+                </div>
+                <div class="dropdown m-0">
+                    <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2 dropdown-toggle text-secondary fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user-circle text-secondary"></i> Administrador
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
+                        <li>
+                            <a class="dropdown-item py-2 text-secondary fw-medium" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarPassword">
+                                <i class="fa-solid fa-key text-primary me-2"></i> Alterar Password
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item py-2 text-secondary fw-medium" href="../../public/index.html">
+                                <i class="fa-solid fa-arrow-right-from-bracket text-primary me-2"></i> Sair da Conta
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-
-            <p class="text-muted mb-4">Edite os textos e informações visíveis na área pública do site.</p>
 
             <div class="accordion shadow-sm border-0 rounded-3 overflow-hidden mb-5" id="accordionGestaoSite">
 
                 <div class="accordion-item border-0 border-bottom">
                     <h2 class="accordion-header" id="headingTextos">
                         <button class="accordion-button fw-bold text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTextos" aria-expanded="true" aria-controls="collapseTextos">
-                            <i class="fa-solid fa-align-left text-primary me-3"></i> 1. Secção: Textos Informativos
+                            <i class="fa-solid fa-align-left text-primary me-3"></i> 1. Textos Institucionais
                         </button>
                     </h2>
                     <div id="collapseTextos" class="accordion-collapse collapse show" aria-labelledby="headingTextos" data-bs-parent="#accordionGestaoSite">
@@ -98,15 +86,15 @@
                             <form class="form-editar-conteudo">
                                 <div class="mb-4">
                                     <label for="textoSobreNos" class="form-label fw-medium text-secondary">Sobre Nós</label>
-                                    <textarea class="form-control bg-light border-0 shadow-sm" id="textoSobreNos" rows="3">Na MediLink Digital, desenvolvemos soluções de software robustas e especializadas em sistemas de...</textarea>
+                                    <textarea class="form-control bg-light border-0 shadow-sm" id="textoSobreNos" rows="3">Na MediLink Digital, desenvolvemos soluções de software robustas e especializadas em sistemas de informação hospitalar. O nosso foco é otimizar a gestão de equipamentos clínicos e garantir a evolução, segurança e conformidade do ecossistema tecnológico de saúde em Portugal.</textarea>
                                 </div>
                                 <div class="mb-4">
                                     <label for="textoSolucao" class="form-label fw-medium text-secondary">A Nossa Solução</label>
-                                    <textarea class="form-control bg-light border-0 shadow-sm" id="textoSolucao" rows="3">A nossa solução digital permite centralizar e organizar a gestão tecnológica dos dispositivos médicos numa única plataforma, assegurando uma monitorização contínua e uma gestão integrada ao longo de todo o ciclo de vida, desde a entrada em operação até à desativação técnica.</textarea>
+                                    <textarea class="form-control bg-light border-0 shadow-sm" id="textoSolucao" rows="3">A nossa solução digital permite centralizar e organizar a gestão tecnológica dos dispositivos médicos numa única plataforma. Asseguramos uma monitorização contínua e uma gestão integrada ao longo de todo o ciclo de vida, desde a entrada em operação até à desativação técnica, garantindo a rastreabilidade e a eficiência operacional da Engenharia Clínica.</textarea>
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-4">
                                     <label for="textoFuncionalidades" class="form-label fw-medium text-secondary">Funcionalidades da Plataforma</label>
-                                    <textarea class="form-control bg-light border-0 shadow-sm" id="textoFuncionalidades" rows="3">Os equipamentos abrangidos incluem dispositivos médicos com diferentes níveis de criticidade clínica, integrando desde sistemas de monitorização e terapêutica até tecnologias críticas de suporte de vida, assegurando cobertura de equipamentos essenciais em diversos contextos assistenciais e hospitalares.</textarea>
+                                    <textarea class="form-control bg-light border-0 shadow-sm" id="textoFuncionalidades" rows="2">Os equipamentos abrangidos incluem dispositivos médicos com diferentes níveis de criticidade clínica, integrando desde sistemas de monitorização até tecnologias críticas de suporte de vida.</textarea>
                                 </div>
                                 <div class="text-end mt-4">
                                     <button type="button" class="btn btn-primary px-4 btn-guardar">
@@ -118,18 +106,134 @@
                     </div>
                 </div>
 
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header" id="headingIndicadores">
+                        <button class="accordion-button collapsed fw-bold text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseIndicadores" aria-expanded="false" aria-controls="collapseIndicadores">
+                            <i class="fa-solid fa-chart-pie text-warning me-3"></i> 2. Indicadores e Gráficos
+                        </button>
+                    </h2>
+                    <div id="collapseIndicadores" class="accordion-collapse collapse" aria-labelledby="headingIndicadores" data-bs-parent="#accordionGestaoSite">
+                        <div class="accordion-body p-4 bg-white border-top">
+                            <form class="form-editar-conteudo">
+                                <h6 class="text-dark fw-bold border-bottom pb-2 mb-3">Métricas Principais</h6>
+                                <div class="row g-4 mb-4">
+                                    <div class="col-md-6">
+                                        <label for="numInstituicoes" class="form-label fw-medium text-secondary">Instituições Alocadas</label>
+                                        <div class="input-group shadow-sm">
+                                            <span class="input-group-text bg-light border-0"><i class="fa-solid fa-hospital text-primary"></i></span>
+                                            <input type="number" class="form-control bg-light border-0" id="numInstituicoes" value="45">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="numDispositivos" class="form-label fw-medium text-secondary">Dispositivos Médicos</label>
+                                        <div class="input-group shadow-sm">
+                                            <span class="input-group-text bg-light border-0"><i class="fa-solid fa-heart-pulse text-success"></i></span>
+                                            <input type="number" class="form-control bg-light border-0" id="numDispositivos" value="1200">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h6 class="text-dark fw-bold border-bottom pb-2 mb-3">Distribuição de Equipamentos (%)</h6>
+                                <div class="row g-4 mb-3">
+                                    <div class="col-md-3">
+                                        <label for="percMonitorizacao" class="form-label fw-medium text-secondary">Monitorização</label>
+                                        <div class="input-group shadow-sm">
+                                            <input type="number" class="form-control bg-light border-0" id="percMonitorizacao" value="45">
+                                            <span class="input-group-text bg-light border-0">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="percSuporteVida" class="form-label fw-medium text-secondary">Suporte de Vida</label>
+                                        <div class="input-group shadow-sm">
+                                            <input type="number" class="form-control bg-light border-0" id="percSuporteVida" value="35">
+                                            <span class="input-group-text bg-light border-0">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="percTerapia" class="form-label fw-medium text-secondary">Terapia</label>
+                                        <div class="input-group shadow-sm">
+                                            <input type="number" class="form-control bg-light border-0" id="percTerapia" value="12">
+                                            <span class="input-group-text bg-light border-0">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="percDiagnostico" class="form-label fw-medium text-secondary">Diagnóstico</label>
+                                        <div class="input-group shadow-sm">
+                                            <input type="number" class="form-control bg-light border-0" id="percDiagnostico" value="8">
+                                            <span class="input-group-text bg-light border-0">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-end mt-4">
+                                    <button type="button" class="btn btn-warning text-dark fw-bold px-4 btn-guardar">
+                                        <i class="fa-solid fa-floppy-disk me-2"></i>Guardar Alterações
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header" id="headingImagens">
+                        <button class="accordion-button collapsed fw-bold text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseImagens" aria-expanded="false" aria-controls="collapseImagens">
+                            <i class="fa-solid fa-image text-info me-3"></i> 3. Banner Principal 
+                        </button>
+                    </h2>
+                    <div id="collapseImagens" class="accordion-collapse collapse" aria-labelledby="headingImagens" data-bs-parent="#accordionGestaoSite">
+                        <div class="accordion-body p-4 bg-white border-top">
+                            <form class="form-editar-conteudo">
+                                
+                                <h6 class="text-dark fw-bold border-bottom pb-2 mb-4">Imagem de Fundo (Banner)</h6>
+                                <div class="row g-4 align-items-center mb-3">
+                                    <div class="col-md-8">
+                                        <label for="uploadBanner" class="form-label fw-medium text-secondary">Carregar Nova Imagem</label>
+                                        <input class="form-control bg-light border-0 shadow-sm" type="file" id="uploadBanner" accept="image/png, image/jpeg, image/webp">
+                                        <small class="text-muted mt-2 d-block">
+                                            <i class="fa-solid fa-circle-info me-1"></i> Formatos suportados: JPG, PNG, WEBP. Tamanho recomendado: 1920x1080px.
+                                        </small>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <p class="form-label fw-medium text-secondary mb-2">Imagem Atual</p>
+                                        <div class="border rounded-3 overflow-hidden shadow-sm">
+                                            <img src="../../assets/img/hospital.png" alt="Pré-visualização do Banner" class="img-fluid" style="height: 100px; width: 100%; object-fit: cover;">
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-end mt-4">
+                                    <button type="button" class="btn btn-info text-white fw-bold px-4 btn-guardar">
+                                        <i class="fa-solid fa-upload me-2"></i>Atualizar Banner
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="accordion-item border-0">
                     <h2 class="accordion-header" id="headingContactos">
                         <button class="accordion-button collapsed fw-bold text-dark bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContactos" aria-expanded="false" aria-controls="collapseContactos">
-                            <i class="fa-solid fa-address-card text-success me-3"></i> 2. Secção: Rodapé e Contactos
+                            <i class="fa-solid fa-address-card text-success me-3"></i> 4. Formulário e Contactos
                         </button>
                     </h2>
                     <div id="collapseContactos" class="accordion-collapse collapse" aria-labelledby="headingContactos" data-bs-parent="#accordionGestaoSite">
                         <div class="accordion-body p-4 bg-white border-top">
                             <form class="form-editar-conteudo">
+                                
+                                <h6 class="text-dark fw-bold border-bottom pb-2 mb-3">Secção de Fale Connosco</h6>
+                                <div class="mb-4">
+                                    <label for="tituloContacto" class="form-label fw-medium text-secondary">Título do Formulário</label>
+                                    <input type="text" class="form-control bg-light border-0 shadow-sm mb-2" id="tituloContacto" value="Tem alguma dúvida? Fale connosco.">
+                                    
+                                    <label for="textoContacto" class="form-label fw-medium text-secondary mt-2">Mensagem de Apoio</label>
+                                    <textarea class="form-control bg-light border-0 shadow-sm" id="textoContacto" rows="2">A nossa equipa especializada está totalmente disponível para esclarecer qualquer questão relacionada com a plataforma, a sua implementação ou a gestão da engenharia clínica do seu hospital. Envie-nos a sua mensagem!</textarea>
+                                </div>
+
                                 <div class="row g-4 mb-3">
                                     <div class="col-12">
-                                        <h6 class="text-dark fw-bold border-bottom pb-2 mb-3">Localização</h6>
+                                        <h6 class="text-dark fw-bold border-bottom pb-2 mb-3">Localização (Rodapé)</h6>
                                         <input type="text" class="form-control bg-light border-0 shadow-sm mb-2" id="moradaRua" value="Rua Dr. António Bernardino de Almeida, 431">
                                         <input type="text" class="form-control bg-light border-0 shadow-sm" id="moradaCodPostal" value="4200-072, Porto">
                                     </div>
@@ -163,19 +267,18 @@
     </div>
 
     <div class="toast-container position-fixed top-0 end-0 p-4" style="z-index: 1055;">
-    <div id="toastGravacao" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body d-flex align-items-center">
-                <i class="fa-solid fa-circle-check fs-5 me-2 text-white"></i>
-                <span class="fw-medium text-white">Conteúdo atualizado com sucesso no site público!</span>
+        <div id="toastGravacao" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center">
+                    <i class="fa-solid fa-circle-check fs-5 me-2 text-white"></i>
+                    <span class="fw-medium text-white">Conteúdo atualizado com sucesso no site público!</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-3 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
-            <button type="button" class="btn-close btn-close-white me-3 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
-</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <script src="../../assets/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/1241308.js"></script>
 </body>
 </html>

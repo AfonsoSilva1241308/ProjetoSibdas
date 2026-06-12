@@ -74,9 +74,8 @@
 </div>
             </div>
 
-           <div class="d-flex justify-content-between align-items-center mb-4">
-    <p class="text-muted fs-6 m-0">Bem-vindo à central de gestão de infraestruturas clínicas.</p>
-    <span class="badge bg-light text-secondary border px-3 py-2 fw-medium shadow-sm">
+           <div class="d-flex justify-content-end align-items-center mb-4">
+    <span id="tempo-atualizacao" class="badge bg-light text-secondary border px-3 py-2 fw-medium shadow-sm">
         <i class="fa-regular fa-clock me-1"></i> Atualizado hoje às 09:14
     </span>
 </div>
@@ -129,7 +128,30 @@
             </div>
         </div>
     </div>
-
+<div class="row g-4 mb-5">
+    <div class="col-md-6">
+        <div class="card border-0 border-start border-dark border-4 shadow-sm">
+            <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-secondary text-uppercase fw-bold small mb-1">Garantia Expirada</h6>
+                    <div class="h3 fw-bold text-dark mb-0">12 </div>
+                </div>
+                <i class="fa-solid fa-calendar-times text-danger fs-3 opacity-25"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 border-start border-secondary border-4 shadow-sm">
+            <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-secondary text-uppercase fw-bold small mb-1">Sem Documentação Associada</h6>
+                    <div class="h3 fw-bold text-dark mb-0">8 </div>
+                </div>
+                <i class="fa-solid fa-exclamation-triangle text-secondary fs-3 opacity-25"></i>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <div class="row g-4 mb-5">
     
@@ -181,10 +203,8 @@
 </div>
 <div class="row g-4 mb-4">
     
-    <!-- Alertas: Garantia Expirada -->
     <div class="col-12 col-xl-6">
         <div class="card shadow-sm border-0 h-100">
-            <!-- Cabeçalho do Cartão com Link -->
             <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center pt-4 pb-2 px-4">
                 <div class="d-flex align-items-center">
                     <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
@@ -192,12 +212,11 @@
                     </div>
                     <h5 class="fw-bold text-dark m-0">Garantias a Terminar</h5>
                 </div>
-                <a href="#" class="text-decoration-none small fw-semibold">Ver tudo <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                <a href="equipamentos/lista.html" class="text-decoration-none small fw-semibold">Ver tudo <i class="fa-solid fa-arrow-right ms-1"></i></a>
             </div>
             
             <div class="card-body px-4 pb-4 pt-2">
                 <div class="table-responsive">
-                    <!-- Adicionado table-hover -->
                     <table class="table table-hover align-middle mb-0">
                         <thead class="text-muted small text-uppercase border-bottom">
                             <tr>
@@ -224,23 +243,20 @@
         </div>
     </div>
 
-    <!-- Alertas: Sem Documentação -->
     <div class="col-12 col-xl-6">
         <div class="card shadow-sm border-0 h-100">
-            <!-- Cabeçalho do Cartão com Link -->
             <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center pt-4 pb-2 px-4">
                 <div class="d-flex align-items-center">
                     <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
-                        <i class="fa-solid fa-file-circle-exclamation"></i>
+                        <i class="fa-solid fa-file-contract"></i>
                     </div>
                     <h5 class="fw-bold text-dark m-0">Sem Documentação</h5>
                 </div>
-                <a href="#" class="text-decoration-none small fw-semibold">Ver tudo <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                <a href="equipamentos/lista.html" class="text-decoration-none small fw-semibold">Ver tudo <i class="fa-solid fa-arrow-right ms-1"></i></a>
             </div>
             
             <div class="card-body px-4 pb-4 pt-2">
                 <div class="table-responsive">
-                    <!-- Adicionado table-hover -->
                     <table class="table table-hover align-middle mb-0">
                         <thead class="text-muted small text-uppercase border-bottom">
                             <tr>
@@ -264,17 +280,6 @@
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-
-</div>
-
-            <div class="row">
-                <div class="col-12">
-                    
-                </div>
-            </div>
-
         </div>
     </div>
 

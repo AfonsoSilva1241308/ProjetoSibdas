@@ -79,7 +79,7 @@
             <div class="card w-100 shadow-sm rounded border-top border-primary border-4" style="max-width: 1200px;">
                 <div class="card-body p-4 p-md-5">
                     
-                    <form id="formNovoEquipamento" action="detalhes.html" method="POST" novalidate>
+                    <form id="formNovoEquipamento" enctype="multipart/form-data" action="detalhes.html" method="POST" novalidate>
                         
                         <ul class="nav nav-tabs mb-4" id="equipamentoTabs" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -105,15 +105,15 @@
                                     <div class="row g-4">
                                         <div class="col-md-3">
                                             <label class="form-label fw-medium">Código Interno <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: EQ-001" required>
+                                            <input type="text" name="codigo_interno" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: EQ-001" required>
                                         </div>
                                         <div class="col-md-5">
                                             <label class="form-label fw-medium">Designação do Equipamento <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Ventilador Pulmonar" required>
+                                            <input type="text" name="designacao" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Ventilador Pulmonar" required>
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Categoria / Grupo</label>
-                                            <select class="form-select border-0 bg-light shadow-sm">
+                                            <select name="categoria" class="form-select border-0 bg-light shadow-sm">
                                                 <option value="" selected disabled>Selecione...</option>
                                                 <option value="monitorizacao">Monitorização</option>
                                                 <option value="suporte_vida">Suporte de Vida</option>
@@ -123,15 +123,15 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Marca</label>
-                                            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Philips">
+                                            <input type="text" name="marca" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Philips">
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Modelo</label>
-                                            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: IntelliVue MP5">
+                                            <input type="text" name="modelo" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: IntelliVue MP5">
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Número de Série</label>
-                                            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: SN-123456">
+                                            <input type="text" name="numero_serie" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: SN-123456">
                                         </div>
                                     </div>
                                 </div>
@@ -143,15 +143,15 @@
                                     <div class="row g-4">
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Fabricante</label>
-                                            <input type="text" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Dräger">
+                                            <input type="text" name="fabricante" class="form-control border-0 bg-light shadow-sm" placeholder="Ex: Dräger">
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Data de Aquisição</label>
-                                            <input type="date" class="form-control border-0 bg-light shadow-sm">
+                                            <input type="date" name="data_aquisicao" class="form-control border-0 bg-light shadow-sm">
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Tipo de Entrada</label>
-                                            <select class="form-select border-0 bg-light shadow-sm">
+                                            <select name="tipo_entrada" class="form-select border-0 bg-light shadow-sm">
                                                 <option value="compra" selected>Compra</option>
                                                 <option value="doacao">Doação</option>
                                                 <option value="aluguer">Aluguer</option>
@@ -160,20 +160,20 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Ano de Fabrico</label>
-                                            <input type="number" class="form-control border-0 bg-light shadow-sm" min="1990" max="2026" placeholder="YYYY">
+                                            <input type="number" name="ano_fabrico" class="form-control border-0 bg-light shadow-sm" min="1990" max="2026" placeholder="YYYY">
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Custo de Aquisição (€)</label>
-                                            <input type="number" class="form-control border-0 bg-light shadow-sm" step="0.01" placeholder="0.00">
+                                            <input type="number" name="custo" class="form-control border-0 bg-light shadow-sm" step="0.01" placeholder="0.00">
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium">Estado Atual <span class="text-danger">*</span></label>
-                                            <select class="form-select border-success shadow-sm" required>
+                                            <select  name="estado" class="form-select border-success shadow-sm" required>
                                     <option value="ativo" selected>Ativo</option>
                                     <option value="manutencao">Em Manutenção</option>
                                     <option value="inativo">Inativo</option>
                                     <option value="abatido">Abatido</option>
-                                    <option value="calibraçao">Em Calibração</option>
+                                    <option value="calibracao">Em Calibração</option>
                                 </select>
                                         </div>
                                     </div>
@@ -186,7 +186,7 @@
                                     <div class="row g-4">
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium" style="color: #6c757d;">Criticidade Clínica <span class="text-danger">*</span></label>
-                                            <select class="form-select border-warning shadow-sm" required>
+                                            <select name="criticidade" class="form-select border-warning shadow-sm" required>
                                                 <option value="" selected disabled>Definir nível...</option>
                                                 <option value="baixa">Baixa</option>
                                                 <option value="media">Média</option>
@@ -196,7 +196,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium" style="color: #6c757d;">Serviço / Departamento <span class="text-danger">*</span></label>
-                                            <select class="form-select border-0 bg-light shadow-sm" required>
+                                            <select  name="servico" class="form-select border-0 bg-light shadow-sm" required>
                                     <option value="" selected disabled>Selecione o serviço...</option>
                                     <option value="urgencia">Urgência Geral</option>
                                     <option value="uci">Cuidados Intensivos (UCI)</option>
@@ -207,7 +207,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label fw-medium" style="color: #6c757d;">Sala / Gabinete / Box <span class="text-danger">*</span></label>
-                                            <select class="form-select border-0 bg-light shadow-sm" required>
+                                            <select name="sala" class="form-select border-0 bg-light shadow-sm" required>
                                     <option value="" selected disabled>Selecione a sala...</option>
                                     <option value="box1">Box 1</option>
                                     <option value="box2">Box 2</option>
@@ -219,7 +219,7 @@
                                         </div>
                                         <div class="col-12">
                                             <label class="form-label fw-medium" style="color: #6c757d;">Observações Iniciais</label>
-                                            <textarea class="form-control border-0 bg-light shadow-sm" rows="3" placeholder="Informações adicionais relevantes..."></textarea>
+                                            <textarea name="observacoes" class="form-control border-0 bg-light shadow-sm" rows="3" placeholder="Informações adicionais relevantes..."></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -232,7 +232,7 @@
     
     <div class="d-flex align-items-center mb-2">
         <div class="form-check form-switch fs-5 mb-0">
-            <input class="form-check-input" style="cursor: pointer;" type="checkbox" id="checkEComponente" role="switch">
+            <input name="is_componente" value="sim" class="form-check-input" style="cursor: pointer;" type="checkbox" id="checkEComponente" role="switch">
         </div>
         <label class="form-check-label fw-bold text-dark ms-2" style="cursor: pointer;" for="checkEComponente">
             Este equipamento é um componente / acessório de outra máquina?
@@ -241,7 +241,7 @@
     
     <div id="blocoEquipamentoPai" class="d-none ms-5 mt-3 ps-3 border-start border-info border-3">
         <label class="form-label small fw-medium text-secondary">Selecione a máquina a que pertence <span class="text-danger">*</span></label>
-        <select class="form-select border-0 bg-light shadow-sm" style="max-width: 400px;">
+        <select name="equipamento_pai" class="form-select border-0 bg-light shadow-sm" style="max-width: 400px;">
             <option value="" selected disabled>Pesquisar no inventário...</option>
             <option value="1">04.002 - Monitor Multiparamétrico</option>
             <option value="2">EV500 - Ventilador Pulmonar</option>
@@ -269,11 +269,11 @@
                                             <div class="row g-4">
                                                 <div class="col-md-5">
                                                     <label class="form-label fw-medium text-dark">Designação do Material</label>
-                                                    <input type="text" class="form-control border-0 bg-light shadow-sm" id="novoConsDesignacao" placeholder="Ex: Filtro HMEF">
+                                                    <input type="text" name="cons_designacao" class="form-control border-0 bg-light shadow-sm" id="novoConsDesignacao" placeholder="Ex: Filtro HMEF">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label class="form-label fw-medium text-dark">Categoria <span class="text-danger">*</span></label>
-                                                    <select class="form-select border-0 bg-light shadow-sm" id="novoConsCategoria" required>
+                                                    <select name="cons_categoria" class="form-select border-0 bg-light shadow-sm" id="novoConsCategoria" required>
                                                         <option value="" selected disabled>Selecione a categoria...</option>
                                                         <option value="Materiais de Injeção e Punção">Materiais de Injeção e Punção</option>
                                                         <option value="Higiene e Descartáveis">Higiene e Descartáveis</option>
@@ -284,7 +284,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label class="form-label fw-medium text-dark">Frequência <span class="text-danger">*</span></label>
-                                                    <select class="form-select border-0 bg-light shadow-sm" id="novoConsFreq" required>
+                                                    <select name="cons_frequencia" class="form-select border-0 bg-light shadow-sm" id="novoConsFreq" required>
                                                         <option value="" selected disabled>Selecione...</option>
                                                         <option value="Por Paciente / Uso Único">Por Paciente</option>
                                                         <option value="Diário">Diário</option>
@@ -338,15 +338,15 @@
                                 <div class="row g-4 mb-5 p-3 bg-white border rounded shadow-sm">
                                     <div class="col-md-4">
                                         <label class="form-label fw-medium text-secondary">Início da Garantia</label>
-                                        <input type="date" class="form-control bg-light border-0 shadow-sm">
+                                        <input type="date" name="inicio_garantia" class="form-control bg-light border-0 shadow-sm">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-medium text-secondary">Fim da Garantia</label>
-                                        <input type="date" class="form-control bg-light border-0 shadow-sm">
+                                        <input type="date" name="fim_garantia" class="form-control bg-light border-0 shadow-sm">
                                     </div>
                                     <div class="col-md-4">
                                         <label class="form-label fw-medium text-secondary">Contrato de Manutenção</label>
-                                        <select class="form-select bg-light border-0 shadow-sm">
+                                        <select name="contrato_manutencao" class="form-select bg-light border-0 shadow-sm">
                                            <option value="sim_preventivo">Sim (Preventivo)</option>
                                            <option value="sim_integral" selected>Sim (Preventivo e Corretivo)</option>
                                            <option value="nao">Não</option>
@@ -354,7 +354,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label fw-medium text-secondary">Entidade Responsável</label>
-                                        <select class="form-select bg-light border-0 shadow-sm">
+                                        <select name="entidade_responsavel" class="form-select bg-light border-0 shadow-sm">
                                             <option value="" selected disabled>Selecione...</option>
                                             <option value="draeger">Dräger Medical GmbH</option>
                                             <option value="philips">Philips Healthcare</option>
@@ -362,7 +362,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label fw-medium text-secondary">Periodicidade</label>
-                                        <select class="form-select bg-light border-0 shadow-sm">
+                                        <select name="periodicidade" class="form-select bg-light border-0 shadow-sm">
                                             <option value="" selected disabled>Selecione...</option>
                                             <option value="mensal">Mensal</option>
                                             <option value="semestral">Semestral</option>
@@ -393,11 +393,11 @@
             <div class="row g-4">
                 <div class="col-md-6">
                     <label class="form-label fw-medium text-dark">Título / Nome do Documento <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control border-0 bg-light shadow-sm" id="novoDocTitulo" placeholder="Ex: Manual de Utilizador V500">
+                    <input type="text" name="doc_titulo" class="form-control border-0 bg-light shadow-sm" id="novoDocTitulo" placeholder="Ex: Manual de Utilizador V500">
                 </div>
                 <div class="col-md-3">
                     <label class="form-label fw-medium text-dark">Categoria <span class="text-danger">*</span></label>
-                    <select class="form-select border-0 bg-light shadow-sm" id="novoDocCategoria">
+                    <select name="doc_categoria" class="form-select border-0 bg-light shadow-sm" id="novoDocCategoria">
                         <option value="" selected disabled>Selecione...</option>
                         <option value="Manual de Utilizador">Manual de Utilizador</option>
                         <option value="Manual de Serviço">Manual de Serviço</option>
@@ -410,12 +410,12 @@
                 </div>
                 <div class="col-md-3">
                     <label class="form-label fw-medium text-dark">Ficheiro (PDF/JPG) <span class="text-danger">*</span></label>
-                    <input type="file" class="form-control border-0 bg-light shadow-sm" id="novoDocFicheiro">
+                    <input type="file" name="doc_ficheiro" class="form-control border-0 bg-light shadow-sm" id="novoDocFicheiro">
                 </div>
                 
                 <div class="col-md-4">
                     <label class="form-label fw-medium text-dark">Entidade Responsável / Fornecedor</label>
-                    <select class="form-select border-0 bg-light shadow-sm" id="novoDocFornecedor">
+                    <select name="doc_fornecedor" class="form-select border-0 bg-light shadow-sm" id="novoDocFornecedor">
                         <option value="" selected disabled>Selecione...</option>
                         <option value="1">Dräger Medical</option>
                         <option value="2">Philips Healthcare</option>
@@ -424,11 +424,11 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label fw-medium text-dark">Validade / Término</label>
-                    <input type="date" class="form-control border-0 bg-light shadow-sm" id="novoDocValidade">
+                    <input name="doc_validade" type="date" class="form-control border-0 bg-light shadow-sm" id="novoDocValidade">
                 </div>
                 <div class="col-md-4 d-flex align-items-end pb-1">
                     <div class="form-check form-switch mb-2">
-                        <input class="form-check-input" type="checkbox" role="switch" id="alertaExp" style="cursor: pointer;">
+                        <input class="form-check-input" type="checkbox" name="doc_alerta" value="sim" role="switch" id="alertaExp" style="cursor: pointer;">
                         <label class="form-check-label fw-medium text-dark ms-1" for="alertaExp" style="cursor: pointer;">
                             Ativar Alerta de Expiração
                         </label>

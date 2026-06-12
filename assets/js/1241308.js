@@ -412,3 +412,19 @@ const btnGuardarNovoConsumivel = document.getElementById('btnGuardarNovoConsumiv
             }
         });
     }
+    function atualizarHoraDashboard() {
+    const elementoHora = document.getElementById('tempo-atualizacao');
+    
+    if (elementoHora) {
+        const agora = new Date();
+        // Obtém as horas e os minutos garantindo que têm sempre 2 dígitos (ex: 09 em vez de 9)
+        const horas = String(agora.getHours()).padStart(2, '0');
+        const minutos = String(agora.getMinutes()).padStart(2, '0');
+        
+        // Injeta o HTML mantendo o teu ícone original do FontAwesome
+        elementoHora.innerHTML = `<i class="fa-regular fa-clock me-1"></i> Atualizado hoje às ${horas}:${minutos}`;
+    }
+}
+
+// Garante que o script corre assim que o HTML terminar de carregar no navegador
+document.addEventListener('DOMContentLoaded', atualizarHoraDashboard);
