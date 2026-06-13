@@ -91,80 +91,77 @@
             <div class="card w-100 shadow-sm rounded border-top border-primary border-4" style="max-width: 1200px;">
                 <div class="card-body p-4 p-md-5">
                     
-                    <form id="formNovoFornecedor" action="lista.html">
-                        
-                       <h5 class="text-dark mb-4 border-bottom pb-2">Dados da Entidade</h5>
-                        
-                        <div class="row g-4 mb-5">
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Nome da Empresa / Marca *</label>
-                                <input type="text" class="form-control" placeholder="Ex: Dräger Portugal Lda" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">NIF *</label>
-                                <input type="text" class="form-control" placeholder="Ex: 501234567" maxlength="9" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Tipo de Fornecedor *</label>
-                                <select class="form-select" required>
-                                    <option value="" disabled selected>Selecione uma opção...</option>
-                                    <option value="Fabricante">Fabricante</option>
-                                    <option value="Distribuidor">Distribuidor ou fornecedor comercial</option>
-                                    <option value="Assistencia">Empresa de assistência técnica</option>
-                                    <option value="Consumiveis">Fornecedor de consumíveis ou acessórios</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Contacto Telefónico (Geral) *</label>
-                                <input type="tel" class="form-control" placeholder="Ex: +351 210 123 456" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Email da Empresa *</label>
-                                <input type="email" class="form-control" placeholder="Ex: geral@empresa.pt" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label text-dark">Website</label>
-                                <input type="url" class="form-control" placeholder="Ex: https://www.empresa.com">
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label text-dark">Morada *</label>
-                                <input type="text" class="form-control" placeholder="Ex: Rua Direita, nº 10, Porto" required>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label text-dark">Observações</label>
-                                <textarea class="form-control" rows="3" placeholder="Notas internas, restrições ou informações sobre contratos..."></textarea>
-                            </div>
-                        </div>
+                    <form id="formNovoFornecedor" action="gravar_fornecedor.php" method="POST">
+    
+    <h5 class="text-dark mb-4 border-bottom pb-2">Dados da Entidade</h5>
+    
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <label class="form-label text-dark">Nome da Empresa / Marca *</label>
+            <input type="text" name="nome_empresa" class="form-control" placeholder="Ex: Dräger Portugal Lda" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-dark">NIF *</label>
+            <input type="text" name="nif" class="form-control" placeholder="Ex: 501234567" maxlength="9" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-dark">Tipo de Fornecedor *</label>
+            <select name="tipo_fornecedor" class="form-select" required>
+                <option value="" disabled selected>Selecione uma opção...</option>
+                <option value="Fabricante">Fabricante</option>
+                <option value="Distribuidor">Distribuidor ou fornecedor comercial</option>
+                <option value="Assistencia">Empresa de assistência técnica</option>
+                <option value="Consumiveis">Fornecedor de consumíveis ou acessórios</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-dark">Contacto Telefónico (Geral) *</label>
+            <input type="tel" name="telefone_geral" class="form-control" placeholder="Ex: +351 210 123 456" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-dark">Email da Empresa *</label>
+            <input type="email" name="email_empresa" class="form-control" placeholder="Ex: geral@empresa.pt" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label text-dark">Website</label>
+            <input type="url" name="website" class="form-control" placeholder="Ex: https://www.empresa.com">
+        </div>
+        <div class="col-12">
+            <label class="form-label text-dark">Morada *</label>
+            <input type="text" name="morada" class="form-control" placeholder="Ex: Rua Direita, nº 10, Porto" required>
+        </div>
+        <div class="col-12">
+            <label class="form-label text-dark">Observações</label>
+            <textarea name="observacoes" class="form-control" rows="3" placeholder="Notas internas..."></textarea>
+        </div>
+    </div>
 
-                        <h5 class="text-dark mb-4 border-bottom pb-2 mt-4">Pessoa de Contacto</h5>
-                        
-                        <div class="row g-4 mb-4">
-                            <div class="col-md-4">
-                                <label class="form-label text-dark">Nome do Contacto *</label>
-                                <input type="text" class="form-control" placeholder="Ex: Eng. Carlos Mendes" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label text-dark">Telefone Pessoal*</label>
-                                <input type="tel" class="form-control" placeholder="Ex: +351 912 345 678" required>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label text-dark">Email Pessoal *</label>
-                                <input type="email" class="form-control" placeholder="Ex: carlos.mendes@empresa.pt" required>
-                            </div>
-                        </div>
+    <h5 class="text-dark mb-4 border-bottom pb-2 mt-4">Pessoa de Contacto</h5>
+    
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <label class="form-label text-dark">Nome do Contacto *</label>
+            <input type="text" name="nome_contacto" class="form-control" placeholder="Ex: Eng. Carlos Mendes" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label text-dark">Telefone Pessoal *</label>
+            <input type="tel" name="telefone_pessoal" class="form-control" placeholder="Ex: +351 912 345 678" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label text-dark">Email Pessoal *</label>
+            <input type="email" name="email_pessoal" class="form-control" placeholder="Ex: carlos.mendes@empresa.pt" required>
+        </div>
+    </div>
 
-                       <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
-                            <button type="reset" class="btn btn-outline-secondary px-4 fw-medium">
-                              <i class="fa-solid fa-eraser me-1"></i> Limpar
-                            </button>
-                            <button type="submit" class="btn btn-primary px-5 fw-bold">
-                              <i class="fa-regular fa-floppy-disk me-1"></i> Guardar Registo
-                            </button>
-                        </div>
-                        <div class="alert alert-danger text-center d-none" role="alert" id="mensagemErro">
-                                <i class="fa-solid fa-triangle-exclamation me-2"></i> Ocorreu um erro ao registar o fornecedor. Verifique se preencheu todos os campos corretamente.
-                            </div>
-                    </form>
+    <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
+        <button type="reset" class="btn btn-outline-secondary px-4 fw-medium">
+            <i class="fa-solid fa-eraser me-1"></i> Limpar
+        </button>
+        <button type="submit" class="btn btn-primary px-5 fw-bold">
+            <i class="fa-regular fa-floppy-disk me-1"></i> Guardar Registo
+        </button>
+    </div>
+</form>
 
                 </div>
             </div>
