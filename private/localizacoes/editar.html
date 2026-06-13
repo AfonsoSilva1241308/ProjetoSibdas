@@ -183,35 +183,32 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4">
-                <form action="#" method="POST">
+                <form action="alterar_password.php" method="POST">
                     
-                    <!-- Password Atual -->
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted text-uppercase">Password Atual</label>
                         <div class="input-group shadow-sm">
-                            <input type="password" class="form-control bg-light border-end-0" id="passAtual" placeholder="Introduza a password atual" required>
+                            <input type="password" name="password_atual" class="form-control bg-light border-end-0" id="passAtual" placeholder="Introduza a password atual" required>
                             <button class="btn bg-light border border-start-0 text-muted px-3" type="button" onclick="togglePassword('passAtual', 'iconAtual')">
                                 <i class="fa-solid fa-eye" id="iconAtual"></i>
                             </button>
                         </div>
                     </div>
-                    
-                    <!-- Nova Password -->
+
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted text-uppercase">Nova Password</label>
                         <div class="input-group shadow-sm">
-                            <input type="password" class="form-control border-end-0" id="passNova" placeholder="Mínimo 8 caracteres" required>
+                            <input type="password" name="password_nova" class="form-control border-end-0" id="passNova" placeholder="Mínimo 8 caracteres" required>
                             <button class="btn bg-white border border-start-0 text-muted px-3" type="button" onclick="togglePassword('passNova', 'iconNova')">
                                 <i class="fa-solid fa-eye" id="iconNova"></i>
                             </button>
                         </div>
                     </div>
-                    
-                    <!-- Confirmar Nova Password -->
+
                     <div class="mb-4">
                         <label class="form-label small fw-bold text-muted text-uppercase">Confirmar Nova Password</label>
                         <div class="input-group shadow-sm">
-                            <input type="password" class="form-control border-end-0" id="passConfirma" placeholder="Repita a nova password" required>
+                            <input type="password" name="password_confirma" class="form-control border-end-0" id="passConfirma" placeholder="Repita a nova password" required>
                             <button class="btn bg-white border border-start-0 text-muted px-3" type="button" onclick="togglePassword('passConfirma', 'iconConfirma')">
                                 <i class="fa-solid fa-eye" id="iconConfirma"></i>
                             </button>
