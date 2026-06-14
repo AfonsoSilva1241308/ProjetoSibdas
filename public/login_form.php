@@ -53,7 +53,7 @@
                 </form>
 
                 <div class="text-center mt-3">
-                    <a href="index.html" class="text-decoration-none text-muted small">← Voltar à página inicial</a>
+                    <a href="index.php" class="text-decoration-none text-muted small">← Voltar à página inicial</a>
                 </div>
 
             </div>

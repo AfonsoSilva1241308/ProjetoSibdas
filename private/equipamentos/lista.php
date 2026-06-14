@@ -1,53 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventário de Equipamentos — MediLink Digital</title>
-    
-    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
-    
-    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
-    
-    <link rel="stylesheet" href="../../assets/css/1241308.css">
-</head>
-<body>
+
+<?php include '../includes/header.php'; ?>
 
     <div class="d-flex vh-100">
-        
-        <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
-    <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
-        <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
-    </a>
-    
-    <ul class="nav nav-pills flex-column mb-auto gap-1 mt-2">
-        <li class="nav-item">
-            <a href="../dashboard.html" class="nav-link text-dark fw-medium px-3 py-2">Visão Geral</a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link active fw-semibold shadow-sm px-3 py-2" aria-current="page">Equipamentos</a>
-        </li>
-        <li class="nav-item">
-            <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Localizações</a>
-        </li>
-        <li class="nav-item">
-            <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Manutenção</a>
-        </li>
-        <li class="nav-item">
-            <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Fornecedores</a>
-        </li>
-        
-        <li class="nav-item mt-2 pt-2 border-top border-secondary border-opacity-25">
-           <a href="../definicoes/website.html" class="nav-link text-dark fw-medium px-3 py-2">Gestão de Site</a>
-        </li>
-    </ul>
-    
-    <div class="mt-4 pt-4 border-top border-secondary border-opacity-25">
-        <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">Sair do Sistema</a>
-    </div>
-</div>
-
+        <?php include '../includes/sidebar.php'; ?>
         <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
             
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
@@ -67,7 +22,7 @@
         </li>
         <li><hr class="dropdown-divider"></li>
         <li>
-            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.html">
+            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.php">
                 <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i> Sair da Conta
             </a>
         </li>
@@ -81,13 +36,13 @@
                     <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
     <h4 class="m-0 fw-bold text-dark">Inventário de Equipamentos</h4>
     <div class="d-flex gap-2">
-        <a href="novo.html" class="btn btn-primary fw-semibold">+ Novo Equipamento</a>
+        <a href="novo.php" class="btn btn-primary fw-semibold">+ Novo Equipamento</a>
     </div>
 </div>
 
 <div class="card w-100 shadow-sm rounded border-0 mb-4" style="max-width: 1200px;">
     <div class="card-body p-4 bg-white rounded">
-        <form action="lista.html" method="GET">
+        <form action="lista.php" method="GET">
             
             <div class="row g-3 align-items-center">
                 <div class="col-md-7">
@@ -207,8 +162,8 @@
                 <td><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-1">Alta</span></td>
                 <td><span class="badge bg-success rounded-pill px-3 py-1">Ativo</span></td>
                 <td class="text-end px-4">
-                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
-                    <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="detalhes.php" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
+                    <a href="editar.php" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
                     <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
@@ -222,8 +177,8 @@
                 <td><span class="badge bg-warning bg-opacity-10 text-dark border border-warning rounded-pill px-3 py-1">Média</span></td>
                 <td><span class="badge bg-success rounded-pill px-3 py-1">Ativo</span></td>
                 <td class="text-end px-4">
-                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
-                    <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="detalhes.php" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
+                    <a href="editar.php" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
                     <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
@@ -237,8 +192,8 @@
                 <td><span class="badge bg-danger bg-opacity-10 text-danger border border-danger rounded-pill px-3 py-1">Alta</span></td>
                 <td><span class="badge bg-warning text-dark rounded-pill px-3 py-1">Manutenção</span></td>
                 <td class="text-end px-4">
-                    <a href="detalhes.html" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
-                    <a href="editar.html" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="detalhes.php" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
+                    <a href="editar.php" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
                     <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
@@ -246,7 +201,6 @@
     </table>
 </div> <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
     <span class="text-muted small">A mostrar 3 de 1,245 registos</span>
-                        <span class="text-muted small">A mostrar 3 de 1,245 registos</span>
                         <nav>
                             <ul class="pagination pagination-sm m-0">
                                 <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
@@ -345,7 +299,4 @@
         </div>
     </div>
 </div>
-    <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="../../assets/js/1241308.js"></script>
-</body>
-</html>
+    <?php include '../includes/footer.php'; ?>

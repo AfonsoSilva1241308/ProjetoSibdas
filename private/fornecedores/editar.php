@@ -1,67 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Fornecedor — MediLink Digital</title>
-    
-    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
-    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
-    <link rel="stylesheet" href="../../assets/css/1241308.css">
-</head>
-<body class="bg-light">
+<?php include '../includes/header.php'; ?>
 
     <div class="d-flex vh-100">
-        
-         <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
-            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
-                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
-            </a>
-            
-            <ul class="nav nav-pills flex-column mb-auto gap-2 mt-3">
-                <li class="nav-item">
-                    <a href="../dashboard.html" class="nav-link text-dark fw-medium px-3">
-                        Visão Geral
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../equipamentos/lista.html" class="nav-link text-dark fw-medium px-3">
-                        Equipamentos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium px-3">
-                        Localizações
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium px-3">
-                        Manutenção
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="lista.html" class="nav-link active fw-semibold shadow-sm px-3" aria-current="page">
-                        Fornecedores
-                    </a>
-                </li>
-                 <li class="nav-item mt-2 pt-2 border-top border-secondary border-opacity-25">
-                   <a href="../definicoes/website.html" class="nav-link text-dark fw-medium px-3 py-2">Gestão de Site</a>
-                </li>
-            </ul>
-            <hr class="text-muted mt-4">
-            <div>
-                <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">
-                    Sair do Sistema
-                </a>
-            </div>
-        </div>
+     <?php include '../includes/sidebar.php'; ?>
+
 
         <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
             
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
                 <div class="d-flex align-items-center gap-3">
-                    <a href="lista.html" class="btn btn-sm btn-outline-secondary px-3">&larr; Voltar</a>
+                    <a href="lista.php" class="btn btn-sm btn-outline-secondary px-3">&larr; Voltar</a>
                 </div>
                 <div class="dropdown m-0">
                     <button class="btn btn-light border shadow-sm fw-medium text-secondary dropdown-toggle" type="button" id="dropdownUtilizador" data-bs-toggle="dropdown" aria-expanded="false">
@@ -75,7 +22,7 @@
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.html">
+                            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.php">
                                 <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i> Sair da Conta
                             </a>
                         </li>
@@ -198,7 +145,7 @@
                             <small class="text-muted d-block mb-4"><i class="fa-solid fa-circle-info me-1"></i> A desassociação não elimina o equipamento do sistema, apenas remove a ligação a este fornecedor.</small>
                             
                             <div class="d-flex justify-content-end gap-2 mt-5 pt-3 border-top">
-                                <a href="lista.html" class="btn btn-light border px-4 d-flex align-items-center">
+                                <a href="lista.php" class="btn btn-light border px-4 d-flex align-items-center">
                                     <i class="fa-solid fa-xmark me-2"></i> Cancelar
                                 </a>
                                 <button type="submit" class="btn btn-primary px-4 d-flex align-items-center">
@@ -301,8 +248,4 @@
         </div>
     </div>
 </div>
-    
-    <script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="../../assets/js/1241308.js"></script>
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>

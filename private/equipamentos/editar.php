@@ -1,59 +1,14 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Equipamento — MediLink Digital</title>
-    
-    <link rel="shortcut icon" href="../../assets/img/logo1.png" type="image/png">
+<?php include '../includes/header.php'; ?>
 
-    <link rel="stylesheet" href="../../assets/Bootstrap/bootstrap.min.css">
-
-    <link rel="stylesheet" href="../../assets/fontawesome/all.min.css">
-
-    <link rel="stylesheet" href="../../assets/css/1241308.css">
-</head>
-<body class="bg-light">
 
     <div class="d-flex vh-100">
-            
-        <div class="bg-white p-3 d-flex flex-column border-end" style="width: 260px; min-width: 260px;">
-            <a href="../dashboard.html" class="d-flex align-items-center mb-4 text-decoration-none justify-content-center mt-2">
-                <img src="../../assets/img/logo.png" alt="MediLink Digital" style="max-height: 45px;">
-            </a>
-            
-            <ul class="nav nav-pills flex-column mb-auto gap-1 mt-2">
-                <li class="nav-item">
-                    <a href="../dashboard.html" class="nav-link text-dark fw-medium px-3 py-2">Visão Geral</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link active fw-semibold shadow-sm px-3 py-2" aria-current="page">Equipamentos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../localizacoes/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Localizações</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../manutencoes/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Manutenção</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../fornecedores/lista.html" class="nav-link text-dark fw-medium px-3 py-2">Fornecedores</a>
-                </li>
-                
-                <li class="nav-item mt-2 pt-2 border-top border-secondary border-opacity-25">
-                   <a href="../definicoes/website.html" class="nav-link text-dark fw-medium px-3 py-2">Gestão de Site</a>
-                </li>
-            </ul>
-            
-            <div class="mt-4 pt-4 border-top border-secondary border-opacity-25">
-                <a href="../../public/index.html" class="btn btn-outline-primary w-100 fw-bold">Sair do Sistema</a>
-            </div>
-        </div>
+            <?php include '../includes/sidebar.php'; ?>
 
         <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
             
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
                 <div class="d-flex align-items-center gap-3">
-                    <a href="lista.html" class="btn btn-sm btn-outline-secondary px-3">
+                    <a href="lista.php" class="btn btn-sm btn-outline-secondary px-3">
                         <i class="fa-solid fa-arrow-left me-1"></i> Voltar
                     </a>
                 </div>
@@ -69,7 +24,7 @@
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.html">
+                            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.php">
                                 <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i> Sair da Conta
                             </a>
                         </li>
@@ -85,7 +40,7 @@
             <p class="text-muted mb-4">A modificar o registo: <span class="badge bg-dark fs-6 font-monospace ms-1">EV500-2021</span></p>
             <hr class="mb-5 text-secondary opacity-25">
             
-            <form action="detalhes.html" method="POST" class="form-editar-equipamento" enctype="multipart/form-data"  novalidate>
+            <form action="detalhes.php" method="POST" class="form-editar-equipamento" enctype="multipart/form-data"  novalidate>
 
                 <ul class="nav nav-tabs mb-4" id="equipamentoTabs" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -432,7 +387,7 @@
         <i class="fa-solid fa-circle-info me-1"></i> Nenhum consumível associado.
     </div>
 </div> <div class="d-flex justify-content-end gap-3 mt-5 pt-4 border-top">
-    <a href="lista.html" class="btn btn-outline-secondary px-4 fw-medium">
+    <a href="lista.php" class="btn btn-outline-secondary px-4 fw-medium">
         <i class="fa-solid fa-xmark me-1"></i> Cancelar
     </a>
     <button type="button" class="btn btn-primary px-4 fw-bold" onclick="document.getElementById('documentacao-tab').click();">
@@ -728,8 +683,4 @@
     </div>
 </div>
 
-<script src="../../assets/Bootstrap/bootstrap.bundle.min.js"></script>
-<script src="../../assets/js/1241308.js"></script>
-
-</body>
-</html>
+<?php include '../includes/footer.php'; ?>   

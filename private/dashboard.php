@@ -3,9 +3,8 @@
 <?php include 'includes/header.php'; ?>
 
     <div class="d-flex vh-100">
-        <div class="d-flex vh-100">
     <?php include 'includes/sidebar.php'; ?>
-    
+
         <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
             
             <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
