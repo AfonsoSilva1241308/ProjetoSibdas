@@ -1,0 +1,18 @@
+<?php
+require_once __DIR__ . '/../../config/config.php';
+?>
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo APP_NAME; ?></title> 
+    
+    <link rel="shortcut icon" href="../assets/img/logo1.png" type="image/png">
+    
+    <link rel="stylesheet" href="../assets/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/fontawesome/all.min.css">
+    <link rel="stylesheet" href="../assets/css/1241308.css">
+</head>
+<body>
