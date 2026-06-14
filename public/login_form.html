@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="../assets/img/logo1.png" type="image/png">
     
     <link rel="stylesheet" href="../assets/Bootstrap/bootstrap.min.css">
-    
+    <link rel="stylesheet" href="../assets/fontawesome/all.min.css">
     <link rel="stylesheet" href="../assets/css/1241308.css">
 </head>
 <body class="bg-light">
@@ -24,10 +24,10 @@
 
                 <h4 class="text-center mb-4 fw-bold text-primary">Área Cliente</h4>
 
-                <form action="../private/dashboard.html" method="GET">
+                <form action="processar_login.php" method="POST">
                     
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="emailInput" placeholder="nome@hospital.pt" 
+                        <input type="email" name="email" class="form-control" id="emailInput" placeholder="nome@hospital.pt" 
                                required 
                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
                                title="Por favor, insira um endereço de email institucional válido.">
@@ -35,7 +35,7 @@
                     </div>
                     
                     <div class="form-floating mb-4">
-                        <input type="password" class="form-control" id="passwordInput" placeholder="Password" 
+                        <input type="password" name="password" class="form-control" id="passwordInput" placeholder="Password" 
                                required 
                                minlength="8" 
                                title="A palavra-passe deve conter um mínimo de 8 caracteres por motivos de segurança.">
@@ -44,6 +44,10 @@
 
                     <div class="d-grid gap-2 mb-3">
                         <button type="submit" class="btn btn-primary btn-lg fw-bold">Login</button>
+                    </div>
+
+                    <div class="alert alert-danger text-center d-none" role="alert" id="mensagemErroLogin">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i> Email ou palavra-passe incorretos.
                     </div>
 
                 </form>
