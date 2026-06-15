@@ -1,37 +1,22 @@
+<?php
+// 1. Segurança e sessão
+require_once '../includes/funcoes.php';
+redirect_if_not_logged();
+
+// 2. Definir os dados para a navbar
+$titulo_pagina = "Registo de Intervenções"; 
+$icone_pagina = "fa-solid fa-screwdriver-wrench"; // Ícone de ferramentas para manutenção
+$subtitulo_pagina = "Consulte o histórico de manutenções, reparações e calibrações de equipamentos.";
+?>
 <?php include '../includes/header.php'; ?>
 
-    <div class="d-flex vh-100">
-        <?php include '../includes/sidebar.php'; ?>
+<div class="d-flex vh-100">
+    
+    <?php include '../includes/sidebar.php'; ?>
 
-        <!-- Conteúdo Principal -->
-        <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
-            
-            <div class="d-flex justify-content-between align-items-start mb-4 pb-3 border-bottom">
-                <div>
-                    <h2 class="m-0 fw-bold text-primary" style="font-size: 2.2rem;">
-                        <i class="fa-solid fa-screwdriver-wrench me-2"></i> Registo de Intervenções
-                    </h2>
-                    <p class="text-muted m-0 mt-2" style="font-size: 1.05rem;">Consulte o histórico de manutenções, reparações e calibrações de equipamentos.</p>
-                </div>
-               <div class="dropdown m-0">
-    <button class="btn btn-light border shadow-sm fw-medium text-secondary dropdown-toggle" type="button" id="dropdownUtilizador" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa-solid fa-user-circle me-1"></i> Administrador
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="dropdownUtilizador">
-        <li>
-            <a class="dropdown-item text-secondary fw-medium py-2" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarPassword">
-                <i class="fa-solid fa-key me-2 text-primary"></i> Alterar Password
-            </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.php">
-                <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i> Sair da Conta
-            </a>
-        </li>
-    </ul>
-</div>
-            </div>
+    <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
+        
+        <?php include '../includes/navbar.php'; ?>
 
             <div class="card w-100 shadow-sm rounded border-0" style="max-width: 1200px;">
                 <div class="card-body p-4 p-md-5">

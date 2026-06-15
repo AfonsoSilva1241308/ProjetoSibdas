@@ -1,33 +1,22 @@
-<?php include '../includes/header.php'; ?>
-    <div class="d-flex vh-100">
-         <?php include '../includes/sidebar.php'; ?>
+<?php
+// 1. Segurança sempre ativa
+require_once '../includes/funcoes.php';
+redirect_if_not_logged();
 
-        <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
-            
-            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                <div>
-                    <h2 class="m-0 fw-bold text-primary"><i class="fa-solid fa-truck-medical me-2"></i>Gestão de Fornecedores</h2>
-                    <p class="text-muted m-0 mt-1">Consulte e monitorize as entidades parceiras e fabricantes.</p>
-                </div>
-               <div class="dropdown m-0">
-    <button class="btn btn-light border shadow-sm fw-medium text-secondary dropdown-toggle" type="button" id="dropdownUtilizador" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa-solid fa-user-circle me-1"></i> Administrador
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="dropdownUtilizador">
-        <li>
-            <a class="dropdown-item text-secondary fw-medium py-2" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarPassword">
-                <i class="fa-solid fa-key me-2 text-primary"></i> Alterar Password
-            </a>
-        </li>
-        <li><hr class="dropdown-divider"></li>
-        <li>
-            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.php">
-                <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i> Sair da Conta
-            </a>
-        </li>
-    </ul>
-</div>
-            </div>
+// 2. Definir os dados para a navbar
+$titulo_pagina = "Gestão de Fornecedores"; 
+$icone_pagina = "fa-solid fa-truck-medical"; // Ícone específico para fornecedores de saúde
+$subtitulo_pagina = "Consulte e monitorize as entidades parceiras e fabricantes.";
+?>
+<?php include '../includes/header.php'; ?>
+
+<div class="d-flex vh-100">
+    
+    <?php include '../includes/sidebar.php'; ?>
+
+    <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
+        
+        <?php include '../includes/navbar.php'; ?>
 
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-body p-4">

@@ -1,44 +1,24 @@
+<?php
+// Inclui o ficheiro de funções e valida se o utilizador tem sessão ativa (Ficha 10)
+require_once 'includes/funcoes.php';
+redirect_if_not_logged(); // Se não estiver logado, é expulso imediatamente para o login!
 
-
+$titulo_pagina = "Visão Geral do Sistema"; 
+?>
 <?php include 'includes/header.php'; ?>
 
-    <div class="d-flex vh-100">
+<div class="d-flex vh-100">
     <?php include 'includes/sidebar.php'; ?>
 
-        <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
-            
-            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                <h2 class="m-0 fw-bold text-primary">Visão Geral do Sistema</h2>
-                <div class="dropdown m-0">
-    <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2 dropdown-toggle" type="button" id="dropdownUtilizador" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa-solid fa-user-circle text-secondary"></i> Administrador
-    </button>
-    
-    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="dropdownUtilizador">
+    <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
         
-        <li>
-            <a class="dropdown-item py-2 text-secondary fw-medium" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarPassword">
-                <i class="fa-solid fa-key text-primary me-2"></i> Alterar Password
-            </a>
-        </li>
-        
-        <li><hr class="dropdown-divider"></li>
-        
-        <li>
-            <a class="dropdown-item py-2 text-secondary fw-medium" href="../public/index.html">
-                <i class="fa-solid fa-arrow-right-from-bracket text-primary me-2"></i> Sair da Conta
-            </a>
-        </li>
-        
-    </ul>
-</div>
-            </div>
+        <?php include 'includes/navbar.php'; ?>
 
-           <div class="d-flex justify-content-end align-items-center mb-4">
-    <span id="tempo-atualizacao" class="badge bg-light text-secondary border px-3 py-2 fw-medium shadow-sm">
-        <i class="fa-regular fa-clock me-1"></i> Atualizado hoje às 09:14
-    </span>
-</div>
+        <div class="d-flex justify-content-end align-items-center mb-4">
+            <span id="tempo-atualizacao" class="badge bg-light text-secondary border px-3 py-2 fw-medium shadow-sm">
+                <i class="fa-regular fa-clock me-1"></i> Atualizado hoje às 09:14
+            </span>
+        </div>
 <div class="alert border-danger bg-danger bg-opacity-10 text-danger border border-start border-4 d-flex align-items-center mb-4 shadow-sm" role="alert">
     <i class="fa-solid fa-triangle-exclamation fs-4 me-3"></i>
     <div>

@@ -1,33 +1,20 @@
+<?php
+// 1. Segurança e sessão
+require_once '../includes/funcoes.php';
+redirect_if_not_logged();
+
+// 2. Configurar a navbar com os dados desta secção
+$titulo_pagina = "Gestão de Site";
+$icone_pagina = "fa-solid fa-pen-nib";
+?>
 <?php include '../includes/header.php'; ?>
 
-    <div class="d-flex vh-100">
-        <?php include '../includes/sidebar.php'; ?>
+<div class="d-flex vh-100">
+    <?php include '../includes/sidebar.php'; ?>
 
-        <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
-            
-            <div class="d-flex justify-content-between align-items-center mb-5 border-bottom pb-3">
-                <div class="d-flex align-items-center">
-                    <h2 class="fw-bold text-primary mb-0">Gestão de Conteúdos</h2>
-                </div>
-                <div class="dropdown m-0">
-                    <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2 dropdown-toggle text-secondary fw-medium" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-user-circle text-secondary"></i> Administrador
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2">
-                        <li>
-                            <a class="dropdown-item py-2 text-secondary fw-medium" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarPassword">
-                                <i class="fa-solid fa-key text-primary me-2"></i> Alterar Password
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item py-2 text-secondary fw-medium" href="../../public/index.php">
-                                <i class="fa-solid fa-arrow-right-from-bracket text-primary me-2"></i> Sair da Conta
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+    <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100 bg-light">
+        
+        <?php include '../includes/navbar.php'; ?>
 
             <div class="accordion shadow-sm border-0 rounded-3 overflow-hidden mb-5" id="accordionGestaoSite">
 

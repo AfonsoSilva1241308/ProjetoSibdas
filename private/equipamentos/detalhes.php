@@ -1,48 +1,31 @@
 
+<?php
+// 1. Chamar as funções de segurança e verificar a sessão (Crucial!)
+require_once '../includes/funcoes.php';
+redirect_if_not_logged();
+
+// 2. Ativar o "Superpoder" do botão voltar na Navbar
+$link_voltar = "lista.php"; 
+?>
 <?php include '../includes/header.php'; ?>
 
+<div class="d-flex vh-100">
+    <?php include '../includes/sidebar.php'; ?>
 
-    <div class="d-flex vh-100">
-            <?php include '../includes/sidebar.php'; ?>
+    <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100 bg-light">
+        
+        <?php include '../includes/navbar.php'; ?>
 
-        <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100">
-            
-            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom">
-                <div class="d-flex align-items-center gap-3">
-                    <a href="lista.php" class="btn btn-sm btn-outline-secondary px-3">
-                        <i class="fa-solid fa-arrow-left me-1"></i> Voltar 
-                    </a>
-                </div>
-                <div class="dropdown m-0">
-                    <button class="btn btn-light border shadow-sm fw-medium text-secondary dropdown-toggle" type="button" id="dropdownUtilizador" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-user-circle me-1"></i> Administrador
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" aria-labelledby="dropdownUtilizador">
-                        <li>
-                            <a class="dropdown-item text-secondary fw-medium py-2" href="#" data-bs-toggle="modal" data-bs-target="#modalAlterarPassword">
-                                <i class="fa-solid fa-key me-2 text-primary"></i> Alterar Password
-                            </a>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item text-secondary fw-medium py-2" href="../../public/index.php">
-                                <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i> Sair da Conta
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-center align-items-start mt-4 mb-5">
-    <div class="card w-100 shadow-sm rounded border-top border-secondary border-4 h-auto" style="max-width: 1200px;">
-        <div class="card-body p-4 p-md-5">
-            
-            <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
-                <div>
-                    <h2 class="text-dark mb-1"><strong><i class="fa-solid fa-file-medical text-secondary me-2"></i> Ficha Técnico do Equipamento</strong></h2>
-                    <p class="text-muted m-0">Código de Inventário Hospitalar: <span class="badge bg-dark fs-6 font-monospace">EV500-2021</span></p>
-                </div>
-            </div>
+        <div class="d-flex justify-content-center align-items-start mt-4 mb-5">
+            <div class="card w-100 shadow-sm rounded border-top border-secondary border-4 h-auto" style="max-width: 1200px;">
+                <div class="card-body p-4 p-md-5">
+                    
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
+                        <div>
+                            <h2 class="text-dark mb-1"><strong><i class="fa-solid fa-file-medical text-secondary me-2"></i> Ficha Técnico do Equipamento</strong></h2>
+                            <p class="text-muted m-0">Código de Inventário Hospitalar: <span class="badge bg-dark fs-6 font-monospace">EV500-2021</span></p>
+                        </div>
+                    </div>
             
             <ul class="nav nav-tabs mb-4" id="equipamentoTabs" role="tablist">
                 <li class="nav-item" role="presentation">
