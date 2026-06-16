@@ -1,6 +1,6 @@
 <?php
 // 1. Trancar a porta aos intrusos
-require_once '../includes/funcoes.php';
+require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
 
 // 2. Passar as variáveis à nossa navbar

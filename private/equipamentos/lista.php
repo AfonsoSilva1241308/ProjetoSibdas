@@ -1,5 +1,5 @@
 <?php
-require_once '../includes/funcoes.php';
+require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
 
 // Definir os detalhes dinâmicos da Navbar para esta página

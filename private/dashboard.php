@@ -1,6 +1,6 @@
 <?php
 // Inclui o ficheiro de funções e valida se o utilizador tem sessão ativa (Ficha 10)
-require_once 'includes/funcoes.php';
+require_once __DIR__ . '/includes/funcoes.php'; 
 redirect_if_not_logged(); // Se não estiver logado, é expulso imediatamente para o login!
 
 $titulo_pagina = "Visão Geral do Sistema"; 

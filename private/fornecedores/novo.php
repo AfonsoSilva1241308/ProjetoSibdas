@@ -1,6 +1,6 @@
 <?php
 // 1. Segurança e sessão
-require_once '../includes/funcoes.php';
+require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
 
 // 2. Definir as variáveis para que a navbar mostre tudo o que precisas

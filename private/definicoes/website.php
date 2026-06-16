@@ -1,8 +1,7 @@
 <?php
 // 1. Segurança e sessão
-require_once '../includes/funcoes.php';
+require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
-
 // 2. Configurar a navbar com os dados desta secção
 $titulo_pagina = "Gestão de Site";
 $icone_pagina = "fa-solid fa-pen-nib";

@@ -1,6 +1,6 @@
 <?php
 // 1. Chamar as funções de segurança e verificar a sessão (Crucial!)
-require_once '../includes/funcoes.php';
+require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
 
 // 2. Ativar o "Superpoder" do botão voltar na Navbar

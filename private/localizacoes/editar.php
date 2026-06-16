@@ -1,6 +1,6 @@
 <?php
 // 1. Segurança sempre no topo
-require_once '../includes/funcoes.php';
+require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
 
 // 2. Pedir à navbar para mostrar apenas o botão Voltar
