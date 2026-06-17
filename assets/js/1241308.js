@@ -428,13 +428,14 @@ const btnGuardarNovoConsumivel = document.getElementById('btnGuardarNovoConsumiv
 
 // Garante que o script corre assim que o HTML terminar de carregar no navegador
 document.addEventListener('DOMContentLoaded', atualizarHoraDashboard);
-// ==========================================
-// 4. DATATABLES E PESQUISA PERSONALIZADA
-// ==========================================
-$(document).ready(function() {
+
+   $(document).ready(function() {
+
+    // ==========================================
+    // 1. DATATABLES E PESQUISA: EQUIPAMENTOS
+    // ==========================================
     if ($('#tabela-equipamentos').length) {
         
-        // 1. Inicializa o DataTables escondendo tudo o que é feio (dom: 't')
         var tabela = $('#tabela-equipamentos').DataTable({
             pageLength: 7,
             dom: 't', 
@@ -444,7 +445,7 @@ $(document).ready(function() {
             }
         });
 
-        // 2. Ligar a tua barra de pesquisa HTML
+        // Barra de pesquisa HTML
         $('input[name="pesquisa"]').on('keyup', function() {
             tabela.search(this.value).draw();
         });
@@ -453,38 +454,28 @@ $(document).ready(function() {
             e.preventDefault();
         });
 
-        // 3. A MAGIA DA PAGINAÇÃO CUSTOMIZADA (O TEU DESIGN + NÚMEROS DINÂMICOS)
+        // Paginação Customizada Equipamentos
         tabela.on('draw', function () {
-            var info = tabela.page.info(); // Vai buscar os dados da página atual ao motor
-            
-            // Atualiza o texto do total dinamicamente
+            var info = tabela.page.info();
             $('#total-registos-custom').text(info.recordsDisplay);
 
-            // Constrói os botões da paginação com as tuas classes HTML
             var paginacaoHTML = '';
-            
-            // Botão Anterior
             var btnAnteriorClass = (info.page === 0) ? 'disabled' : '';
             paginacaoHTML += '<li class="page-item ' + btnAnteriorClass + '"><a class="page-link" href="#" data-page="previous">Anterior</a></li>';
             
-            // Números (1, 2, 3...)
             for (var i = 0; i < info.pages; i++) {
                 var btnNumeroClass = (info.page === i) ? 'active' : '';
                 paginacaoHTML += '<li class="page-item ' + btnNumeroClass + '"><a class="page-link" href="#" data-page="' + i + '">' + (i + 1) + '</a></li>';
             }
             
-            // Botão Próxima
             var btnProximaClass = (info.page === info.pages - 1) ? 'disabled' : '';
             paginacaoHTML += '<li class="page-item ' + btnProximaClass + '"><a class="page-link" href="#" data-page="next">Próxima</a></li>';
             
-            // Injeta no HTML
             $('#paginacao-custom').html(paginacaoHTML);
         });
 
-        // Forçar o desenho inicial para gerar os botões a primeira vez que a página abre
         tabela.draw();
 
-        // 4. Dar ação aos botões da tua paginação customizada
         $('#paginacao-custom').on('click', '.page-link', function(e) {
             e.preventDefault();
             var acao = $(this).attr('data-page');
@@ -492,11 +483,144 @@ $(document).ready(function() {
             if (acao === 'previous' || acao === 'next') {
                 tabela.page(acao).draw('page');
             } else if (acao !== undefined) {
-                tabela.page(parseInt(acao)).draw('page'); // Vai para o número clicado
+                tabela.page(parseInt(acao)).draw('page');
+            }
+        });
+
+        // FILTROS AVANÇADOS
+        $('#btn-aplicar-filtros').on('click', function() {
+            var categoria = $('select[name="categoria"]').val();
+            var estado = $('select[name="estado"]').val();
+            var criticidade = $('select[name="criticidade"]').val();
+
+            tabela.column(0).search(categoria === 'Todas' ? '' : categoria)
+                  .column(1).search(estado === 'Todos' ? '' : estado)
+                  .column(2).search(criticidade === 'Todos' ? '' : criticidade)
+                  .draw();
+        });
+
+        $('#btn-limpar-filtros').on('click', function() {
+            $('select').val('');
+            tabela.columns().search('').draw();
+        });
+    }
+
+    // ==========================================
+    // 2. DATATABLES: LOCALIZAÇÕES
+    // ==========================================
+    if ($('#tabela-localizacoes').length) {
+        
+        var tabelaLoc = $('#tabela-localizacoes').DataTable({
+            pageLength: 7,
+            dom: 't', 
+            language: {
+                emptyTable: "Sem dados disponíveis na tabela.",
+                zeroRecords: "Nenhuma localização encontrada."
+            }
+        });
+
+        // Ligar a barra de pesquisa
+        $('input[name="pesquisa"]').on('keyup', function() {
+            tabelaLoc.search(this.value).draw();
+        });
+        
+        $('input[name="pesquisa"]').closest('form').on('submit', function(e) {
+            e.preventDefault();
+        });
+
+        // Paginação Customizada Localizações
+        tabelaLoc.on('draw', function () {
+            var info = tabelaLoc.page.info();
+            
+            $('#total-registos-loc').text(info.recordsDisplay);
+
+            var paginacaoHTML = '';
+            var btnAnteriorClass = (info.page === 0) ? 'disabled' : '';
+            paginacaoHTML += '<li class="page-item ' + btnAnteriorClass + '"><a class="page-link" href="#" data-page="previous">Anterior</a></li>';
+            
+            for (var i = 0; i < info.pages; i++) {
+                var btnNumeroClass = (info.page === i) ? 'active' : '';
+                paginacaoHTML += '<li class="page-item ' + btnNumeroClass + '"><a class="page-link" href="#" data-page="' + i + '">' + (i + 1) + '</a></li>';
+            }
+            
+            var btnProximaClass = (info.page === info.pages - 1) ? 'disabled' : '';
+            paginacaoHTML += '<li class="page-item ' + btnProximaClass + '"><a class="page-link" href="#" data-page="next">Próxima</a></li>';
+            
+            $('#paginacao-loc').html(paginacaoHTML);
+        });
+
+        tabelaLoc.draw();
+
+        $('#paginacao-loc').on('click', '.page-link', function(e) {
+            e.preventDefault();
+            var acao = $(this).attr('data-page');
+            if (acao === 'previous' || acao === 'next') {
+                tabelaLoc.page(acao).draw('page');
+            } else if (acao !== undefined) {
+                tabelaLoc.page(parseInt(acao)).draw('page');
             }
         });
     }
+
+    // ==========================================
+    // 3. DATATABLES: FORNECEDORES
+    // ==========================================
+    if ($('#tabela-fornecedores').length) {
+        
+        var tabelaForn = $('#tabela-fornecedores').DataTable({
+            pageLength: 7, // Mostra 8 fornecedores por página
+            dom: 't', 
+            language: {
+                emptyTable: "Sem dados disponíveis.",
+                zeroRecords: "Nenhum fornecedor encontrado na pesquisa."
+            }
+        });
+
+        // Ligar barra de pesquisa
+        $('input[name="pesquisa"]').on('keyup', function() {
+            tabelaForn.search(this.value).draw();
+        });
+
+        // Evitar que o form dê reload à página ao carregar no "Enter"
+        $('input[name="pesquisa"]').closest('form').on('submit', function(e) {
+            e.preventDefault();
+        });
+
+        // Paginação e Contagem
+        tabelaForn.on('draw', function () {
+            var info = tabelaForn.page.info();
+            $('#total-registos-forn').text(info.recordsDisplay);
+
+            var paginacaoHTML = '';
+            var btnAnteriorClass = (info.page === 0) ? 'disabled' : '';
+            paginacaoHTML += '<li class="page-item ' + btnAnteriorClass + '"><a class="page-link" href="#" data-page="previous">Anterior</a></li>';
+            
+            for (var i = 0; i < info.pages; i++) {
+                var btnNumeroClass = (info.page === i) ? 'active' : '';
+                paginacaoHTML += '<li class="page-item ' + btnNumeroClass + '"><a class="page-link" href="#" data-page="' + i + '">' + (i + 1) + '</a></li>';
+            }
+            
+            var btnProximaClass = (info.page === info.pages - 1) ? 'disabled' : '';
+            paginacaoHTML += '<li class="page-item ' + btnProximaClass + '"><a class="page-link" href="#" data-page="next">Próxima</a></li>';
+            
+            $('#paginacao-forn').html(paginacaoHTML);
+        });
+
+        tabelaForn.draw();
+
+        $('#paginacao-forn').on('click', '.page-link', function(e) {
+            e.preventDefault();
+            var acao = $(this).attr('data-page');
+            if (acao === 'previous' || acao === 'next') {
+                tabelaForn.page(acao).draw('page');
+            } else if (acao !== undefined) {
+                tabelaForn.page(parseInt(acao)).draw('page');
+            }
+        });
+    }
+
 });
+
 
 /*!
  * Chart.js v4.5.1

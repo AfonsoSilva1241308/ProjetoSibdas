@@ -1,11 +1,41 @@
+
 <?php
 // 1. Trancar a porta aos intrusos
 require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
 
-// 2. Passar as variáveis à nossa navbar
+// --- INÍCIO: LIGAÇÃO E QUERY ---
+try {
+    // Ligar ao servidor do ISEP com a porta 10464
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Query para ir buscar as localizações e contar os equipamentos lá alocados
+    // NOTA: Se houver erro de sintaxe, o bloco catch abaixo vai mostrar-te exatamente o que é
+    $sql = "SELECT l.*, COUNT(e.id) as total_equipamentos 
+            FROM localizacao l 
+            LEFT JOIN equipamento e ON l.id = e.localizacao_id 
+            GROUP BY l.id";
+            
+    $resultados = $ligacao->query($sql)->fetchAll(PDO::FETCH_OBJ);
+    $erro = '';
+
+} catch (PDOException $err) {
+    // Alterado para mostrar a mensagem de erro REAL da base de dados
+    $erro = "Erro técnico: " . $err->getMessage();
+    $resultados = [];
+}
+// Fechar a ligação
+$ligacao = null;
+// --- FIM: LIGAÇÃO E QUERY ---
+
+// Variáveis da Navbar
 $titulo_pagina = "Gestão de Localizações"; 
-$icone_pagina = "fa-solid fa-stethoscope"; // Nota: Se quiseres variar o ícone, experimenta usar "fa-solid fa-location-dot" ou "fa-solid fa-building"!
+$icone_pagina = "fa-solid fa-stethoscope"; 
 $subtitulo_pagina = "Consulte e administre os edifícios, serviços e salas do hospital.";
 ?>
 <?php include '../includes/header.php'; ?>
@@ -34,87 +64,60 @@ $subtitulo_pagina = "Consulte e administre os edifícios, serviços e salas do h
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table align-middle mb-0">
-                            <thead>
-                                <tr class="text-muted small">
-                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Edifício / Piso</th>
-                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Serviço / Departamento</th>
-                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light">Sala / Gabinete</th>
-                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light text-center">Equipamentos</th>
-                                    <th class="py-3 text-uppercase fw-bold border-0 bg-light text-end">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody class="border-top-0">
-                                <tr>
-                                    <td class="py-3">
-                                        <span class="d-block fw-bold text-dark">Edifício Principal</span>
-                                        <small class="text-muted">Piso 2</small>
-                                    </td>
-                                    <td>Cuidados Intensivos (UCI)</td>
-                                    <td>Box 4</td>
-                                    <td class="text-center">
-                                        <span class="badge bg-primary rounded-pill px-3 py-1">3 alocados</span>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="btn-group gap-2">
-                                            <a href="detalhes.php" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </a>
-                                            <a href="editar.php" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverLocalizacao">
-                                               <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3">
-                                        <span class="d-block fw-bold text-dark">Edifício Sul</span>
-                                        <small class="text-muted">Piso 0</small>
-                                    </td>
-                                    <td>Imagiologia</td>
-                                    <td>Sala de RX 1</td>
-                                    <td class="text-center">
-                                        <span class="badge bg-primary rounded-pill px-3 py-1">1 alocado</span>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="btn-group gap-2">
-                                            <a href="detalhes.php" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </a>
-                                            <a href="editar.php" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverLocalizacao">
-                                               <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <table id="tabela-localizacoes" class="table align-middle mb-0">
+    <thead>
+        <tr class="text-muted small">
+            <th class="py-3 text-uppercase fw-bold border-0 bg-light">Edifício / Piso</th>
+            <th class="py-3 text-uppercase fw-bold border-0 bg-light">Serviço / Departamento</th>
+            <th class="py-3 text-uppercase fw-bold border-0 bg-light">Sala / Gabinete</th>
+            <th class="py-3 text-uppercase fw-bold border-0 bg-light text-center">Equipamentos</th>
+            <th class="py-3 text-uppercase fw-bold border-0 bg-light text-end">Ações</th>
+        </tr>
+    </thead>
+    <tbody class="border-top-0">
+        <?php if (!empty($erro)): ?>
+            <tr><td colspan="5" class="text-center text-danger fw-bold py-4"><i class="fa-solid fa-triangle-exclamation me-2"></i><?= $erro ?></td></tr>
+        <?php elseif (count($resultados) == 0): ?>
+            <tr><td colspan="5" class="text-center text-muted py-4"><i class="fa-solid fa-circle-info me-2"></i>Não existem localizações registadas.</td></tr>
+        <?php else: ?>
+            <?php foreach ($resultados as $loc): ?>
+                <tr>
+                    <td class="py-3">
+                        <span class="d-block fw-bold text-dark"><?= htmlspecialchars($loc->edificio) ?></span>
+                        <small class="text-muted"><?= htmlspecialchars($loc->piso) ?></small>
+                    </td>
+                    <td><?= htmlspecialchars($loc->servico) ?></td>
+                    <td><?= htmlspecialchars($loc->sala) ?></td>
+                    <td class="text-center">
+                        <span class="badge bg-primary rounded-pill px-3 py-1"><?= $loc->total_equipamentos ?> alocados</span>
+                    </td>
+                    <td class="text-end">
+                        <div class="btn-group gap-2">
+                            <a href="detalhes.php?id=<?= $loc->id ?>" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                            <a href="editar.php?id=<?= $loc->id ?>" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverLocalizacao">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </tbody>
+</table>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mt-4 pt-4 border-top text-muted small">
-                        <span>A mostrar 2 de 2 registos</span>
-                        <nav>
-    <ul class="pagination pagination-sm m-0">
-        <li class="page-item disabled">
-            <a class="page-link text-muted" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
-        </li>
-        
-        <li class="page-item active" aria-current="page">
-            <a class="page-link bg-primary border-primary" href="?pagina=1">1</a>
-        </li>
-        
-        <li class="page-item">
-            <a class="page-link text-primary" href="?pagina=2">Próxima</a>
-        </li>
-    </ul>
-</nav>
-                    </div>
+    <span class="text-muted small">Total de registos: <strong id="total-registos-loc">0</strong></span>
+    <nav>
+        <ul class="pagination pagination-sm m-0" id="paginacao-loc">
+            </ul>
+    </nav>
+</div>
 
                 </div>
             </div>

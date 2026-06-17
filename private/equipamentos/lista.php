@@ -53,7 +53,7 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
 
                 <div class="card w-100 shadow-sm rounded border-0 mb-4" style="max-width: 1200px;">
                     <div class="card-body p-4 bg-white rounded">
-                        <form action="lista.php" method="GET">
+                        <form action="lista.php"  method="GET">
                             
                             <div class="row g-3 align-items-center">
                                 <div class="col-md-7">

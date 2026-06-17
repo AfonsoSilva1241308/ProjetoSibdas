@@ -3,9 +3,31 @@
 require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
 
+// --- INÍCIO: LIGAÇÃO E QUERY À BASE DE DADOS ---
+try {
+    // A nossa ligação de sucesso com a porta 10464
+    $ligacao = new PDO(
+        "mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        MYSQL_USERNAME,
+        MYSQL_PASSWORD
+    );
+    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    // Ir buscar os fornecedores à base de dados
+    $sql = "SELECT * FROM fornecedor ORDER BY nome ASC";
+    $resultados = $ligacao->query($sql)->fetchAll(PDO::FETCH_OBJ);
+    $erro = '';
+
+} catch (PDOException $err) {
+    $erro = "Erro técnico: " . $err->getMessage();
+    $resultados = []; // O array vazio impede que o foreach "parta" a página!
+}
+$ligacao = null;
+// --- FIM: LIGAÇÃO E QUERY ---
+
 // 2. Definir os dados para a navbar
 $titulo_pagina = "Gestão de Fornecedores"; 
-$icone_pagina = "fa-solid fa-truck-medical"; // Ícone específico para fornecedores de saúde
+$icone_pagina = "fa-solid fa-truck-medical";
 $subtitulo_pagina = "Consulte e monitorize as entidades parceiras e fabricantes.";
 ?>
 <?php include '../includes/header.php'; ?>
@@ -35,128 +57,49 @@ $subtitulo_pagina = "Consulte e monitorize as entidades parceiras e fabricantes.
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="text-muted small fw-bold text-uppercase border-0 pb-3">NIF / Entidade</th>
-                                    <th scope="col" class="text-muted small fw-bold text-uppercase border-0 pb-3">Categoria</th>
-                                    <th scope="col" class="text-muted small fw-bold text-uppercase border-0 pb-3">Contacto Principal</th>
-                                    <th scope="col" class="text-muted small fw-bold text-uppercase border-0 pb-3 text-center">Nível SLA</th>
-                                    <th scope="col" class="text-muted small fw-bold text-uppercase border-0 pb-3 text-center">Estado</th>
-                                    <th scope="col" class="text-muted small fw-bold text-uppercase border-0 pb-3 text-end pe-3">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody class="border-top">
-                                <tr>
-                                    <td class="py-3">
-                                        <span class="d-block fw-bold text-dark">Dräger Portugal Lda</span>
-                                        <small class="text-muted">NIF: 501234567</small>
-                                    </td>
-                                    <td><span class="text-dark">Fabricante </span></td>
-                                    <td>
-                                        <span class="d-block text-dark">suporte@draeger.pt</span>
-                                        <small class="text-muted">+351 210 000 000</small>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge border border-danger text-danger rounded-pill px-3 py-1">Até 12h</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-success rounded-pill px-3 py-1">Ativo</span>
-                                    </td>
-                                    <td class="text-end pe-3">
-                                      <a href="detalhes.php" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
-                                      <i class="fa-solid fa-eye"></i>
-                                      </a>
-    
-                                      <a href="editar.php" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                      </a>
-    
-                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemover">
-                                       <i class="fa-solid fa-trash"></i>
-                                       </button>
-                                       </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3">
-                                        <span class="d-block fw-bold text-dark">MedTech Assist</span>
-                                        <small class="text-muted">NIF: 509876543</small>
-                                    </td>
-                                    <td><span class="text-dark">Fornecedor de consumíveis</span></td>
-                                    <td>
-                                        <span class="d-block text-dark">geral@medtech.pt</span>
-                                        <small class="text-muted">+351 222 111 333</small>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge border border-warning text-dark rounded-pill px-3 py-1">Até 24h</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-success rounded-pill px-3 py-1">Ativo</span>
-                                    </td>
-                                    <td class="text-end pe-3">
-                                      <a href="detalhes.php" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
-                                      <i class="fa-solid fa-eye"></i>
-                                      </a>
-    
-                                      <a href="editar.php" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                      </a>
-    
-                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemover">
-                                       <i class="fa-solid fa-trash"></i>
-                                       </button>
-                                       </td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3">
-                                        <span class="d-block fw-bold text-dark">ConsumaMed Lda</span>
-                                        <small class="text-muted">NIF: 512345678</small>
-                                    </td>
-                                    <td><span class="text-dark">Empresa de Assistência Técnica</span></td>
-                                    <td>
-                                        <span class="d-block text-dark">encomendas@consumamed.pt</span>
-                                        <small class="text-muted">+351 213 444 555</small>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge border border-secondary text-secondary rounded-pill px-3 py-1">Até 72h</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-secondary rounded-pill px-3 py-1">Inativo</span>
-                                    </td>
-                                    <td class="text-end pe-3">
-                                      <a href="detalhes.php" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
-                                      <i class="fa-solid fa-eye"></i>
-                                      </a>
-    
-                                      <a href="editar.php" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
-                                      <i class="fa-solid fa-pen-to-square"></i>
-                                      </a>
-    
-                                       <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemover">
-                                       <i class="fa-solid fa-trash"></i>
-                                       </button>
-                                       </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                       <table id="tabela-fornecedores" class="table table-hover align-middle mb-0">
+    <thead class="table-light text-muted small fw-bold">
+        <tr>
+            <th scope="col" class="py-3 px-4 border-0">FORNECEDOR</th>
+            <th scope="col" class="py-3 border-0 text-center">TIPO DE FORNECIMENTO</th>
+            <th scope="col" class="py-3 border-0 text-center">CONTACTO PRINCIPAL</th>
+            <th scope="col" class="text-end py-3 px-4 border-0">AÇÕES</th>
+        </tr>
+    </thead>
+    <tbody class="border-top-0">
+        <?php foreach ($resultados as $forn): ?>
+            <tr>
+                <td class="px-4 py-3">
+                    <span class="d-block fw-bold text-dark"><?= htmlspecialchars($forn->nome ?? '') ?></span>
+                    <small class="text-muted">NIF: <?= htmlspecialchars($forn->nif ?? '') ?></small>
+                </td>
+                <td class="text-center"> <span class="badge bg-primary bg-opacity-10 text-primary border border-primary rounded-pill px-3 py-1">
+                        <?= htmlspecialchars($forn->tipo_fornecedor ?? 'Não definido') ?>
+                    </span>
+                </td>
+                <td class="text-center"> <span class="d-block text-dark fw-medium"><i class="fa-solid fa-phone text-muted me-2 small"></i><?= htmlspecialchars($forn->telefone ?? 'N/A') ?></span>
+                    <span class="d-block small text-muted"><i class="fa-solid fa-envelope me-2"></i><?= htmlspecialchars($forn->email ?? 'N/A') ?></span>
+                </td>
+                <td class="text-end px-4">
+                    <div class="btn-group gap-2">
+                        <a href="detalhes.php?id=<?= $forn->id ?>" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes"><i class="fa-solid fa-eye"></i></a>
+                        <a href="editar.php?id=<?= $forn->id ?>" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverFornecedor"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                        <span class="text-muted small">A mostrar 3 de 45 registos</span>
-                        <nav>
-    <ul class="pagination pagination-sm m-0">
-        <li class="page-item disabled">
-            <a class="page-link text-muted" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
-        </li>
-        <li class="page-item active" aria-current="page">
-            <a class="page-link bg-primary border-primary" href="?pagina=1">1</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link text-primary" href="?pagina=2">Próxima</a>
-        </li>
-    </ul>
-</nav>
-                    </div>
+    <span class="text-muted small">Total de registos: <strong id="total-registos-forn">0</strong></span>
+    <nav>
+        <ul class="pagination pagination-sm m-0" id="paginacao-forn">
+            </ul>
+    </nav>
+</div>
 
                 </div>
             </div>
