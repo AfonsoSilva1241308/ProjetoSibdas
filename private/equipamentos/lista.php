@@ -231,15 +231,12 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
                     </div> 
                     
                     <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-                        <span class="text-muted small">Total de registos: <strong><?= count($resultados) ?></strong></span>
-                        <nav>
-                            <ul class="pagination pagination-sm m-0">
-                                <li class="page-item disabled"><a class="page-link" href="#">Anterior</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Próxima</a></li>
-                            </ul>
-                        </nav>
-                    </div>
+    <span class="text-muted small">Total de registos: <strong id="total-registos-custom">0</strong></span>
+    <nav>
+        <ul class="pagination pagination-sm m-0" id="paginacao-custom">
+            </ul>
+    </nav>
+</div>
                 <?php endif; ?>
 
             </div>

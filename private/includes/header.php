@@ -14,7 +14,7 @@ require_once __DIR__ . '/../../config/config.php';
     <link rel="stylesheet" href="/projeto_sibdas/assets/Bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="/projeto_sibdas/assets/fontawesome/all.min.css">
     <link rel="stylesheet" href="/projeto_sibdas/assets/css/1241308.css">
-   <script src="/projeto_sibdas/assets/jquery/jquery-3.6.0.min.js"></script>
+   <script src="/projeto_sibdas/assets/jQuery/jquery-3.6.0.min.js"></script>
 
 <link rel="stylesheet" href="/projeto_sibdas/assets/datatables/datatables.min.css">
 <script src="/projeto_sibdas/assets/datatables/datatables.min.js"></script>

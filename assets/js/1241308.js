@@ -425,38 +425,79 @@ const btnGuardarNovoConsumivel = document.getElementById('btnGuardarNovoConsumiv
         elementoHora.innerHTML = `<i class="fa-regular fa-clock me-1"></i> Atualizado hoje às ${horas}:${minutos}`;
     }
 }
-$(document).ready(function() {
-    $('#tabela-equipamentos').DataTable({
-        pageLength: 5,
-        pagingType: "full_numbers",
-        language: {
-            decimal: "",
-            emptyTable: "Sem dados disponíveis na tabela.",
-            info: "A mostrar de _START_ a _END_ de um total de _TOTAL_ equipamentos",
-            infoEmpty: "A mostrar 0 a 0 de 0 equipamentos",
-            infoFiltered: "(filtrados de _MAX_ equipamentos no total)",
-            infoPostFix: "",
-            thousands: "",
-            lengthMenu: "Mostrar _MENU_ equipamentos por página.",
-            loadingRecords: "A carregar...",
-            processing: "A processar...",
-            search: "Pesquisa rápida:",
-            zeroRecords: "Nenhum equipamento encontrado.",
-            paginate: {
-                first: "Primeira",
-                last: "Última",
-                next: "Seguinte",
-                previous: "Anterior"
-            },
-            aria: {
-                sortAscending: ": ative para ordenar de forma crescente.",
-                sortDescending: ": ative para ordenar de forma descrescente."
-            }
-        }
-    });
-});
+
 // Garante que o script corre assim que o HTML terminar de carregar no navegador
 document.addEventListener('DOMContentLoaded', atualizarHoraDashboard);
+// ==========================================
+// 4. DATATABLES E PESQUISA PERSONALIZADA
+// ==========================================
+$(document).ready(function() {
+    if ($('#tabela-equipamentos').length) {
+        
+        // 1. Inicializa o DataTables escondendo tudo o que é feio (dom: 't')
+        var tabela = $('#tabela-equipamentos').DataTable({
+            pageLength: 7,
+            dom: 't', 
+            language: {
+                emptyTable: "Sem dados disponíveis na tabela.",
+                zeroRecords: "Nenhum equipamento encontrado."
+            }
+        });
+
+        // 2. Ligar a tua barra de pesquisa HTML
+        $('input[name="pesquisa"]').on('keyup', function() {
+            tabela.search(this.value).draw();
+        });
+
+        $('input[name="pesquisa"]').closest('form').on('submit', function(e) {
+            e.preventDefault();
+        });
+
+        // 3. A MAGIA DA PAGINAÇÃO CUSTOMIZADA (O TEU DESIGN + NÚMEROS DINÂMICOS)
+        tabela.on('draw', function () {
+            var info = tabela.page.info(); // Vai buscar os dados da página atual ao motor
+            
+            // Atualiza o texto do total dinamicamente
+            $('#total-registos-custom').text(info.recordsDisplay);
+
+            // Constrói os botões da paginação com as tuas classes HTML
+            var paginacaoHTML = '';
+            
+            // Botão Anterior
+            var btnAnteriorClass = (info.page === 0) ? 'disabled' : '';
+            paginacaoHTML += '<li class="page-item ' + btnAnteriorClass + '"><a class="page-link" href="#" data-page="previous">Anterior</a></li>';
+            
+            // Números (1, 2, 3...)
+            for (var i = 0; i < info.pages; i++) {
+                var btnNumeroClass = (info.page === i) ? 'active' : '';
+                paginacaoHTML += '<li class="page-item ' + btnNumeroClass + '"><a class="page-link" href="#" data-page="' + i + '">' + (i + 1) + '</a></li>';
+            }
+            
+            // Botão Próxima
+            var btnProximaClass = (info.page === info.pages - 1) ? 'disabled' : '';
+            paginacaoHTML += '<li class="page-item ' + btnProximaClass + '"><a class="page-link" href="#" data-page="next">Próxima</a></li>';
+            
+            // Injeta no HTML
+            $('#paginacao-custom').html(paginacaoHTML);
+        });
+
+        // Forçar o desenho inicial para gerar os botões a primeira vez que a página abre
+        tabela.draw();
+
+        // 4. Dar ação aos botões da tua paginação customizada
+        $('#paginacao-custom').on('click', '.page-link', function(e) {
+            e.preventDefault();
+            var acao = $(this).attr('data-page');
+            
+            if (acao === 'previous' || acao === 'next') {
+                tabela.page(acao).draw('page');
+            } else if (acao !== undefined) {
+                tabela.page(parseInt(acao)).draw('page'); // Vai para o número clicado
+            }
+        });
+    }
+});
+
 /*!
  * Chart.js v4.5.1
  * https://www.chartjs.org
@@ -473,33 +514,3 @@ document.addEventListener('DOMContentLoaded', atualizarHoraDashboard);
 //# sourceMappingURL=chart.umd.min.js.map
 
 
-$(document).ready(function() {
-    $('#tabela-equipamentos').DataTable({
-        pageLength: 5,
-        pagingType: "full_numbers",
-        language: {
-            decimal: "",
-            emptyTable: "Sem dados disponíveis na tabela.",
-            info: "A mostrar de _START_ a _END_ de um total de _TOTAL_ equipamentos",
-            infoEmpty: "A mostrar 0 a 0 de 0 equipamentos",
-            infoFiltered: "(filtrados de _MAX_ equipamentos no total)",
-            infoPostFix: "",
-            thousands: "",
-            lengthMenu: "Mostrar _MENU_ equipamentos por página.",
-            loadingRecords: "A carregar...",
-            processing: "A processar...",
-            search: "Pesquisa rápida:",
-            zeroRecords: "Nenhum equipamento encontrado.",
-            paginate: {
-                first: "Primeira",
-                last: "Última",
-                next: "Seguinte",
-                previous: "Anterior"
-            },
-            aria: {
-                sortAscending: ": ative para ordenar de forma crescente.",
-                sortDescending: ": ative para ordenar de forma descrescente."
-            }
-        }
-    });
-});
