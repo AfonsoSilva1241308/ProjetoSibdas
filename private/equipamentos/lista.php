@@ -177,53 +177,65 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
                                 
                                 <?php foreach ($resultados as $item): ?>
                                 <tr>
-    <td class="fw-bold text-dark px-4 py-3"><?= htmlspecialchars($item->codigo_interno ?? 'N/A') ?></td>
-    
-    <td>
-        <span class="d-block text-dark fw-medium"><?= htmlspecialchars($item->designacao ?? 'Sem nome') ?></span>
-        <small class="text-muted"><?= htmlspecialchars($item->categoria ?? 'Equipamento') ?></small>
-    </td>
-    
-    <td class="text-dark"><?= htmlspecialchars(($item->marca ?? '') . ' ' . ($item->modelo ?? '')) ?></td>
-    
-    <td>
-        <?php
-        $cor_criticidade = 'bg-secondary bg-opacity-10 text-secondary border-secondary'; // Cor Padrão
-        $crit = strtolower($item->criticidade ?? '');
-        if ($crit == 'alta' || $crit == 'suporte de vida') {
-            $cor_criticidade = 'bg-danger bg-opacity-10 text-danger border-danger';
-        } elseif ($crit == 'média' || $crit == 'media') {
-            $cor_criticidade = 'bg-warning bg-opacity-10 text-dark border-warning';
-        }
-        ?>
-        <span class="badge <?= $cor_criticidade ?> border rounded-pill px-3 py-1">
-            <?= htmlspecialchars($item->criticidade ?? 'Padrão') ?>
-        </span>
-    </td>
-    
-    <td>
-        <?php
-        $cor_estado = 'bg-secondary'; // Cor Padrão
-        $est = strtolower($item->estado ?? '');
-        if ($est == 'ativo') {
-            $cor_estado = 'bg-success';
-        } elseif ($est == 'em manutenção' || $est == 'em calibração') {
-            $cor_estado = 'bg-warning text-dark';
-        } elseif ($est == 'inativo' || $est == 'abatido') {
-            $cor_estado = 'bg-danger';
-        }
-        ?>
-        <span class="badge <?= $cor_estado ?> rounded-pill px-3 py-1">
-            <?= htmlspecialchars($item->estado ?? 'Indefinido') ?>
-        </span>
-    </td>
-    
-    <td class="text-end px-4">
-        <a href="detalhes.php?id=<?= $item->id ?>" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
-        <a href="editar.php?id=<?= $item->id ?>" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
-        <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
-    </td>
-</tr>
+                                    <td class="fw-bold text-dark px-4 py-3"><?= htmlspecialchars($item->codigo_interno ?? 'N/A') ?></td>
+                                    
+                                    <td>
+                                        <span class="d-block text-dark fw-medium"><?= htmlspecialchars($item->designacao ?? 'Sem nome') ?></span>
+                                        <small class="text-muted"><?= htmlspecialchars($item->categoria ?? 'Equipamento') ?></small>
+                                    </td>
+                                    
+                                    <td class="text-dark"><?= htmlspecialchars(($item->marca ?? '') . ' ' . ($item->modelo ?? '')) ?></td>
+                                    
+                                    <?php
+                                    // ==========================================
+                                    // NOVA LÓGICA DE ORDENAÇÃO: CRITICIDADE
+                                    // ==========================================
+                                    $cor_criticidade = 'bg-secondary bg-opacity-10 text-secondary border-secondary'; // Cor Padrão
+                                    $crit = strtolower($item->criticidade ?? '');
+                                    $peso_crit = 0; // O DataTables vai ler este número invisível
+                                    
+                                    if ($crit == 'suporte de vida') {
+                                        $peso_crit = 4;
+                                        $cor_criticidade = 'bg-danger bg-opacity-10 text-danger border-danger';
+                                    } elseif ($crit == 'alta') {
+                                        $peso_crit = 3;
+                                        $cor_criticidade = 'bg-danger bg-opacity-10 text-danger border-danger';
+                                    } elseif ($crit == 'média' || $crit == 'media') {
+                                        $peso_crit = 2;
+                                        $cor_criticidade = 'bg-warning bg-opacity-10 text-dark border-warning';
+                                    } elseif ($crit == 'baixa') {
+                                        $peso_crit = 1;
+                                    }
+                                    ?>
+                                    <td data-sort="<?= $peso_crit ?>">
+                                        <span class="badge <?= $cor_criticidade ?> border rounded-pill px-3 py-1">
+                                            <?= htmlspecialchars($item->criticidade ?? 'Padrão') ?>
+                                        </span>
+                                    </td>
+                                    
+                                    <td>
+                                        <?php
+                                        $cor_estado = 'bg-secondary'; // Cor Padrão
+                                        $est = strtolower($item->estado ?? '');
+                                        if ($est == 'ativo') {
+                                            $cor_estado = 'bg-success';
+                                        } elseif ($est == 'em manutenção' || $est == 'em calibração') {
+                                            $cor_estado = 'bg-warning text-dark';
+                                        } elseif ($est == 'inativo' || $est == 'abatido') {
+                                            $cor_estado = 'bg-danger';
+                                        }
+                                        ?>
+                                        <span class="badge <?= $cor_estado ?> rounded-pill px-3 py-1">
+                                            <?= htmlspecialchars($item->estado ?? 'Indefinido') ?>
+                                        </span>
+                                    </td>
+                                    
+                                    <td class="text-end px-4">
+                                        <a href="detalhes.php?id=<?= $item->id ?>" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
+                                        <a href="editar.php?id=<?= $item->id ?>" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
+                                    </td>
+                                </tr>
                                 <?php endforeach; ?>
                                 
                             </tbody>
@@ -231,12 +243,12 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
                     </div> 
                     
                     <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
-    <span class="text-muted small">Total de registos: <strong id="total-registos-custom">0</strong></span>
-    <nav>
-        <ul class="pagination pagination-sm m-0" id="paginacao-custom">
-            </ul>
-    </nav>
-</div>
+                        <span class="text-muted small">Total de registos: <strong id="total-registos-custom">0</strong></span>
+                        <nav>
+                            <ul class="pagination pagination-sm m-0" id="paginacao-custom">
+                                </ul>
+                        </nav>
+                    </div>
                 <?php endif; ?>
 
             </div>

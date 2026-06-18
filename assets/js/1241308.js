@@ -44,64 +44,177 @@ function togglePassword(inputId, iconId) {
 // ==========================================
 document.addEventListener("DOMContentLoaded", function() {
     
-    // Proteção: Só avança se a biblioteca Chart.js estiver carregada na página
     if (typeof Chart !== 'undefined') {
         
-        const canvasFornecedores = document.getElementById('graficoFornecedores');
-        if (canvasFornecedores) {
-            new Chart(canvasFornecedores.getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels: ['GE Healthcare', 'Philips', 'Siemens Healthineers', 'Medtronic', 'Dräger'],
-                    datasets: [{ label: 'Nº de Equipamentos', data: [210, 185, 142, 98, 65], backgroundColor: '#0d6efd', borderRadius: 4 }]
-                },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, grid: { borderDash: [4, 4] } } } }
-            });
-        }
-
-        const canvasIdade = document.getElementById('graficoIdade');
-        if (canvasIdade) {
-            new Chart(canvasIdade.getContext('2d'), {
-                type: 'bar',
-                data: {
-                    labels: ['< 2 Anos', '2 a 5 Anos', '5 a 10 Anos', ['> 10 Anos', '(Fim de Vida)']],
-                    datasets: [{ label: 'Número de Equipamentos', data: [350, 480, 290, 125], backgroundColor: ['#198754', '#0d6efd', '#ffc107', '#dc3545'], borderRadius: 4 }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ticks: { maxRotation: 0, minRotation: 0 } }, y: { beginAtZero: true, grid: { borderDash: [4, 4] } } } }
-            });
-        }
+        // ----------------------------------------------------
+        // 1. GRÁFICOS DINÂMICOS (Ligados à Base de Dados)
+        // ----------------------------------------------------
 
         const canvasServicos = document.getElementById('graficoServicos');
-        if (canvasServicos) {
+        if (canvasServicos && typeof DADOS_SERVICOS !== 'undefined') {
+            
+            // TRUQUE DE MESTRE: Dividir os nomes compridos em duas linhas (arrays)
+            // Assim a letra pode ser maior e manter-se perfeitamente horizontal!
+            const labelsServ = DADOS_SERVICOS.map(item => {
+                if (item.servico === 'Cuidados Intensivos (UCI)') return ['Cuidados', 'Intensivos (UCI)'];
+                if (item.servico === 'Urgência Geral') return ['Urgência', 'Geral'];
+                if (item.servico === 'Bloco Operatório') return ['Bloco', 'Operatório'];
+                return item.servico;
+            });
+
+            const dataServ = DADOS_SERVICOS.map(item => item.total);
+            const dataSV   = DADOS_SERVICOS.map(item => item.total_sv);
+
             new Chart(canvasServicos.getContext('2d'), {
                 type: 'bar',
                 data: {
-                    labels: ['Urgência', 'Cuidados Intensivos', 'Bloco Operatório', 'Imagiologia', 'Internamento'],
+                    labels: labelsServ,
                     datasets: [
-                        { label: 'Nº Equipamentos', data: [145, 89, 120, 45, 210], backgroundColor: '#0d6efd', borderRadius: 4 },
-                        { label: 'Suporte de Vida', data: [40, 65, 30, 2, 10], backgroundColor: '#dc3545', borderRadius: 4 }
+                        { label: 'Nº Equipamentos', data: dataServ, backgroundColor: '#0d6efd', borderRadius: 4 },
+                        { label: 'Suporte de Vida', data: dataSV, backgroundColor: '#dc3545', borderRadius: 4 }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true, grid: { borderDash: [4, 4] } } } }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { legend: { position: 'top' } }, 
+                    scales: { 
+                        x: {
+                            ticks: {
+                                maxRotation: 0, 
+                                minRotation: 0, 
+                                autoSkip: false,
+                                font: { size: 12 } // A letra volta a ficar grande e legível!
+                            }
+                        },
+                        y: { 
+                            beginAtZero: true, 
+                            grace: 4, 
+                            grid: { borderDash: [4, 4] }, 
+                            ticks: { stepSize: 1 } 
+                        } 
+                    } 
+                }
             });
         }
 
         const canvasCriticidade = document.getElementById('graficoCriticidade');
-        if (canvasCriticidade) {
+        if (canvasCriticidade && typeof DADOS_CRITICIDADE !== 'undefined') {
+            
+            const pesosCrit = { 'Baixa': 1, 'Média': 2, 'Media': 2, 'Alta': 3, 'Suporte de Vida': 4 };
+            DADOS_CRITICIDADE.sort((a, b) => (pesosCrit[a.criticidade] || 0) - (pesosCrit[b.criticidade] || 0));
+
+            const labelsCrit = DADOS_CRITICIDADE.map(item => item.criticidade + ': ' + item.total);
+            const dataCrit = DADOS_CRITICIDADE.map(item => item.total);
+            
+            const coresCrit = DADOS_CRITICIDADE.map(item => {
+                if (item.criticidade === 'Suporte de Vida') return '#dc3545';
+                if (item.criticidade === 'Alta') return '#fd7e14';
+                if (item.criticidade === 'Média' || item.criticidade === 'Media') return '#ffc107';
+                return '#198754';
+            });
+
             new Chart(canvasCriticidade.getContext('2d'), {
                 type: 'doughnut',
                 data: {
-                    labels: ['Baixa: 450', 'Média: 320', 'Alta: 180', 'Suporte de Vida: 147'],
-                    datasets: [{ data: [450, 320, 180, 147], backgroundColor: ['#198754', '#ffc107', '#fd7e14', '#dc3545'], borderWidth: 0, hoverOffset: 6 }]
+                    labels: labelsCrit,
+                    datasets: [{ data: dataCrit, backgroundColor: coresCrit, borderWidth: 0, hoverOffset: 6 }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels: { usePointStyle: true, padding: 20, font: { size: 13, family: "'Segoe UI', Roboto, Helvetica, Arial, sans-serif" } } } } }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    cutout: '75%', 
+                    plugins: { 
+                        legend: { 
+                            position: 'right', 
+                            labels: { 
+                                usePointStyle: true, 
+                                padding: 20,
+                                font: { size: 13, family: "'Segoe UI', Roboto, Helvetica, Arial, sans-serif" }
+                            } 
+                        } 
+                    } 
+                }
             });
         }
-    } else {
+      
+        // ==========================================
+        // GRÁFICO: PRINCIPAIS FORNECEDORES (À PROVA DE BALA)
+        // ==========================================
+        const canvasFornecedores = document.getElementById('graficoFornecedores');
+        if (canvasFornecedores) {
+            try {
+                // Proteção: Garante que os dados são um array. Se o PHP falhar, cria um array vazio [].
+                const dadosForn = Array.isArray(DADOS_FORNECEDORES) ? DADOS_FORNECEDORES : [];
+                
+                let labelsForn = dadosForn.map(item => item.nome);
+                let dataForn = dadosForn.map(item => item.total);
+
+                // Se a base de dados não devolver nenhum fornecedor, desenha uma barra a 0 
+                // para o ecrã não ficar num buraco branco!
+                if (labelsForn.length === 0) {
+                    labelsForn = ['Sem Dados'];
+                    dataForn = [0];
+                }
+
+                new Chart(canvasFornecedores.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: labelsForn,
+                        datasets: [{ label: 'Nº de Equipamentos', data: dataForn, backgroundColor: '#0d6efd', borderRadius: 4 }]
+                    },
+                    options: { 
+                        indexAxis: 'y', 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        plugins: { legend: { display: false } }, 
+                        scales: { x: { beginAtZero: true, grid: { borderDash: [4, 4] }, ticks: { stepSize: 1 } } } 
+                    }
+                });
+            } catch (erro) {
+                console.error("Erro no gráfico de Fornecedores:", erro);
+            }
+        }
+
+        // ==========================================
+        // GRÁFICO: IDADE DOS EQUIPAMENTOS (À PROVA DE BALA)
+        // ==========================================
+        const canvasIdade = document.getElementById('graficoIdade');
+        if (canvasIdade) {
+            try {
+                // Proteção: Se a BD não enviar dados (porque é tudo NULL), assume 0 para tudo
+                const d = DADOS_IDADE || {};
+                const dataIdade = [
+                    d.age_0_2 || 0,
+                    d.age_2_5 || 0,
+                    d.age_5_10 || 0,
+                    d.age_10_plus || 0
+                ];
+
+                new Chart(canvasIdade.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['< 2 Anos', '2 a 5 Anos', '5 a 10 Anos', ['> 10 Anos', '(Fim de Vida)']],
+                        datasets: [{ label: 'Número de Equipamentos', data: dataIdade, backgroundColor: ['#198754', '#0d6efd', '#ffc107', '#dc3545'], borderRadius: 4 }]
+                    },
+                    options: { 
+                        responsive: true, 
+                        maintainAspectRatio: false, 
+                        plugins: { legend: { display: false } }, 
+                        scales: { 
+                            x: { ticks: { maxRotation: 0, minRotation: 0 } }, 
+                            y: { beginAtZero: true, grace: 1, grid: { borderDash: [4, 4] }, ticks: { stepSize: 1 } } 
+                        } 
+                    }
+                });
+            } catch (erro) {
+                console.error("Erro no gráfico de Idade:", erro);
+            }
+        }
+} else {
         console.warn("Chart.js não encontrado. Os gráficos não serão carregados.");
     }
-});
-
+}); // <--- ESTE FECHO É OBRIGATÓRIO PARA A FUNÇÃO DO DOMContentLoaded
 // ==========================================
 // 3. PÁGINA DE EDITAR / DETALHES
 // ==========================================
@@ -487,21 +600,49 @@ document.addEventListener('DOMContentLoaded', atualizarHoraDashboard);
             }
         });
 
-        // FILTROS AVANÇADOS
-        $('#btn-aplicar-filtros').on('click', function() {
-            var categoria = $('select[name="categoria"]').val();
-            var estado = $('select[name="estado"]').val();
-            var criticidade = $('select[name="criticidade"]').val();
+        // ==========================================
+        // ORDENAÇÃO: DROPDOWN (A-Z, Recentes, etc.)
+        // ==========================================
+        $('select[name="ordenacao"]').on('change', function() {
+            var tipoOrdenacao = $(this).val();
 
-            tabela.column(0).search(categoria === 'Todas' ? '' : categoria)
-                  .column(1).search(estado === 'Todos' ? '' : estado)
-                  .column(2).search(criticidade === 'Todos' ? '' : criticidade)
+            if (tipoOrdenacao === 'az') {
+                tabela.order([1, 'asc']).draw();  // Coluna 1: Designação (A-Z)
+            } 
+            else if (tipoOrdenacao === 'za') {
+                tabela.order([1, 'desc']).draw(); // Coluna 1: Designação (Z-A)
+            } 
+            else if (tipoOrdenacao === 'recentes') {
+                tabela.order([0, 'desc']).draw(); // Coluna 0: Código (Mais novos primeiro)
+            } 
+            else if (tipoOrdenacao === 'criticidade') {
+                // Agora sim! Ordena pelo data-sort numérico de forma descendente (4 -> 1)
+                // Resultado: Suporte de Vida > Alta > Média > Baixa
+                tabela.order([3, 'desc']).draw(); 
+            }
+        });
+        // FILTROS AVANÇADOS: EQUIPAMENTOS
+        // ==========================================
+        $('#filtrosAvancados').closest('form').on('submit', function(e) {
+            e.preventDefault(); // Impede o reload da página
+            
+            // Vai ler o texto visível que o utilizador escolheu na dropdown
+            var cat  = $('select[name="categoria"]').val() ? $('select[name="categoria"] option:selected').text() : '';
+            var est  = $('select[name="estado"]').val() ? $('select[name="estado"] option:selected').text() : '';
+            var crit = $('select[name="criticidade"]').val() ? $('select[name="criticidade"] option:selected').text() : '';
+
+            // Aplica a pesquisa nas colunas exatas da tua tabela
+            tabela.column(1).search(cat)   // Procura Categoria na Coluna 1 (Designação)
+                  .column(4).search(est)   // Procura Estado na Coluna 4 (Estado Atual)
+                  .column(3).search(crit)  // Procura Criticidade na Coluna 3 (Criticidade)
                   .draw();
         });
 
-        $('#btn-limpar-filtros').on('click', function() {
-            $('select').val('');
-            tabela.columns().search('').draw();
+        // Botão Limpar Tudo (Reset)
+        $('button[type="reset"]').on('click', function() {
+            setTimeout(function() { 
+                tabela.columns().search('').draw();
+            }, 10);
         });
     }
 
@@ -618,7 +759,64 @@ document.addEventListener('DOMContentLoaded', atualizarHoraDashboard);
             }
         });
     }
+// ==========================================
+    // 4. DATATABLES: MANUTENÇÕES
+    // ==========================================
+    if ($('#tabela-manutencoes').length) {
+        
+        var tabelaMan = $('#tabela-manutencoes').DataTable({
+            pageLength: 6, // Mostra 6 registos para o ecrã não ficar demasiado cheio
+            dom: 't', 
+            language: {
+                emptyTable: "Sem dados disponíveis.",
+                zeroRecords: "Nenhuma intervenção encontrada na pesquisa."
+            }
+        });
 
+        // Ligar barra de pesquisa
+        $('input[name="pesquisa_manutencao"]').on('keyup', function() {
+            tabelaMan.search(this.value).draw();
+        });
+
+        // Impedir reload da página ao dar Enter na barra de pesquisa
+        $('input[name="pesquisa_manutencao"]').closest('form').on('submit', function(e) {
+            e.preventDefault();
+        });
+
+        // Paginação Dinâmica
+        tabelaMan.on('draw', function () {
+            var info = tabelaMan.page.info();
+            $('#total-registos-man').text(info.recordsDisplay);
+
+            var paginacaoHTML = '';
+            var btnAnteriorClass = (info.page === 0) ? 'disabled' : '';
+            paginacaoHTML += '<li class="page-item ' + btnAnteriorClass + '"><a class="page-link" href="#" data-page="previous">Anterior</a></li>';
+            
+            for (var i = 0; i < info.pages; i++) {
+                var btnNumeroClass = (info.page === i) ? 'active' : '';
+                paginacaoHTML += '<li class="page-item ' + btnNumeroClass + '"><a class="page-link" href="#" data-page="' + i + '">' + (i + 1) + '</a></li>';
+            }
+            
+            var btnProximaClass = (info.page === info.pages - 1) ? 'disabled' : '';
+            paginacaoHTML += '<li class="page-item ' + btnProximaClass + '"><a class="page-link" href="#" data-page="next">Próxima</a></li>';
+            
+            $('#paginacao-man').html(paginacaoHTML);
+        });
+
+        // Força a atualização mal a página abre
+        tabelaMan.draw();
+
+        // Ação de clicar nos botões da paginação
+        $('#paginacao-man').on('click', '.page-link', function(e) {
+            e.preventDefault();
+            var acao = $(this).attr('data-page');
+            if (acao === 'previous' || acao === 'next') {
+                tabelaMan.page(acao).draw('page');
+            } else if (acao !== undefined) {
+                tabelaMan.page(parseInt(acao)).draw('page');
+            }
+        });
+    }
 });
 
 
