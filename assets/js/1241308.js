@@ -347,60 +347,118 @@ document.addEventListener('DOMContentLoaded', function() {
             toast.show();
             setTimeout(() => { window.location.href = 'detalhes.html'; }, 1500);
         });
+    }  
+    // Se já existirem no teu código noutro sítio, remove as declarações lá!
+    if (typeof window.linhaAtualConsumivel === 'undefined') {
+        window.linhaAtualConsumivel = null;
+    }
+    if (typeof window.linhaAtualDoc === 'undefined') {
+        window.linhaAtualDoc = null;
     }
 
-    // --------------------------------------------------------
-    // 3.3 Remover Consumíveis (Ação com Modal e Nome Dinâmico)
-    // --------------------------------------------------------
-    let linhaAtualConsumivel = null;
+    // =========================================================
+    // 1. SCRIPT PARA ADICIONAR CONSUMÍVEIS
+    // =========================================================
+    const btnGuardarNovoConsumivel = document.getElementById('btnGuardarNovoConsumivel');
+    if (btnGuardarNovoConsumivel) {
+        // Removemos eventuais ouvintes duplicados se necessário
+        btnGuardarNovoConsumivel.onclick = null; 
+        btnGuardarNovoConsumivel.addEventListener('click', function() {
+            const designacao = document.getElementById('novoConsDesignacao').value;
+            const categoria = document.getElementById('novoConsCategoria').value;
+            const freq = document.getElementById('novoConsFreq').value;
 
-    // Função que ensina o botão a ir ler o nome do consumível antes de abrir a modal
-    function ligarBotaoRemoverConsumivel(botao) {
-        botao.addEventListener('click', function() {
-            linhaAtualConsumivel = this.closest('tr');
+            if (!designacao || !categoria || !freq) {
+                alert("Por favor, preencha a Designação, a Categoria e a Frequência do Consumível.");
+                return;
+            }
+
+            const novaLinha = document.createElement('tr');
+            novaLinha.innerHTML = `
+                <td class="py-3 px-3 border-0 fw-medium text-dark">
+                    ${designacao}
+                    <input type="hidden" name="lista_cons_designacao[]" value="${designacao}">
+                </td>
+                <td class="py-3 border-0 text-muted">
+                    ${categoria}
+                    <input type="hidden" name="lista_cons_categoria[]" value="${categoria}">
+                </td>
+                <td class="py-3 border-0 text-muted">
+                    <span class="badge bg-light text-dark border">${freq}</span>
+                    <input type="hidden" name="lista_cons_frequencia[]" value="${freq}">
+                </td>
+                <td class="py-3 pe-3 border-0 text-end">
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverConsumivel">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </td>
+            `;
+
+            novaLinha.querySelector('.btn-abrir-modal-remover').addEventListener('click', function() {
+                window.linhaAtualConsumivel = this.closest('tr');
+            });
+
+            document.getElementById('corpoTabelaConsumiveis').appendChild(novaLinha);
+            document.getElementById('contentorTabelaConsumiveis').classList.remove('d-none');
+            document.getElementById('msgSemConsumiveis').classList.add('d-none');
+
+            document.getElementById('novoConsDesignacao').value = '';
+            document.getElementById('novoConsCategoria').value = '';
+            document.getElementById('novoConsFreq').value = '';
             
-            // Vai à primeira coluna da linha e procura o <input> que tem o texto
-            const inputNome = linhaAtualConsumivel.querySelector('td:nth-child(1) input');
-            const nomeConsumivel = inputNome ? inputNome.value : "Consumível não especificado";
-            
-            // Escreve o nome capturado na Modal
-            const modalTexto = document.getElementById('textoConsumivelModal');
-            if (modalTexto) {
-                // Se a caixa estiver em branco (value vazio), mete um texto de segurança
-                modalTexto.innerText = nomeConsumivel.trim() === "" ? "Consumível sem nome" : nomeConsumivel;
+            const modalEl = document.getElementById('painelNovoConsumivel');
+            if (modalEl && modalEl.classList.contains('show')) {
+                let bsCollapse = bootstrap.Collapse.getInstance(modalEl);
+                if (!bsCollapse) bsCollapse = new bootstrap.Collapse(modalEl);
+                bsCollapse.hide();
             }
         });
     }
+// 1. Declarar a variável global de forma que o JS a veja sempre
+window.linhaAtualConsumivel = null;
 
-    // Ligar os botões de remover das linhas que já vêm carregadas no HTML
-    document.querySelectorAll('.btn-abrir-modal-remover').forEach(botao => {
-        ligarBotaoRemoverConsumivel(botao);
+// 2. Delegação de eventos para capturar o clique no "Lixo"
+document.addEventListener('click', function(e) {
+    const botao = e.target.closest('.btn-abrir-modal-remover');
+    if (botao) {
+        window.linhaAtualConsumivel = botao.closest('tr');
+        
+        // Captura os dados da linha (Designação e Categoria)
+        const designacaoCons = window.linhaAtualConsumivel.querySelector('td:nth-child(1)').innerText.trim();
+        const categoriaCons = window.linhaAtualConsumivel.querySelector('td:nth-child(2)').innerText.trim();
+        
+        // Preenche o Modal
+        const elementoNomeCons = document.getElementById('nomeConsModal');
+        const elementoCatCons = document.getElementById('catConsModal');
+        
+        if (elementoNomeCons) elementoNomeCons.innerText = designacaoCons;
+        if (elementoCatCons) elementoCatCons.innerText = categoriaCons;
+    }
+});
+
+// 3. Botão de confirmação de remoção
+const btnConfirmarRemocaoCons = document.getElementById('btnConfirmarRemocaoConsumivel');
+if (btnConfirmarRemocaoCons) {
+    btnConfirmarRemocaoCons.addEventListener('click', function() {
+        if (window.linhaAtualConsumivel) {
+            window.linhaAtualConsumivel.remove(); // Remove a linha
+            window.linhaAtualConsumivel = null;   // Limpa a variável
+            
+            // Fecha o modal
+            const modalElement = document.getElementById('modalRemoverConsumivel');
+            const modalInstancia = bootstrap.Modal.getInstance(modalElement);
+            if (modalInstancia) modalInstancia.hide();
+            
+            // Verifica se a tabela ficou vazia
+            const corpoCons = document.getElementById('corpoTabelaConsumiveis');
+            if (corpoCons && corpoCons.children.length === 0) {
+                document.getElementById('contentorTabelaConsumiveis').classList.add('d-none');
+                document.getElementById('msgSemConsumiveis').classList.remove('d-none');
+            }
+        }
     });
+}
 
-    // Ação principal de confirmar a remoção ("Sim" na Modal)
-    const btnConfirmarRemocaoConsumivel = document.getElementById('btnConfirmarRemoverConsumivel');
-    if (btnConfirmarRemocaoConsumivel) {
-        btnConfirmarRemocaoConsumivel.addEventListener('click', function() {
-            if (linhaAtualConsumivel) {
-                linhaAtualConsumivel.remove();
-                
-                // Verifica se a tabela ficou vazia para mostrar a mensagem
-                const corpoConsumiveis = document.getElementById('corpoTabelaConsumiveis');
-                if (corpoConsumiveis && corpoConsumiveis.children.length === 0) {
-                    document.getElementById('contentorTabelaConsumiveis').classList.add('d-none');
-                    const msgVazia = document.getElementById('msgSemConsumiveis');
-                    if (msgVazia) msgVazia.classList.remove('d-none');
-                }
-                
-                linhaAtualConsumivel = null;
-                
-                // Fechar a modal suavemente
-                const modalEl = document.getElementById('modalRemoverConsumivel');
-                const modalInstancia = bootstrap.Modal.getInstance(modalEl);
-                if (modalInstancia) modalInstancia.hide();
-            }
-        });
-    }
     // 3.4 Remover Documentos (Ação com Modal Dinâmica)
     let linhaAtualDoc = null;
     document.querySelectorAll('.btn-abrir-modal-remover-doc').forEach(botao => {
@@ -454,16 +512,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const novaLinha = document.createElement('tr');
             novaLinha.innerHTML = `
-                <td class="py-3 px-3 border-0 fw-medium text-dark">${categoria}</td>
-                <td class="py-3 border-0">
-                    <span class="d-block fw-medium">${titulo}</span>
-                    <a href="#" class="badge bg-secondary bg-opacity-10 text-dark border px-2 py-1 text-decoration-none shadow-sm mt-1">
-                        <i class="fa-solid fa-file-pdf text-danger me-1"></i> ${nomeFicheiro}
-                    </a>
+                <td class="py-3 px-3 border-0 fw-medium text-dark">
+                    ${designacao}
+                    <input type="hidden" name="lista_cons_designacao[]" value="${designacao}">
                 </td>
-                <td class="py-3 border-0 text-muted small">${validadeTexto}</td>
+                <td class="py-3 border-0 text-muted">
+                    ${categoria}
+                    <input type="hidden" name="lista_cons_categoria[]" value="${categoria}">
+                </td>
+                <td class="py-3 border-0 text-muted">
+                    <span class="badge bg-light text-dark border">${freq}</span>
+                    <input type="hidden" name="lista_cons_frequencia[]" value="${freq}">
+                </td>
                 <td class="py-3 pe-3 border-0 text-end">
-                    <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover-doc px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverDocumento">
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverConsumivel">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </td>
@@ -479,52 +541,26 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('contentorTabelaDocs').classList.remove('d-none');
             document.getElementById('msgSemDocs').classList.add('d-none');
 
-            document.getElementById('formNovoDocInline').reset();
+            // CORREÇÃO DO ERRO: Limpar manualmente as caixas em vez de fazer .reset() numa DIV
+            document.getElementById('novoDocTitulo').value = '';
+            document.getElementById('novoDocCategoria').value = '';
+            document.getElementById('novoDocFicheiro').value = '';
+            document.getElementById('novoDocFornecedor').value = '';
+            document.getElementById('novoDocValidade').value = '';
+            document.getElementById('alertaExp').checked = false;
+
+            // Fecha o painel de adicionar documento
+            const modalDoc = document.getElementById('painelNovoDocumento');
+            if (modalDoc.classList.contains('show')) {
+                let bsCollapseDoc = bootstrap.Collapse.getInstance(modalDoc);
+                if (!bsCollapseDoc) bsCollapseDoc = new bootstrap.Collapse(modalDoc);
+                bsCollapseDoc.hide();
+            }
         });
-    }
+
+}
 });
-const btnGuardarNovoConsumivel = document.getElementById('btnGuardarNovoConsumivel');
-    if (btnGuardarNovoConsumivel) {
-        btnGuardarNovoConsumivel.addEventListener('click', function() {
-            const designacao = document.getElementById('novoConsDesignacao').value;
-            const categoria = document.getElementById('novoConsCategoria').value;
-            const freq = document.getElementById('novoConsFreq').value;
 
-            if (!designacao || !categoria || !freq) {
-                alert("Por favor, preencha a Designação, a Categoria e a Frequência do Consumível.");
-                return;
-            }
-
-            const novaLinha = document.createElement('tr');
-            novaLinha.innerHTML = `
-                <td class="py-3 px-3 border-0 fw-medium text-dark">${designacao}</td>
-                <td class="py-3 border-0 text-muted">${categoria}</td>
-                <td class="py-3 border-0 text-muted">${freq}</td>
-                <td class="py-3 pe-3 border-0 text-end">
-                    <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverConsumivel">
-                        <i class="fa-solid fa-trash-can"></i>
-                    </button>
-                </td>
-            `;
-
-            // Dá vida ao botão de lixo desta nova linha
-            novaLinha.querySelector('.btn-abrir-modal-remover').addEventListener('click', function() {
-                linhaAtualConsumivel = this.closest('tr');
-            });
-
-            document.getElementById('corpoTabelaConsumiveis').appendChild(novaLinha);
-            document.getElementById('contentorTabelaConsumiveis').classList.remove('d-none');
-            document.getElementById('msgSemConsumiveis').classList.add('d-none');
-
-            // Limpa o form e fecha o collapse
-            document.getElementById('novoConsDesignacao').value = '';
-            document.getElementById('novoConsCategoria').value = '';
-            const modalEl = document.getElementById('painelNovoConsumivel');
-            if (modalEl.classList.contains('show')) {
-                new bootstrap.Collapse(modalEl).hide();
-            }
-        });
-    }
     function atualizarHoraDashboard() {
     const elementoHora = document.getElementById('tempo-atualizacao');
     

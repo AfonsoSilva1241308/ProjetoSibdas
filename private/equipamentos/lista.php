@@ -342,4 +342,29 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
 
     </div>
 </div>
+<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'inserido'): ?>
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
+        <div id="toastSucesso" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fw-medium fs-6">
+                    <i class="fa-solid fa-circle-check me-2"></i> Equipamento registado com sucesso no inventário!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Oculta a variável no URL e mostra o Toast usando o Bootstrap
+        document.addEventListener("DOMContentLoaded", function() {
+            // 1. Mostrar o Toast
+            const toastEl = document.getElementById('toastSucesso');
+            const toast = new bootstrap.Toast(toastEl, { delay: 4000 }); // Desaparece após 4 segundos
+            toast.show();
+
+            // 2. Limpar o '?sucesso=inserido' do URL (para não voltar a mostrar se fizer F5)
+            window.history.replaceState(null, null, window.location.pathname);
+        });
+    </script>
+<?php endif; ?>
 <?php include '../includes/footer.php'; ?>
