@@ -194,4 +194,25 @@ $subtitulo_pagina = "Consulte e monitorize as entidades parceiras e fabricantes.
         </div>
     </div>
 </div>
+<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'inserido'): ?>
+    <div class="toast-container position-fixed top-0 end-0 p-4" style="z-index: 1055;">
+        <div id="toastSucessoFornecedor" class="toast show align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fw-medium fs-6">
+                    <i class="fa-solid fa-circle-check me-2"></i> Fornecedor registado com sucesso no sistema!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" onclick="this.closest('.toast').classList.remove('show');"></button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        setTimeout(function() {
+            var toastEl = document.getElementById('toastSucessoFornecedor');
+            if (toastEl) {
+                toastEl.classList.remove('show');
+            }
+        }, 4000);
+    </script>
+<?php endif; ?>
    <?php include '../includes/footer.php'; ?>
