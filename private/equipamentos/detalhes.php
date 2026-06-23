@@ -416,5 +416,4 @@ $icone_pagina  = "fa-solid fa-file-medical";
         </div>
     </div>
 </div>
-
 <?php include '../includes/footer.php'; ?>

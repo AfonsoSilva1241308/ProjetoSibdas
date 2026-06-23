@@ -6,7 +6,7 @@
     <title>MediLink Digital — Apoio ao Inventário Hospitalar</title>
     
     <link rel="shortcut icon" href="../assets/img/logo1.png" type="image/png">
-    <link rel="stylesheet" href="../assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/Bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/fontawesome/all.min.css">
     <link rel="stylesheet" href="../assets/css/1241308.css">
 </head>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="nav-cliente">
-            <a href="login_form.html" target="_blank" class="btn btn-primary fw-bold text-white px-4 rounded-pill">Área Cliente</a>
+            <a href="login_form.php" target="_blank" class="btn btn-primary fw-bold text-white px-4 rounded-pill">Área Cliente</a>
         </div>
     </nav>
 
