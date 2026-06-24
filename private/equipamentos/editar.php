@@ -1,14 +1,14 @@
-<?php
-// 1. Segurança e Sessão
+<<?php
+// 1. Segurança, sessão e permissões
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../../config/config.php';
-redirect_if_not_logged();
 
-if (!function_exists('e')) {
-    function e($valor) {
-        return htmlspecialchars((string)($valor ?? ''), ENT_QUOTES, 'UTF-8');
-    }
-}
+/*
+    Ficha 14:
+    Só o administrador e o técnico podem editar equipamentos.
+    O profissional de saúde pode consultar, mas não pode editar.
+*/
+bloquear_se_nao_tiver_perfil(['administrador', 'tecnico']);
 
 // Variáveis de controlo
 $erro_sistema = "";
@@ -16,18 +16,25 @@ $erros = [];
 
 // 2. Obter e desencriptar o ID
 $idEncrypted = $_POST['id_escondido'] ?? $_GET['id_equipamento'] ?? null;
-$idEquipamento = aes_decrypt($idEncrypted);
+
+if (!$idEncrypted) {
+    header('Location: lista.php');
+    exit;
+}
+
+$idEquipamento = aes_decrypt(urldecode($idEncrypted));
 
 if (!$idEquipamento || !is_numeric($idEquipamento)) {
     header('Location: lista.php');
     exit;
 }
 
+$idEquipamento = (int) $idEquipamento;
+
 // 3. Processar o formulário se for POST (UPDATE)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
-        $ligacao = new PDO("mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8", MYSQL_USERNAME, MYSQL_PASSWORD);
-        $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $ligacao = db_connect();
         
         $ligacao->beginTransaction();
 
@@ -55,14 +62,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
 
     } catch (PDOException $err) {
-        $ligacao->rollBack();
+        if (isset($ligacao) && $ligacao instanceof PDO && $ligacao->inTransaction()) {
+            $ligacao->rollBack();
+        }
+
         $erro_sistema = "Erro ao atualizar: " . $err->getMessage();
     }
 }
 
 // 4. Carregar dados atuais
 try {
-    $ligacao = new PDO("mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8", MYSQL_USERNAME, MYSQL_PASSWORD);
+    $ligacao = db_connect();
     $stmt = $ligacao->prepare("SELECT * FROM equipamento WHERE id = :id");
     $stmt->execute([':id' => $idEquipamento]);
     $equipamento = $stmt->fetch(PDO::FETCH_OBJ);
@@ -83,7 +93,7 @@ $link_voltar = "lista.php";
 <div class="d-flex vh-100">
     <?php include '../includes/sidebar.php'; ?>
 
-    <div class="flex-grow-1 p-4 p-md-5 overflow-auto w-100 bg-light">
+    <div class="flex-grow-1 p-4 p-md-5 w-100 bg-light">
         
         <?php include '../includes/navbar.php'; ?>
 
@@ -824,8 +834,4 @@ document.getElementById('checkEComponente').addEventListener('change', function(
     });
 </script>
 <?php endif; ?>
-<<<<<<< HEAD
-<?php include '../includes/footer.php'; ?>   
-=======
 <?php include '../includes/footer.php'; ?>
->>>>>>> f01820d50daa5c9ffec404e8b2dfde321f1467c8

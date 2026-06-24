@@ -1,3 +1,7 @@
+<?php
+$sucesso_contacto = $_GET['sucesso'] ?? '';
+$erro_contacto = $_GET['erro'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -217,6 +221,27 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
                     <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+
+                        <?php if ($sucesso_contacto === 'mensagem'): ?>
+                            <div class="alert alert-success text-center" role="alert">
+                                Mensagem enviada com sucesso. Entraremos em contacto brevemente.
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if ($erro_contacto): ?>
+                            <div class="alert alert-danger text-center" role="alert">
+                                <?php if ($erro_contacto === 'campos'): ?>
+                                    Preenche todos os campos obrigatórios.
+                                <?php elseif ($erro_contacto === 'email'): ?>
+                                    O email introduzido não é válido.
+                                <?php elseif ($erro_contacto === 'tamanho'): ?>
+                                    Um dos campos tem texto demasiado longo.
+                                <?php else: ?>
+                                    Não foi possível enviar a mensagem. Tenta novamente.
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+
                         <form action="processar_contacto.php" method="POST">
                             <div class="row g-4">
                                 
