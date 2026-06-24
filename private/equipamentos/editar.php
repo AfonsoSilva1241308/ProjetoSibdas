@@ -1,4 +1,4 @@
-<<?php
+<?php
 // 1. Segurança, sessão e permissões
 require_once __DIR__ . '/../includes/funcoes.php';
 require_once __DIR__ . '/../../config/config.php';
