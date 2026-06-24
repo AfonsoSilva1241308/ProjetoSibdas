@@ -85,8 +85,8 @@ $link_voltar = "lista.php";
     <div class="card w-100 shadow-sm rounded border-top border-primary border-4 h-auto" style="max-width: 1200px;">
         <div class="card-body p-4 p-md-5">
             
-            <h2 class="mb-1 text-primary"><strong><i class="fa-solid fa-pen-to-square me-2"></i> Atualização de Dados </strong></h2>
-            <p class="text-muted mb-4">A modificar o registo: <span class="badge bg-dark fs-6 font-monospace ms-1">EV500-2021</span></p>
+            <h2 class="mb-1 text-primary"><strong><i class="fa-solid fa-pen-to-square me-2"></i> Atualização de dados </strong></h2>
+            <p class="text-muted mb-4">A modificar o registo: <span class="badge bg-dark fs-6 font-monospace ms-1"><?= e($equipamento->codigo_interno) ?></span></p>
             <hr class="mb-5 text-secondary opacity-25">
             
            <form action="" method="POST" class="form-editar-equipamento" enctype="multipart/form-data">
@@ -387,7 +387,7 @@ $link_voltar = "lista.php";
                         <option value="Higiene e Descartáveis">Higiene e Descartáveis</option>
                         <option value="Eletrónica de Monitorização">Eletrónica de Monitorização</option>
                         <option value="Tubagens e Acessórios">Tubagens e Acessórios de Imagiologia/Fluídos</option>
-                        <option value="Agentes de Desinfeçao">Agentes de Desinfeção</option>
+                        <option value="Agentes de Desinfeção">Agentes de Desinfeção</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -818,4 +818,8 @@ document.getElementById('checkEComponente').addEventListener('change', function(
     });
 </script>
 <?php endif; ?>
+<<<<<<< HEAD
 <?php include '../includes/footer.php'; ?>   
+=======
+<?php include '../includes/footer.php'; ?>
+>>>>>>> f01820d50daa5c9ffec404e8b2dfde321f1467c8

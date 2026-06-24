@@ -1,19 +1,19 @@
 <?php
 
 require_once __DIR__ . '/../../config/config.php';
-// Inicia a sessão se ainda não estiver iniciada
+// Inicia a sessÃo se ainda nÃo estiver iniciada
 function start_session() {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
 }
 
-// Verifica se a sessão do utilizador está ativa
+// Verifica se a sessÃo do utilizador estÃo ativa
 function check_session() {
     return isset($_SESSION['utilizador']);
 }
 
-// Redireciona automaticamente se não houver sessão iniciada
+// Redireciona automaticamente se nÃ£o houver sessÃ£o iniciada
 function redirect_if_not_logged($redirect_to = "/projeto_sibdas/public/login_form.php") {
     start_session();
     if (!check_session()) {
@@ -22,7 +22,7 @@ function redirect_if_not_logged($redirect_to = "/projeto_sibdas/public/login_for
     }
 }
 
-// Termina a sessão e redireciona para o login
+// Termina a sessÃo e redireciona para o login
 function logout_and_redirect($redirect_to = "/projeto_sibdas/public/login_form.php") {
     start_session();
     session_unset();

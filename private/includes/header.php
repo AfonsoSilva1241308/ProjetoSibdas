@@ -20,4 +20,3 @@ require_once __DIR__ . '/../../config/config.php';
 <script src="/projeto_sibdas/assets/datatables/datatables.min.js"></script>
 <script src="/projeto_sibdas/assets/js/1241308.js"></script>
 </head>
-<body>
