@@ -37,7 +37,7 @@
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
-                <a class="dropdown-item py-2 text-secondary fw-medium" href="/projeto_sibdas/public/logout.php">
+                <a class="dropdown-item py-2 text-secondary fw-medium" href="/sibdas/1241308/projeto-sibdas/public/logout.php">
                     <i class="fa-solid fa-arrow-right-from-bracket text-primary me-2"></i> Sair da Conta
                 </a>
             </li>

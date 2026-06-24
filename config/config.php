@@ -11,7 +11,7 @@ define('MYSQL_DATABASE', 'db1241308'); // Verifica se o nome da BD tem espaço o
 define('MYSQL_USERNAME', '1241308');
 define('MYSQL_PASSWORD', 'silva_308');
 define('MYSQL_AES_KEY', 'Vduu47qL51hLn6bkYkY6N101nivsmdfD');
-define('BASE_URL', '/projeto_sibdas');
+define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/sibdas/1241308/projeto-sibdas');
 
 define('OPENSSL_METHOD', 'AES-256-CBC');
 define('OPENSSL_KEY', 'HØSDRQZIGqc1X2kbYBk9xspdn9U5f3Wa'); 

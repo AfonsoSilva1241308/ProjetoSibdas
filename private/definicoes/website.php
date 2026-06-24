@@ -1,33 +1,32 @@
 <?php
-// 1. Segurança, sessão e configuração da BD
 require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../includes/funcoes.php';
-redirect_if_not_logged();
 
-// 2. Ligar à Base de Dados e ir buscar os dados do site
+bloquear_se_nao_tiver_perfil(['administrador']);
+
+$site_info = [];
+
 try {
-    $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8",
-        MYSQL_USERNAME,
-        MYSQL_PASSWORD
-    );
-    $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $ligacao = db_connect();
 
-    // Vai buscar a primeira (e única) linha da tabela de gestão do site (assumindo id=1)
-    $query = $ligacao->query("SELECT * FROM gestao_site LIMIT 1");
+    $query = $ligacao->query("
+        SELECT *
+        FROM gestao_site
+        WHERE id = 1
+        LIMIT 1
+    ");
+
     $site_info = $query->fetch(PDO::FETCH_ASSOC);
 
-    // Se a tabela estiver vazia (como vimos no HeidiSQL), cria um array vazio para não dar erro
     if (!$site_info) {
         $site_info = [];
     }
 
 } catch (PDOException $err) {
     $site_info = [];
+    $_SESSION['server_error'] = 'Erro ao carregar os dados da gestão do site.';
 }
-$ligacao = null; // Fecha a ligação
 
-// 3. Configurar a navbar
 $titulo_pagina = "Gestão de Site";
 $icone_pagina = "fa-solid fa-pen-nib";
 ?>
