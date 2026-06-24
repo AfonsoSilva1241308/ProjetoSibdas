@@ -1,9 +1,75 @@
 <?php
-// 1. Chamar as funções de segurança e verificar a sessão (Crucial!)
+// 1. Segurança e Sessão
 require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../../config/config.php';
 redirect_if_not_logged();
 
-// 2. Ativar o "Superpoder" do botão voltar na Navbar
+// Variáveis de controlo
+$erro_sistema = "";
+$erros = [];
+
+// 2. Obter e desencriptar o ID
+$idEncrypted = $_POST['id_escondido'] ?? $_GET['id_equipamento'] ?? null;
+$idEquipamento = aes_decrypt($idEncrypted);
+
+if (!$idEquipamento || !is_numeric($idEquipamento)) {
+    header('Location: lista.php');
+    exit;
+}
+
+// 3. Processar o formulário se for POST (UPDATE)
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    try {
+        $ligacao = new PDO("mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8", MYSQL_USERNAME, MYSQL_PASSWORD);
+        $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $ligacao->beginTransaction();
+
+        $sql = "UPDATE equipamento SET 
+                designacao = :designacao, marca = :marca, modelo = :modelo, 
+                num_serie = :num_serie, fabricante = :fabricante, 
+                data_aquisicao = :data_aquisicao, custo_aquisicao = :custo, estado = :estado 
+                WHERE id = :id";
+        
+        $stmt = $ligacao->prepare($sql);
+       $stmt->execute([
+            ':designacao'     => $_POST['designacao'],
+            ':marca'          => $_POST['marca'],
+            ':modelo'         => $_POST['modelo'],
+            ':num_serie'      => $_POST['numero_serie'],
+            ':fabricante'     => $_POST['fabricante'],
+            ':data_aquisicao' => !empty($_POST['data_aquisicao']) ? $_POST['data_aquisicao'] : null,
+            ':custo'          => !empty($_POST['custo']) ? $_POST['custo'] : null,
+            ':estado'         => $_POST['estado'],
+            ':id'             => $idEquipamento
+        ]);
+
+        $ligacao->commit();
+        header("Location: lista.php?sucesso=editado");
+        exit;
+
+    } catch (PDOException $err) {
+        $ligacao->rollBack();
+        $erro_sistema = "Erro ao atualizar: " . $err->getMessage();
+    }
+}
+
+// 4. Carregar dados atuais
+try {
+    $ligacao = new PDO("mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8", MYSQL_USERNAME, MYSQL_PASSWORD);
+    $stmt = $ligacao->prepare("SELECT * FROM equipamento WHERE id = :id");
+    $stmt->execute([':id' => $idEquipamento]);
+    $equipamento = $stmt->fetch(PDO::FETCH_OBJ);
+
+    if (!$equipamento) {
+        header('Location: lista.php');
+        exit;
+    }
+} catch (PDOException $err) {
+    $erro_sistema = "Erro ao carregar dados: " . $err->getMessage();
+}
+
+// 5. Ativar o "Superpoder" do botão voltar na Navbar
 $link_voltar = "lista.php"; 
 ?>
 <?php include '../includes/header.php'; ?>
@@ -15,7 +81,7 @@ $link_voltar = "lista.php";
         
         <?php include '../includes/navbar.php'; ?>
 
-            <div class="d-flex justify-content-center mt-4 mb-5">
+        <div class="d-flex justify-content-center mt-4 mb-5">
     <div class="card w-100 shadow-sm rounded border-top border-primary border-4 h-auto" style="max-width: 1200px;">
         <div class="card-body p-4 p-md-5">
             
@@ -23,8 +89,13 @@ $link_voltar = "lista.php";
             <p class="text-muted mb-4">A modificar o registo: <span class="badge bg-dark fs-6 font-monospace ms-1">EV500-2021</span></p>
             <hr class="mb-5 text-secondary opacity-25">
             
-            <form action="detalhes.php" method="POST" class="form-editar-equipamento" enctype="multipart/form-data"  novalidate>
-
+           <form action="" method="POST" class="form-editar-equipamento" enctype="multipart/form-data">
+            <input type="hidden" name="id_escondido" value="<?= htmlspecialchars($_GET['id_equipamento'] ?? '') ?>">
+<?php if (!empty($erro_sistema)): ?>
+        <div class="alert alert-danger fw-bold shadow-sm mb-4">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i> <?= $erro_sistema ?>
+        </div>
+    <?php endif; ?>
                 <ul class="nav nav-tabs mb-4" id="equipamentoTabs" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active text-dark fw-bold border-bottom-0" id="dados-tab" data-bs-toggle="tab" data-bs-target="#dados" type="button" role="tab" aria-selected="true">
@@ -46,36 +117,48 @@ $link_voltar = "lista.php";
                             <i class="fa-solid fa-microchip text-secondary me-2"></i>1. Identificação Técnica
                         </h5>
                         <div class="row g-4 mb-3">
-                            <div class="col-md-3">
-                                <label class="form-label fw-medium">Código Interno <span class="text-danger">*</span></label>
-                                <input type="text" name="codigo_interno" class="form-control bg-light" value="EV500-2021" readonly>
-                                <small class="text-muted" style="font-size: 0.75rem;">Não editável</small>
-                            </div>
-                            <div class="col-md-5">
-                                <label class="form-label fw-medium">Designação do Equipamento <span class="text-danger">*</span></label>
-                                <input type="text" name="designacao"  class="form-control border-0 bg-light shadow-sm" value="Ventilador Pulmonar" required>
-                            </div>
+                            <!-- Campo de Código Interno (Read-only como na tua versão) -->
+<div class="col-md-3">
+    <label class="form-label fw-medium">Código Interno <span class="text-danger">*</span></label>
+    <input type="text" name="codigo_interno" class="form-control bg-light" 
+           value="<?= htmlspecialchars($equipamento->codigo_interno) ?>" readonly>
+    <small class="text-muted" style="font-size: 0.75rem;">Não editável</small>
+</div>
+
+<!-- Campo de Designação -->
+<div class="col-md-5">
+    <label class="form-label fw-medium">Designação do Equipamento <span class="text-danger">*</span></label>
+    <input type="text" name="designacao" class="form-control border-0 bg-light shadow-sm" 
+           value="<?= htmlspecialchars($equipamento->designacao) ?>" required>
+</div>
+
+<!-- Campo de Categoria -->
+<div class="col-md-4">
+    <label class="form-label fw-medium">Categoria / Grupo</label>
+    <select name="categoria" class="form-select border-0 bg-light shadow-sm">
+        <option value="monitorizacao" <?= ($equipamento->categoria === 'monitorizacao') ? 'selected' : '' ?>>Monitorização</option>
+        <option value="suporte_vida" <?= ($equipamento->categoria === 'suporte_vida') ? 'selected' : '' ?>>Suporte de Vida</option>
+        <option value="terapia" <?= ($equipamento->categoria === 'terapia') ? 'selected' : '' ?>>Terapia</option>
+        <option value="diagnostico" <?= ($equipamento->categoria === 'diagnostico') ? 'selected' : '' ?>>Diagnóstico</option>
+    </select>
+</div>
                             <div class="col-md-4">
-                                <label class="form-label fw-medium">Categoria / Grupo</label>
-                                <select name="categoria" class="form-select border-0 bg-light shadow-sm">
-                                    <option value="monitorizacao">Monitorização</option>
-                                    <option value="suporte_vida" selected>Suporte de Vida</option>
-                                    <option value="terapia">Terapia</option>
-                                    <option value="diagnostico">Diagnóstico</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Marca</label>
-                                <input type="text" name="marca" class="form-control border-0 bg-light shadow-sm" value="Dräger">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Modelo</label>
-                                <input type="text" name="modelo" class="form-control border-0 bg-light shadow-sm" value="Evita V500">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Número de Série</label>
-                                <input type="text" name="numero_serie" class="form-control border-0 bg-light shadow-sm" value="DRG-984372-V5">
-                            </div>
+    <label class="form-label fw-medium">Marca</label>
+    <input type="text" name="marca" class="form-control border-0 bg-light shadow-sm" 
+           value="<?= htmlspecialchars($equipamento->marca ?? '') ?>">
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium">Modelo</label>
+    <input type="text" name="modelo" class="form-control border-0 bg-light shadow-sm" 
+           value="<?= htmlspecialchars($equipamento->modelo ?? '') ?>">
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium">Número de Série</label>
+    <input type="text" name="numero_serie" class="form-control border-0 bg-light shadow-sm" 
+           value="<?= htmlspecialchars($equipamento->num_serie ?? '') ?>">
+</div>
                         </div>
 
                         <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-5">
@@ -83,40 +166,49 @@ $link_voltar = "lista.php";
                         </h5>
                         <div class="row g-4 mb-5">
                             <div class="col-md-4">
-                                <label class="form-label fw-medium">Fabricante</label>
-                                <input type="text" name="fabricante" class="form-control border-0 bg-light shadow-sm" value="Dräger Medical GmbH">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Data de Aquisição</label>
-                                <input type="date" name="data_aquisicao" class="form-control border-0 bg-light shadow-sm" value="2021-03-15">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Tipo de Entrada</label>
-                                <select name="tipo_entrada" class="form-select border-0 bg-light shadow-sm">
-                                    <option value="compra" selected>Compra</option>
-                                    <option value="doacao">Doação</option>
-                                    <option value="aluguer">Aluguer</option>
-                                    <option value="emprestimo">Empréstimo</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Ano de Fabrico</label>
-                                <input type="number" name="ano_fabrico"  class="form-control border-0 bg-light shadow-sm" min="1990" max="2026" value="2020">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Custo de Aquisição (€)</label>
-                                <input type="number" name="custo" class="form-control border-0 bg-light shadow-sm" step="0.01" value="24500.00">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium">Estado Atual <span class="text-danger">*</span></label>
-                                <select name="estado" class="form-select border-success shadow-sm" required>
-                                    <option value="ativo" selected>Ativo</option>
-                                    <option value="manutencao">Em Manutenção</option>
-                                    <option value="inativo">Inativo</option>
-                                    <option value="abatido">Abatido</option>
-                                    <option value="calibracao">Em Calibração</option>
-                                </select>
-                            </div>
+    <label class="form-label fw-medium">Fabricante</label>
+    <input type="text" name="fabricante" class="form-control border-0 bg-light shadow-sm" 
+           value="<?= htmlspecialchars($equipamento->fabricante ?? '') ?>">
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium">Data de Aquisição</label>
+    <input type="date" name="data_aquisicao" class="form-control border-0 bg-light shadow-sm" 
+           value="<?= htmlspecialchars($equipamento->data_aquisicao ?? '') ?>">
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium">Tipo de Entrada</label>
+    <select name="tipo_entrada" class="form-select border-0 bg-light shadow-sm">
+        <option value="compra" <?= ($equipamento->tipo_entrada === 'compra') ? 'selected' : '' ?>>Compra</option>
+        <option value="doacao" <?= ($equipamento->tipo_entrada === 'doacao') ? 'selected' : '' ?>>Doação</option>
+        <option value="aluguer" <?= ($equipamento->tipo_entrada === 'aluguer') ? 'selected' : '' ?>>Aluguer</option>
+        <option value="emprestimo" <?= ($equipamento->tipo_entrada === 'emprestimo') ? 'selected' : '' ?>>Empréstimo</option>
+    </select>
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium">Ano de Fabrico</label>
+    <input type="number" name="ano_fabrico" class="form-control border-0 bg-light shadow-sm" 
+           min="1990" max="2026" value="<?= htmlspecialchars($equipamento->ano_fabrico ?? '') ?>">
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium">Custo de Aquisição (€)</label>
+    <input type="number" name="custo" class="form-control border-0 bg-light shadow-sm" 
+           step="0.01" value="<?= htmlspecialchars($equipamento->custo_aquisicao ?? '') ?>">
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium">Estado Atual <span class="text-danger">*</span></label>
+    <select name="estado" class="form-select border-success shadow-sm" required>
+        <option value="ativo" <?= ($equipamento->estado === 'ativo') ? 'selected' : '' ?>>Ativo</option>
+        <option value="manutencao" <?= ($equipamento->estado === 'manutencao') ? 'selected' : '' ?>>Em Manutenção</option>
+        <option value="inativo" <?= ($equipamento->estado === 'inativo') ? 'selected' : '' ?>>Inativo</option>
+        <option value="abatido" <?= ($equipamento->estado === 'abatido') ? 'selected' : '' ?>>Abatido</option>
+        <option value="calibracao" <?= ($equipamento->estado === 'calibracao') ? 'selected' : '' ?>>Em Calibração</option>
+    </select>
+</div>
                         </div>
 
                         <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-5">
@@ -124,41 +216,44 @@ $link_voltar = "lista.php";
                         </h5>
                         <div class="row g-4 mb-5">
                             <div class="col-md-4">
-                                <label class="form-label fw-medium" style="color: #6c757d;">Criticidade Clínica *</label>
-                                <select name="criticidade" class="form-select border-warning shadow-sm" required>
-                                    <option value="baixa">Baixa</option>
-                                    <option value="media">Média</option>
-                                    <option value="alta">Alta</option>
-                                    <option value="suporte_vida" selected>Suporte de Vida</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium" style="color: #6c757d;">Serviço / Departamento *</label>
-                                <select name="servico" class="form-select border-0 bg-light shadow-sm" required>
-                                    <option value="" selected disabled>Selecione o serviço...</option>
-                                    <option value="urgencia">Urgência Geral</option>
-                                    <option value="uci">Cuidados Intensivos (UCI)</option>
-                                    <option value="bloco">Bloco Operatório</option>
-                                    <option value="imagiologia">Imagiologia</option>
-                                    <option value="internamento">Internamento</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label fw-medium" style="color: #6c757d;">Sala / Gabinete / Box *</label>
-                                <select name="sala" class="form-select border-0 bg-light shadow-sm" required>
-                                    <option value="" selected disabled>Selecione a sala...</option>
-                                    <option value="box1">Box 1</option>
-                                    <option value="box2">Box 2</option>
-                                    <option value="box3">Box 3</option>
-                                    <option value="isolamento">Sala de Raio X</option>
-                                    <option value="triagem">Triagem</option>
-                                    <option value="gabinete_medico">Gabinete Médico</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-medium" style="color: #6c757d;">Observações</label>
-                                <textarea name="observacoes" class="form-control border-0 bg-light shadow-sm" rows="3">Equipamento em pleno funcionamento. Última calibração realizada com sucesso em janeiro de 2026.</textarea>
-                            </div>
+    <label class="form-label fw-medium" style="color: #6c757d;">Criticidade Clínica *</label>
+    <select name="criticidade" class="form-select border-warning shadow-sm" required>
+        <option value="baixa" <?= ($equipamento->criticidade === 'baixa') ? 'selected' : '' ?>>Baixa</option>
+        <option value="media" <?= ($equipamento->criticidade === 'media') ? 'selected' : '' ?>>Média</option>
+        <option value="alta" <?= ($equipamento->criticidade === 'alta') ? 'selected' : '' ?>>Alta</option>
+        <option value="suporte_vida" <?= ($equipamento->criticidade === 'suporte_vida') ? 'selected' : '' ?>>Suporte de Vida</option>
+    </select>
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium" style="color: #6c757d;">Serviço / Departamento *</label>
+    <select name="servico" class="form-select border-0 bg-light shadow-sm" required>
+        <option value="" disabled>Selecione o serviço...</option>
+        <option value="urgencia" <?= ($equipamento->servico === 'urgencia') ? 'selected' : '' ?>>Urgência Geral</option>
+        <option value="uci" <?= ($equipamento->servico === 'uci') ? 'selected' : '' ?>>Cuidados Intensivos (UCI)</option>
+        <option value="bloco" <?= ($equipamento->servico === 'bloco') ? 'selected' : '' ?>>Bloco Operatório</option>
+        <option value="imagiologia" <?= ($equipamento->servico === 'imagiologia') ? 'selected' : '' ?>>Imagiologia</option>
+        <option value="internamento" <?= ($equipamento->servico === 'internamento') ? 'selected' : '' ?>>Internamento</option>
+    </select>
+</div>
+
+<div class="col-md-4">
+    <label class="form-label fw-medium" style="color: #6c757d;">Sala / Gabinete / Box *</label>
+    <select name="sala" class="form-select border-0 bg-light shadow-sm" required>
+        <option value="" disabled>Selecione a sala...</option>
+        <option value="box1" <?= ($equipamento->sala === 'box1') ? 'selected' : '' ?>>Box 1</option>
+        <option value="box2" <?= ($equipamento->sala === 'box2') ? 'selected' : '' ?>>Box 2</option>
+        <option value="box3" <?= ($equipamento->sala === 'box3') ? 'selected' : '' ?>>Box 3</option>
+        <option value="isolamento" <?= ($equipamento->sala === 'isolamento') ? 'selected' : '' ?>>Sala de Raio X</option>
+        <option value="triagem" <?= ($equipamento->sala === 'triagem') ? 'selected' : '' ?>>Triagem</option>
+        <option value="gabinete_medico" <?= ($equipamento->sala === 'gabinete_medico') ? 'selected' : '' ?>>Gabinete Médico</option>
+    </select>
+</div>
+
+<div class="col-12">
+    <label class="form-label fw-medium" style="color: #6c757d;">Observações</label>
+    <textarea name="observacoes" class="form-control border-0 bg-light shadow-sm" rows="3"><?= htmlspecialchars($equipamento->observacoes ?? '') ?></textarea>
+</div>
                         </div>
 
                         <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-5">
@@ -166,83 +261,102 @@ $link_voltar = "lista.php";
                         </h5>
                         <div class="p-4 bg-white border rounded shadow-sm mb-5">
                             <div class="mb-4 pb-4 border-bottom">
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="form-check form-switch fs-5 mb-0">
-                                        <input name="is_componente" value="sim" class="form-check-input" style="cursor: pointer;" type="checkbox" id="checkEComponente" role="switch">
-                                    </div>
-                                    <label class="form-check-label fw-bold text-dark ms-2" style="cursor: pointer;" for="checkEComponente">
-                                        Este equipamento é um componente / acessório de outra máquina?
-                                    </label>
-                                </div>
-                                <div id="blocoEquipamentoPai" class="d-none ms-5 mt-3 ps-3 border-start border-info border-3">
-                                    <label class="form-label small fw-medium text-secondary">Selecione a máquina a que pertence <span class="text-danger">*</span></label>
-                                    <select name="equipamento_pai" class="form-select border-0 bg-light shadow-sm" style="max-width: 400px;">
-                                        <option value="" selected disabled>Pesquisar no inventário...</option>
-                                        <option value="1">04.002 - Monitor Multiparamétrico</option>
-                                        <option value="2">EV500 - Ventilador Pulmonar</option>
-                                    </select>
-                                </div>
+    <div class="d-flex align-items-center mb-2">
+        <div class="form-check form-switch fs-5 mb-0">
+            <input name="is_componente" value="sim" class="form-check-input" 
+                   style="cursor: pointer;" type="checkbox" id="checkEComponente" 
+                   role="switch" <?= ($equipamento->is_componente === 'sim') ? 'checked' : '' ?>>
+        </div>
+        <label class="form-check-label fw-bold text-dark ms-2" style="cursor: pointer;" for="checkEComponente">
+            Este equipamento é um componente / acessório de outra máquina?
+        </label>
+    </div>
+
+    <div id="blocoEquipamentoPai" class="<?= ($equipamento->is_componente === 'sim') ? '' : 'd-none' ?> ms-5 mt-3 ps-3 border-start border-info border-3">
+        <label class="form-label small fw-medium text-secondary">Selecione a máquina a que pertence <span class="text-danger">*</span></label>
+        <select name="equipamento_pai" class="form-select border-0 bg-light shadow-sm" style="max-width: 400px;">
+            <option value="" disabled <?= empty($equipamento->equipamento_pai_id) ? 'selected' : '' ?>>Pesquisar no inventário...</option>
+            <option value="1" <?= ($equipamento->equipamento_pai_id == '1') ? 'selected' : '' ?>>04.002 - Monitor Multiparamétrico</option>
+            <option value="2" <?= ($equipamento->equipamento_pai_id == '2') ? 'selected' : '' ?>>EV500 - Ventilador Pulmonar</option>
+        </select>
+    </div>
+</div>
                             </div>
                             <div id="blocoGerirFilhos">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <h6 class="fw-bold text-dark m-0">Componentes e Acessórios Vinculados</h6>
-                                        <small class="text-muted">Adicione equipamentos soltos que pertençam a esta unidade principal.</small>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline-info fw-medium px-3" type="button" data-bs-toggle="collapse" data-bs-target="#painelVincularComponente">
-                                        <i class="fa-solid fa-link me-1"></i> Vincular Componente
-                                    </button>
+    <div>
+        <h6 class="fw-bold text-dark m-0">Componentes e Acessórios Vinculados</h6>
+        <small class="text-muted">Adicione equipamentos soltos que pertençam a esta unidade principal.</small>
+    </div>
+    <button class="btn btn-sm btn-outline-info fw-medium px-3" type="button" data-bs-toggle="collapse" data-bs-target="#painelVincularComponente">
+        <i class="fa-solid fa-link me-1"></i> Vincular Componente
+    </button>
+</div>
+
+<div class="collapse mb-3" id="painelVincularComponente">
+    <div class="card card-body bg-light border-info border-opacity-25 shadow-sm p-3 rounded">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-9">
+                <label class="form-label small fw-medium text-dark">Pesquisar Equipamento no Inventário <span class="text-danger">*</span></label>
+                <select name="novo_componente" class="form-select border-0 shadow-sm" id="novoComponenteSelect">
+                    <option value="" selected disabled>Selecione um equipamento para vincular...</option>
+                    <option value="Humidificador Aquecido MR850|EV500-2021-C01">EV500-2021-C01 - Humidificador Aquecido MR850</option>
+                    <option value="Braço Articulado de Suporte|EV500-2021-C02">EV500-2021-C02 - Braço Articulado de Suporte</option>
+                    <option value="Sensor de Oximetria SpO2|04.002.01">04.002.01 - Sensor de Oximetria SpO2</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-info text-white fw-bold w-100" id="btnVincularComponente">Vincular</button>
+            </div>
+        </div>
+    </div>
+</div>
                                 </div>
-                                <div class="collapse mb-3" id="painelVincularComponente">
-                                    <div class="card card-body bg-light border-info border-opacity-25 shadow-sm p-3 rounded">
-                                        <div class="row g-3 align-items-end">
-                                            <div class="col-md-9">
-                                                <label class="form-label small fw-medium text-dark">Pesquisar Equipamento no Inventário <span class="text-danger">*</span></label>
-                                                <select name="novo_componente" class="form-select border-0 shadow-sm" id="novoComponenteSelect">
-                                                    <option value="" selected disabled>Selecione um equipamento para vincular...</option>
-                                                    <option value="Humidificador Aquecido MR850|EV500-2021-C01">EV500-2021-C01 - Humidificador Aquecido MR850</option>
-                                                    <option value="Braço Articulado de Suporte|EV500-2021-C02">EV500-2021-C02 - Braço Articulado de Suporte</option>
-                                                    <option value="Sensor de Oximetria SpO2|04.002.01">04.002.01 - Sensor de Oximetria SpO2</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-info text-white fw-bold w-100" id="btnVincularComponente">Vincular</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="table-responsive border rounded shadow-sm" id="contentorTabelaComp">
-                                    <table class="table align-middle mb-0 bg-white">
-                                        <thead class="bg-light text-muted small">
-                                            <tr>
-                                                <th class="py-2 border-0 px-3">Cód. Componente</th>
-                                                <th class="py-2 border-0">Designação</th>
-                                                <th class="py-2 border-0 text-center">Estado Atual</th>
-                                                <th class="py-2 border-0 text-end pe-3">Ação</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="corpoTabelaComp">
-                                            <tr>
-                                                <td class="py-3 px-3 border-0 text-muted font-monospace small">EV500-2021-C01</td>
-                                                <td class="py-3 border-0 fw-medium text-dark">Humidificador Aquecido MR850</td>
-                                                <td class="py-3 border-0 text-center">
-                                                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">Ativo</span>
-                                                </td>
-                                                <td class="py-3 border-0 text-end pe-3">
-                                                    <button type="button" class="btn btn-sm btn-outline-danger btn-remover-componente px-2" title="Desvincular" data-bs-toggle="modal" data-bs-target="#modalDesvincularComponente">
-                                                        <i class="fa-solid fa-link-slash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="text-center py-4 bg-white border rounded shadow-sm text-muted small d-none" id="msgSemComp">
-                                    <i class="fa-solid fa-sitemap fs-4 d-block mb-2 text-secondary opacity-50"></i>
-                                    Nenhum componente vinculado a esta unidade.
-                                </div>
-                            </div>
-                        </div>
+                               <div class="table-responsive border rounded shadow-sm" id="contentorTabelaComp">
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light text-muted small">
+            <tr>
+                <th class="py-2 border-0 px-3">Cód. Componente</th>
+                <th class="py-2 border-0">Designação</th>
+                <th class="py-2 border-0 text-center">Estado Atual</th>
+                <th class="py-2 border-0 text-end pe-3">Ação</th>
+            </tr>
+        </thead>
+        <tbody id="corpoTabelaComp">
+            <?php
+            // Lógica dinâmica (já definida no passo anterior)
+            $stmtComp = $ligacao->prepare("SELECT id, codigo_interno, designacao, estado FROM equipamento WHERE equipamento_pai_id = :id");
+            $stmtComp->execute([':id' => $idEquipamento]);
+            $componentes = $stmtComp->fetchAll(PDO::FETCH_OBJ);
+
+            if (count($componentes) > 0):
+                foreach ($componentes as $comp):
+            ?>
+                <tr>
+                    <td class="py-3 px-3 border-0 text-muted font-monospace small"><?= htmlspecialchars($comp->codigo_interno) ?></td>
+                    <td class="py-3 border-0 fw-medium text-dark"><?= htmlspecialchars($comp->designacao) ?></td>
+                    <td class="py-3 border-0 text-center">
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">
+                            <?= htmlspecialchars(ucfirst($comp->estado)) ?>
+                        </span>
+                    </td>
+                    <td class="py-3 border-0 text-end pe-3">
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-remover-componente px-2" 
+                                title="Desvincular" data-bs-toggle="modal" data-bs-target="#modalDesvincularComponente">
+                            <i class="fa-solid fa-link-slash"></i>
+                        </button>
+                    </td>
+                </tr>
+            <?php endforeach; 
+            endif; ?>
+        </tbody>
+    </table>
+
+    <div class="text-center py-4 bg-white text-muted small <?= (count($componentes) > 0) ? 'd-none' : '' ?>" id="msgSemComp">
+        <i class="fa-solid fa-sitemap fs-4 d-block mb-2 text-secondary opacity-50"></i>
+        Nenhum componente vinculado a esta unidade.
+    </div>
+</div>
 
                         <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-5">
     <i class="fa-solid fa-box-open text-warning me-2"></i>5. Consumíveis e Material Compatível
@@ -307,68 +421,52 @@ $link_voltar = "lista.php";
                 </tr>
             </thead>
             <tbody id="corpoTabelaConsumiveis">
-                <tr>
-                    <td class="py-3 px-3 border-0">
-                        <input type="hidden" name="edit_cons_id[]" value="1">
-                        <input type="text" name="edit_cons_designacao[]" class="form-control bg-light border-0 shadow-sm fw-medium text-dark" value="Filtro HMEF" required>
-                    </td>
-                    <td class="py-3 border-0">
-                        <select name="edit_cons_categoria[]" class="form-select bg-light border-0 shadow-sm" required>
-                            <option value="Materiais de Injeção e Punção">Materiais de Injeção e Punção</option>
-                            <option value="Higiene e Descartáveis">Higiene e Descartáveis</option>
-                            <option value="Eletrónica de Monitorização">Eletrónica de Monitorização</option>
-                            <option value="Tubagens e Acessórios de Imagiologia/Fluídos" selected>Tubagens e Acessórios de Imagiologia/Fluídos</option>
-                            <option value="Agentes de Desinfeçao">Agentes de Desinfeção</option>
-                        </select>
-                    </td>
-                    <td class="py-3 border-0">
-                        <select name="edit_cons_frequencia[]" class="form-select bg-light border-0 shadow-sm" required>
-                            <option value="Por Paciente" selected>Por Paciente </option>
-                            <option value="Diário">Diário</option>
-                            <option value="Mensal">Mensal</option>
-                            <option value="Anual ">Anual</option>
-                        </select>
-                    </td>
-                    <td class="py-3 pe-3 border-0 text-end">
-                        <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverConsumivel">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="py-3 px-3 border-0">
-                        <input type="hidden" name="edit_cons_id[]" value="2">
-                        <input type="text" class="form-control bg-light border-0 shadow-sm fw-medium text-dark" value="Célula de O2" required>
-                    </td>
-                    <td class="py-3 border-0">
-                        <select name="edit_cons_categoria[]" class="form-select bg-light border-0 shadow-sm" required>
-                            <option value="Materiais de Injeção e Punção">Materiais de Injeção e Punção</option>
-                            <option value="Higiene e Descartáveis">Higiene e Descartáveis</option>
-                            <option value="Eletrónica de Monitorização" selected>Eletrónica de Monitorização</option>
-                            <option value="Tubagens e Acessórios de Imagiologia/Fluídos">Tubagens e Acessórios de Imagiologia/Fluídos</option>
-                            <option value="Agentes de Desinfeçao">Agentes de Desinfeção</option>
-                        </select>
-                    </td>
-                    <td class="py-3 border-0">
-                        <select name="edit_cons_frequencia[]" class="form-select bg-light border-0 shadow-sm" required>
-                            <option value="Por Paciente">Por Paciente </option>
-                            <option value="Diário">Diário</option>
-                            <option value="Mensal" selected>Mensal</option>
-                            <option value="Anual">Anual </option>
-                        </select>
-                    </td>
-                    <td class="py-3 pe-3 border-0 text-end">
-                        <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverConsumivel">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
+    <?php
+    /// 1. Procurar os consumíveis deste equipamento na base de dados
+    $stmtCons = $ligacao->prepare("SELECT * FROM consumivel WHERE equipamento_id = :id");
+    $stmtCons->execute([':id' => $idEquipamento]);
+    $consumiveis = $stmtCons->fetchAll(PDO::FETCH_OBJ);
+
+    // 2. Se existirem consumíveis, desenha as linhas. Se não, mostra a mensagem.
+    if (count($consumiveis) > 0):
+        foreach ($consumiveis as $cons):
+    ?>
+        <tr>
+            <td class="py-3 px-3 border-0">
+                <input type="hidden" name="edit_cons_id[]" value="<?= $cons->id ?>">
+                <input type="text" name="edit_cons_designacao[]" class="form-control bg-light border-0 shadow-sm fw-medium text-dark" value="<?= htmlspecialchars($cons->designacao) ?>" required>
+            </td>
+            <td class="py-3 border-0">
+                <select name="edit_cons_categoria[]" class="form-select bg-light border-0 shadow-sm" required>
+                    <option value="Materiais de Injeção e Punção" <?= ($cons->categoria === 'Materiais de Injeção e Punção') ? 'selected' : '' ?>>Materiais de Injeção e Punção</option>
+                    <option value="Higiene e Descartáveis" <?= ($cons->categoria === 'Higiene e Descartáveis') ? 'selected' : '' ?>>Higiene e Descartáveis</option>
+                    <option value="Eletrónica de Monitorização" <?= ($cons->categoria === 'Eletrónica de Monitorização') ? 'selected' : '' ?>>Eletrónica de Monitorização</option>
+                    <option value="Tubagens e Acessórios" <?= ($cons->categoria === 'Tubagens e Acessórios') ? 'selected' : '' ?>>Tubagens e Acessórios</option>
+                    <option value="Agentes de Desinfeçao" <?= ($cons->categoria === 'Agentes de Desinfeçao') ? 'selected' : '' ?>>Agentes de Desinfeção</option>
+                </select>
+            </td>
+            <td class="py-3 border-0">
+                <select name="edit_cons_frequencia[]" class="form-select bg-light border-0 shadow-sm" required>
+                    <option value="Por Paciente / Uso Único" <?= ($cons->frequencia === 'Por Paciente / Uso Único') ? 'selected' : '' ?>>Por Paciente / Uso Único</option>
+                    <option value="Diário" <?= ($cons->frequencia === 'Diário') ? 'selected' : '' ?>>Diário</option>
+                    <option value="Mensal" <?= ($cons->frequencia === 'Mensal') ? 'selected' : '' ?>>Mensal</option>
+                    <option value="Anual" <?= ($cons->frequencia === 'Anual') ? 'selected' : '' ?>>Anual</option>
+                </select>
+            </td>
+            <td class="py-3 pe-3 border-0 text-end">
+                <button type="button" class="btn btn-sm btn-outline-danger px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverConsumivel">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </td>
+        </tr>
+    <?php endforeach; 
+    endif; ?>
+</tbody>>
         </table>
     </div>
-    <div class="text-center py-3 text-muted small d-none" id="msgSemConsumiveis">
-        <i class="fa-solid fa-circle-info me-1"></i> Nenhum consumível associado.
-    </div>
+    <div class="text-center py-3 text-muted small <?= (count($consumiveis) > 0) ? 'd-none' : '' ?>" id="msgSemConsumiveis">
+    <i class="fa-solid fa-circle-info me-1"></i> Nenhum consumível associado.
+</div>
 </div> <div class="d-flex justify-content-end gap-3 mt-5 pt-4 border-top">
     <a href="lista.php" class="btn btn-outline-secondary px-4 fw-medium">
         <i class="fa-solid fa-xmark me-1"></i> Cancelar
@@ -380,42 +478,50 @@ $link_voltar = "lista.php";
 
 </div> <div class="tab-pane fade" id="documentacao" role="tabpanel" aria-labelledby="documentacao-tab">
     
+
+
     <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-2">
-        <i class="fa-solid fa-shield-halved text-success me-2"></i>6. Garantias e Contratos
-    </h5>
-    <div class="row g-4 mb-5 p-3 bg-white border rounded shadow-sm">
-        <div class="col-md-4">
-            <label class="form-label fw-medium text-secondary">Início da Garantia</label>
-            <input type="date" name="inicio_garantia" class="form-control bg-light border-0 shadow-sm" value="2021-03-15">
-        </div>
-        <div class="col-md-4">
-            <label class="form-label fw-medium text-secondary">Fim da Garantia</label>
-            <input type="date" name="fim_garantia" class="form-control bg-light border-0 shadow-sm" value="2027-03-15">
-        </div>
-        <div class="col-md-4">
-            <label class="form-label fw-medium text-secondary">Contrato de Manutenção</label>
-            <select name="contrato_manutencao" class="form-select bg-light border-0 shadow-sm">
-                <option value="sim_preventivo">Sim (Preventivo)</option>
-                <option value="sim_integral" selected>Sim (Preventivo e Corretivo)</option>
-                <option value="nao">Não</option>
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label fw-medium text-secondary">Entidade Responsável / Fornecedor</label>
-            <select name="entidade_responsavel" class="form-select bg-light border-0 shadow-sm">
-                <option value="draeger" selected>Dräger Medical GmbH</option>
-                <option value="philips">Philips Healthcare</option>
-            </select>
-        </div>
-        <div class="col-md-6">
-            <label class="form-label fw-medium text-secondary">Periodicidade</label>
-            <select name="periodicidade" class="form-select bg-light border-0 shadow-sm">
-                <option value="mensal">Mensal</option>
-                <option value="semestral">Semestral</option>
-                <option value="anual" selected>Anual</option>
-            </select>
-        </div>
+    <i class="fa-solid fa-shield-halved text-success me-2"></i>6. Garantias e Contratos
+</h5>
+<div class="row g-4 mb-5 p-3 bg-white border rounded shadow-sm">
+    <div class="col-md-4">
+        <label class="form-label fw-medium text-secondary">Início da Garantia</label>
+        <input type="date" name="inicio_garantia" class="form-control bg-light border-0 shadow-sm" 
+               value="<?= htmlspecialchars($equipamento->inicio_garantia ?? '') ?>">
     </div>
+    
+    <div class="col-md-4">
+        <label class="form-label fw-medium text-secondary">Fim da Garantia</label>
+        <input type="date" name="fim_garantia" class="form-control bg-light border-0 shadow-sm" 
+               value="<?= htmlspecialchars($equipamento->fim_garantia ?? '') ?>">
+    </div>
+    
+    <div class="col-md-4">
+        <label class="form-label fw-medium text-secondary">Contrato de Manutenção</label>
+        <select name="contrato_manutencao" class="form-select bg-light border-0 shadow-sm">
+            <option value="sim_preventivo" <?= ($equipamento->contrato_manutencao === 'sim_preventivo') ? 'selected' : '' ?>>Sim (Preventivo)</option>
+            <option value="sim_integral" <?= ($equipamento->contrato_manutencao === 'sim_integral') ? 'selected' : '' ?>>Sim (Preventivo e Corretivo)</option>
+            <option value="nao" <?= ($equipamento->contrato_manutencao === 'nao') ? 'selected' : '' ?>>Não</option>
+        </select>
+    </div>
+    
+    <div class="col-md-6">
+        <label class="form-label fw-medium text-secondary">Entidade Responsável / Fornecedor</label>
+        <select name="entidade_responsavel" class="form-select bg-light border-0 shadow-sm">
+            <option value="draeger" <?= ($equipamento->entidade_responsavel === 'draeger') ? 'selected' : '' ?>>Dräger Medical GmbH</option>
+            <option value="philips" <?= ($equipamento->entidade_responsavel === 'philips') ? 'selected' : '' ?>>Philips Healthcare</option>
+        </select>
+    </div>
+    
+    <div class="col-md-6">
+        <label class="form-label fw-medium text-secondary">Periodicidade</label>
+        <select name="periodicidade" class="form-select bg-light border-0 shadow-sm">
+            <option value="mensal" <?= ($equipamento->periodicidade === 'mensal') ? 'selected' : '' ?>>Mensal</option>
+            <option value="semestral" <?= ($equipamento->periodicidade === 'semestral') ? 'selected' : '' ?>>Semestral</option>
+            <option value="anual" <?= ($equipamento->periodicidade === 'anual') ? 'selected' : '' ?>>Anual</option>
+        </select>
+    </div>
+</div>
 
     <h5 class="fw-bold text-dark mb-4 border-bottom pb-2 mt-5">
         <i class="fa-solid fa-folder-open text-primary me-2"></i>7. Documentação Associada
@@ -498,22 +604,41 @@ $link_voltar = "lista.php";
                 </tr>
             </thead>
             <tbody id="corpoTabelaDocs">
-                <tr>
-                    <td class="py-3 px-3 border-0 fw-medium text-dark">Contrato de Manutenção</td>
-                    <td class="py-3 border-0">
-                        <span class="d-block fw-medium">Contrato Dräger 2026</span>
-                        <a href="#" class="badge bg-secondary bg-opacity-10 text-dark border px-2 py-1 text-decoration-none shadow-sm mt-1">
-                            <i class="fa-solid fa-file-pdf text-danger me-1"></i> contrato_v500.pdf
-                        </a>
-                    </td>
-                    <td class="py-3 border-0 text-muted small">15-03-2027</td>
-                    <td class="py-3 pe-3 border-0 text-end">
-                        <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover-doc px-2" data-bs-toggle="modal" data-bs-target="#modalRemoverDocumento">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
+    <?php
+    // 1. SELECT dos documentos associados a este equipamento
+    $stmtDocs = $ligacao->prepare("SELECT * FROM documento WHERE equipamento_id = :id");
+    $stmtDocs->execute([':id' => $idEquipamento]);
+    $documentos = $stmtDocs->fetchAll(PDO::FETCH_OBJ);
+
+    // 2. Se existirem documentos, desenha as linhas
+    if (count($documentos) > 0):
+        foreach ($documentos as $doc):
+    ?>
+        <tr>
+            <td class="py-3 px-3 border-0 fw-medium text-dark"><?= htmlspecialchars($doc->categoria) ?></td>
+            <td class="py-3 border-0">
+                <span class="d-block fw-medium"><?= htmlspecialchars($doc->titulo) ?></span>
+                <a href="<?= htmlspecialchars($doc->caminho_ficheiro) ?>" target="_blank" 
+                   class="badge bg-secondary bg-opacity-10 text-dark border px-2 py-1 text-decoration-none shadow-sm mt-1">
+                    <i class="fa-solid fa-file-pdf text-danger me-1"></i> <?= htmlspecialchars($doc->nome_ficheiro) ?>
+                </a>
+            </td>
+            <td class="py-3 border-0 text-muted small"><?= ($doc->validade ? date('d-m-Y', strtotime($doc->validade)) : 'N/A') ?></td>
+            <td class="py-3 pe-3 border-0 text-end">
+                <button type="button" class="btn btn-sm btn-outline-danger btn-abrir-modal-remover-doc px-2" 
+                        data-bs-toggle="modal" data-bs-target="#modalRemoverDocumento"
+                        onclick="document.getElementById('btnConfirmarRemocaoDoc').setAttribute('data-id', '<?= $doc->id ?>')">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </td>
+        </tr>
+    <?php endforeach; 
+    else: ?>
+        <tr>
+            <td colspan="4" class="text-center py-4 text-muted small">Nenhum documento anexado a este equipamento.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
         </table>
     </div>
     <div class="text-center py-3 text-muted small d-none" id="msgSemDocs">
@@ -524,9 +649,9 @@ $link_voltar = "lista.php";
         <button type="button" class="btn btn-light border px-4 fw-medium" onclick="document.getElementById('dados-tab').click();">
             <i class="fa-solid fa-arrow-left me-1"></i> Anterior
         </button>
-        <button type="submit" class="btn btn-primary px-5 fw-bold btn-guardar">
-            <i class="fa-regular fa-floppy-disk me-1"></i> Guardar Alterações
-        </button>
+        <button type="button" class="btn btn-primary px-5 fw-bold" onclick="this.form.submit();">
+    <i class="fa-regular fa-floppy-disk me-1"></i> Guardar Alterações
+</button>
     </div>
 
 </div> </div> </form>
@@ -665,5 +790,32 @@ $link_voltar = "lista.php";
         </div>
     </div>
 </div>
+<script>
+document.getElementById('checkEComponente').addEventListener('change', function() {
+    document.getElementById('blocoEquipamentoPai').classList.toggle('d-none', !this.checked);
+});
+</script>
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+    <div id="toastSucessoReal" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fa-solid fa-circle-check me-2"></i> Equipamento atualizado com sucesso!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
+<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'editado'): ?>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var myToastEl = document.getElementById('toastSucessoReal');
+        var myToast = new bootstrap.Toast(myToastEl);
+        myToast.show();
+        
+        // Limpa a URL para o utilizador não ficar a ver o "?sucesso=editado"
+        window.history.replaceState(null, null, window.location.pathname);
+    });
+</script>
+<?php endif; ?>
 <?php include '../includes/footer.php'; ?>   

@@ -337,17 +337,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --------------------------------------------------------
     // 3.2 Alerta (Toast) ao Guardar Alterações
-    // --------------------------------------------------------
-    const btnGuardar = document.querySelector('.btn-guardar');
-    const toastEl = document.getElementById('toastGravacao');
-    if (btnGuardar && toastEl) {
-        const toast = new bootstrap.Toast(toastEl, { delay: 1500 });
-        btnGuardar.addEventListener('click', function(e) {
-            e.preventDefault(); 
-            toast.show();
-            setTimeout(() => { window.location.href = 'detalhes.html'; }, 1500);
-        });
-    }  
     // Se já existirem no teu código noutro sítio, remove as declarações lá!
     if (typeof window.linhaAtualConsumivel === 'undefined') {
         window.linhaAtualConsumivel = null;

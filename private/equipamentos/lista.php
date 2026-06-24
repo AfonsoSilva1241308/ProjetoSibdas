@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/funcoes.php';
+require_once __DIR__ . '/../../config/config.php';
 redirect_if_not_logged();
 
 // --- INÍCIO DO PASSO 4: LIGAÇÃO E QUERY ---
@@ -232,7 +233,9 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
                                     
                                     <td class="text-end px-4">
                                         <a href="detalhes.php?id=<?= $item->id ?>" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="editar.php?id=<?= $item->id ?>" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        <a href="editar.php?id_equipamento=<?= aes_encrypt($item->id) ?>" class="btn btn-sm btn-outline-warning">
+    <i class="fa-regular fa-pen-to-square"></i>
+</a>
                                         <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
                                     </td>
                                 </tr>
