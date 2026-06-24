@@ -11,54 +11,78 @@ redirect_if_not_logged();
 // =======================================================
 try {
     $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8mb4",
         MYSQL_USERNAME,
         MYSQL_PASSWORD
     );
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // 1. Contagens para os 4 Cartões Principais
-    $total_equipamentos = $ligacao->query("SELECT COUNT(*) FROM equipamento")->fetchColumn();
+    $total_equipamentos = $ligacao->query("SELECT COUNT(*) FROM equipamento WHERE estado <> 'Abatido' OR estado IS NULL")->fetchColumn();
     $total_ativos       = $ligacao->query("SELECT COUNT(*) FROM equipamento WHERE estado = 'Ativo'")->fetchColumn();
-    $total_manutencao   = $ligacao->query("SELECT COUNT(*) FROM equipamento WHERE estado LIKE '%Manutenção%' OR estado LIKE '%Calibração%'")->fetchColumn();
+    $total_manutencao   = $ligacao->query("SELECT COUNT(*) FROM equipamento WHERE (estado LIKE '%Manutenção%' OR estado LIKE '%Calibração%') AND estado <> 'Abatido'")->fetchColumn();
     $total_inativos     = $ligacao->query("SELECT COUNT(*) FROM equipamento WHERE estado IN ('Inativo', 'Abatido')")->fetchColumn();
 
     // 2. Alerta de Segurança
-    $alerta_sv = $ligacao->query("SELECT COUNT(*) FROM equipamento WHERE criticidade = 'Suporte de Vida' AND estado != 'Ativo'")->fetchColumn();
+    $alerta_sv = $ligacao->query("SELECT COUNT(*) FROM equipamento WHERE criticidade = 'Suporte de Vida' AND estado != 'Ativo' AND estado <> 'Abatido'")->fetchColumn();
 
     // 3. Gráfico Criticidade
-    $dados_criticidade = $ligacao->query("SELECT criticidade, COUNT(*) as total FROM equipamento GROUP BY criticidade")->fetchAll(PDO::FETCH_ASSOC);
+    $dados_criticidade = $ligacao->query("
+        SELECT COALESCE(NULLIF(criticidade, ''), 'Sem criticidade') AS criticidade, COUNT(*) as total 
+        FROM equipamento 
+        WHERE estado <> 'Abatido' OR estado IS NULL
+        GROUP BY COALESCE(NULLIF(criticidade, ''), 'Sem criticidade')
+    " )->fetchAll(PDO::FETCH_ASSOC);
 
     // 4. Gráfico Serviços
     $dados_servicos = $ligacao->query("
         SELECT 
-            l.servico, 
+            COALESCE(NULLIF(l.servico, ''), 'Sem serviço') AS servico, 
             COUNT(e.id) as total,
-            SUM(CASE WHEN e.categoria = 'Suporte de Vida' THEN 1 ELSE 0 END) as total_sv
+            SUM(CASE WHEN e.criticidade = 'Suporte de Vida' OR e.categoria = 'Suporte de Vida' THEN 1 ELSE 0 END) as total_sv
         FROM equipamento e 
-        JOIN localizacao l ON e.localizacao_id = l.id 
-        GROUP BY l.servico
+        LEFT JOIN localizacao l ON e.localizacao_id = l.id 
+        WHERE e.estado <> 'Abatido' OR e.estado IS NULL
+        GROUP BY COALESCE(NULLIF(l.servico, ''), 'Sem serviço')
+        ORDER BY total DESC
     ")->fetchAll(PDO::FETCH_ASSOC);
     
     // 5. Gráfico Fornecedores
     $dados_fornecedores = $ligacao->query("
-        SELECT marca as nome, COUNT(id) as total 
-        FROM equipamento 
-        WHERE marca IS NOT NULL AND marca != ''
-        GROUP BY marca 
-        ORDER BY total DESC 
+        SELECT 
+            COALESCE(NULLIF(fabricante, ''), NULLIF(marca, ''), 'Sem fornecedor') AS nome,
+            COUNT(id) AS total
+        FROM equipamento
+        WHERE (estado <> 'Abatido' OR estado IS NULL)
+        GROUP BY COALESCE(NULLIF(fabricante, ''), NULLIF(marca, ''), 'Sem fornecedor')
+        ORDER BY total DESC
         LIMIT 5
     ")->fetchAll(PDO::FETCH_ASSOC);
     // 6. Gráfico Idade
     $dados_idade = $ligacao->query("
         SELECT 
-            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, data_aquisicao, CURDATE()) < 2 THEN 1 ELSE 0 END) as age_0_2,
-            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, data_aquisicao, CURDATE()) BETWEEN 2 AND 5 THEN 1 ELSE 0 END) as age_2_5,
-            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, data_aquisicao, CURDATE()) BETWEEN 6 AND 10 THEN 1 ELSE 0 END) as age_5_10,
-            SUM(CASE WHEN TIMESTAMPDIFF(YEAR, data_aquisicao, CURDATE()) > 10 THEN 1 ELSE 0 END) as age_10_plus
-        FROM equipamento
-        WHERE data_aquisicao IS NOT NULL
+            SUM(CASE WHEN idade_anos < 2 THEN 1 ELSE 0 END) AS age_0_2,
+            SUM(CASE WHEN idade_anos BETWEEN 2 AND 5 THEN 1 ELSE 0 END) AS age_2_5,
+            SUM(CASE WHEN idade_anos BETWEEN 6 AND 10 THEN 1 ELSE 0 END) AS age_5_10,
+            SUM(CASE WHEN idade_anos > 10 THEN 1 ELSE 0 END) AS age_10_plus
+        FROM (
+            SELECT 
+                CASE 
+                    WHEN data_aquisicao IS NOT NULL AND data_aquisicao <> '0000-00-00' 
+                        THEN TIMESTAMPDIFF(YEAR, data_aquisicao, CURDATE())
+                    WHEN ano_fabrico IS NOT NULL AND ano_fabrico <> '' 
+                        THEN YEAR(CURDATE()) - CAST(ano_fabrico AS UNSIGNED)
+                    ELSE NULL
+                END AS idade_anos
+            FROM equipamento
+            WHERE estado <> 'Abatido' OR estado IS NULL
+        ) AS idades
+        WHERE idade_anos IS NOT NULL
     ")->fetch(PDO::FETCH_ASSOC);
+
+    if (!$dados_idade) {
+        $dados_idade = ['age_0_2'=>0, 'age_2_5'=>0, 'age_5_10'=>0, 'age_10_plus'=>0];
+    }
 
 // 8. Lista: Garantias a Terminar (Expiradas ou que expiram nos próximos 30 dias)
     $lista_garantias = $ligacao->query("
@@ -213,7 +237,7 @@ $titulo_pagina = "Visão Geral do Sistema";
     <div class="col-12 col-lg-6">
         <div class="card shadow-sm border-0 h-100">
             <div class="card-body p-4">
-                <h5 class="fw-bold text-dark mb-4">Os Principais Forncedores</h5>
+                <h5 class="fw-bold text-dark mb-4">Os Principais Fornecedores</h5>
                 <div style="position: relative; height: 250px; width: 100%;">
                     <canvas id="graficoFornecedores"></canvas>
                 </div>
@@ -243,7 +267,7 @@ $titulo_pagina = "Visão Geral do Sistema";
                     </div>
                     <h5 class="fw-bold text-dark m-0">Garantias a Terminar</h5>
                 </div>
-                <a href="equipamentos/lista.html" class="text-decoration-none small fw-semibold">Ver tudo <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                <a href="equipamentos/lista.php" class="text-decoration-none small fw-semibold">Ver tudo <i class="fa-solid fa-arrow-right ms-1"></i></a>
             </div>
             
             <div class="card-body px-4 pb-4 pt-2">
@@ -295,7 +319,7 @@ $titulo_pagina = "Visão Geral do Sistema";
                     </div>
                     <h5 class="fw-bold text-dark m-0">Sem Documentação</h5>
                 </div>
-                <a href="equipamentos/lista.html" class="text-decoration-none small fw-semibold">Ver tudo <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                <a href="equipamentos/lista.php" class="text-decoration-none small fw-semibold">Ver tudo <i class="fa-solid fa-arrow-right ms-1"></i></a>
             </div>
             
             <div class="card-body px-4 pb-4 pt-2">
@@ -382,7 +406,14 @@ $titulo_pagina = "Visão Geral do Sistema";
     </div>
 </div>
 <script>
-    const DADOS_CRITICIDADE = <?= json_encode($dados_criticidade) ?>;
-    const DADOS_SERVICOS = <?= json_encode($dados_servicos) ?>;
+    const DADOS_CRITICIDADE = <?= json_encode($dados_criticidade ?? [], JSON_UNESCAPED_UNICODE) ?>;
+    const DADOS_SERVICOS = <?= json_encode($dados_servicos ?? [], JSON_UNESCAPED_UNICODE) ?>;
+    const DADOS_FORNECEDORES = <?= json_encode($dados_fornecedores ?? [], JSON_UNESCAPED_UNICODE) ?>;
+    const DADOS_IDADE = <?= json_encode($dados_idade ?? [
+        'age_0_2' => 0,
+        'age_2_5' => 0,
+        'age_5_10' => 0,
+        'age_10_plus' => 0
+    ], JSON_UNESCAPED_UNICODE) ?>;
 </script>
     <?php include 'includes/footer.php'; ?>

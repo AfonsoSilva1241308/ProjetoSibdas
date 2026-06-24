@@ -1,166 +1,268 @@
 
 <?php
-// 1. Trancar a porta aos intrusos
+require_once __DIR__ . '/../../config/config.php';
 require_once __DIR__ . '/../includes/funcoes.php';
 redirect_if_not_logged();
 
 // --- INÍCIO: LIGAÇÃO E QUERY ---
+$pesquisa = trim($_GET['pesquisa'] ?? '');
+$erro = '';
+$resultados = [];
+
 try {
-    // Ligar ao servidor do ISEP com a porta 10464
     $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8mb4",
         MYSQL_USERNAME,
         MYSQL_PASSWORD
     );
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // Query para ir buscar as localizações e contar os equipamentos lá alocados
-    // NOTA: Se houver erro de sintaxe, o bloco catch abaixo vai mostrar-te exatamente o que é
-    $sql = "SELECT l.*, COUNT(e.id) as total_equipamentos 
-            FROM localizacao l 
-            LEFT JOIN equipamento e ON l.id = e.localizacao_id 
-            GROUP BY l.id";
-            
-    $resultados = $ligacao->query($sql)->fetchAll(PDO::FETCH_OBJ);
-    $erro = '';
+
+    /*
+        SOFT DELETE:
+        As localizações removidas continuam na base de dados,
+        mas deixam de aparecer na lista porque têm deleted_at preenchido.
+    */
+    $sql = "
+        SELECT 
+            l.*, 
+            COUNT(e.id) AS total_equipamentos
+        FROM localizacao l
+        LEFT JOIN equipamento e ON l.id = e.localizacao_id
+        WHERE l.deleted_at IS NULL
+    ";
+
+    $params = [];
+
+    if ($pesquisa !== '') {
+        $sql .= "
+            AND (
+                l.edificio LIKE :pesquisa
+                OR l.piso LIKE :pesquisa
+                OR l.servico LIKE :pesquisa
+                OR l.sala LIKE :pesquisa
+            )
+        ";
+        $params[':pesquisa'] = '%' . $pesquisa . '%';
+    }
+
+    $sql .= "
+        GROUP BY l.id
+        ORDER BY l.id DESC
+    ";
+
+    $stmt = $ligacao->prepare($sql);
+    $stmt->execute($params);
+    $resultados = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 } catch (PDOException $err) {
-    // Alterado para mostrar a mensagem de erro REAL da base de dados
     $erro = "Erro técnico: " . $err->getMessage();
     $resultados = [];
 }
-// Fechar a ligação
+
 $ligacao = null;
 // --- FIM: LIGAÇÃO E QUERY ---
 
 // Variáveis da Navbar
-$titulo_pagina = "Gestão de Localizações"; 
-$icone_pagina = "fa-solid fa-stethoscope"; 
+$titulo_pagina = "Gestão de Localizações";
+$icone_pagina = "fa-solid fa-location-dot";
 $subtitulo_pagina = "Consulte e administre os edifícios, serviços e salas do hospital.";
 ?>
-<?php include '../includes/header.php'; ?>
+<?php include __DIR__ . '/../includes/header.php'; ?>
 
 <div class="d-flex vh-100">
     
-    <?php include '../includes/sidebar.php'; ?>
+    <?php include __DIR__ . '/../includes/sidebar.php'; ?>
 
     <div class="flex-grow-1 p-4 p-md-5 bg-light overflow-auto w-100">
         
-        <?php include '../includes/navbar.php'; ?>
+        <?php include __DIR__ . '/../includes/navbar.php'; ?>
 
-            <div class="card shadow-sm border-0 rounded">
-                <div class="card-body p-4 p-md-5">
-                    
-                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-                        <h3 class="m-0 fw-bold text-dark">Gestão de Localizações</h3>
-                        
-                        <div class="d-flex gap-2">
-    <form action="lista.php" method="GET" class="m-0 d-flex gap-2">
-        <input type="text" name="pesquisa" class="form-control" placeholder="Pesquisar edifício, serviço ou sala..." style="width: 250px;">
-        <button type="submit" class="btn btn-outline-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
-    <a href="novo.php" class="btn btn-primary fw-semibold">+ Nova Localização</a>
-</div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table id="tabela-localizacoes" class="table align-middle mb-0">
-    <thead>
-        <tr class="text-muted small">
-            <th class="py-3 text-uppercase fw-bold border-0 bg-light">Edifício / Piso</th>
-            <th class="py-3 text-uppercase fw-bold border-0 bg-light">Serviço / Departamento</th>
-            <th class="py-3 text-uppercase fw-bold border-0 bg-light">Sala / Gabinete</th>
-            <th class="py-3 text-uppercase fw-bold border-0 bg-light text-center">Equipamentos</th>
-            <th class="py-3 text-uppercase fw-bold border-0 bg-light text-end">Ações</th>
-        </tr>
-    </thead>
-    <tbody class="border-top-0">
-        <?php if (!empty($erro)): ?>
-            <tr><td colspan="5" class="text-center text-danger fw-bold py-4"><i class="fa-solid fa-triangle-exclamation me-2"></i><?= $erro ?></td></tr>
-        <?php elseif (count($resultados) == 0): ?>
-            <tr><td colspan="5" class="text-center text-muted py-4"><i class="fa-solid fa-circle-info me-2"></i>Não existem localizações registadas.</td></tr>
-        <?php else: ?>
-            <?php foreach ($resultados as $loc): ?>
-                <tr>
-                    <td class="py-3">
-                        <span class="d-block fw-bold text-dark"><?= htmlspecialchars($loc->edificio) ?></span>
-                        <small class="text-muted"><?= htmlspecialchars($loc->piso) ?></small>
-                    </td>
-                    <td><?= htmlspecialchars($loc->servico) ?></td>
-                    <td><?= htmlspecialchars($loc->sala) ?></td>
-                    <td class="text-center">
-                        <span class="badge bg-primary rounded-pill px-3 py-1"><?= $loc->total_equipamentos ?> alocados</span>
-                    </td>
-                    <td class="text-end">
-                        <div class="btn-group gap-2">
-                            <a href="detalhes.php?id=<?= $loc->id ?>" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                            <a href="editar.php?id=<?= $loc->id ?>" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-                            <button type="button" class="btn btn-sm btn-outline-danger px-2 rounded" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverLocalizacao">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+        <?php if (isset($_GET['sucesso']) && $_GET['sucesso'] === 'removida'): ?>
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i>
+                Localização removida da lista com sucesso. O registo continua guardado na base de dados.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php elseif (isset($_GET['sucesso']) && $_GET['sucesso'] === 'inserido'): ?>
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i>
+                Localização registada com sucesso no sistema!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php elseif (isset($_GET['sucesso']) && $_GET['sucesso'] === 'editada'): ?>
+            <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                <i class="fa-solid fa-circle-check me-2"></i>
+                Localização atualizada com sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         <?php endif; ?>
-    </tbody>
-</table>
+
+        <?php if (isset($_SESSION['server_error'])): ?>
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                <?= htmlspecialchars($_SESSION['server_error'], ENT_QUOTES, 'UTF-8') ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php unset($_SESSION['server_error']); ?>
+        <?php endif; ?>
+
+        <div class="card shadow-sm border-0 rounded">
+            <div class="card-body p-4 p-md-5">
+                
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                    <h3 class="m-0 fw-bold text-dark">Gestão de Localizações</h3>
+                    
+                    <div class="d-flex gap-2">
+                        <form action="lista.php" method="GET" class="m-0 d-flex gap-2">
+                            <input 
+                                type="text" 
+                                name="pesquisa" 
+                                class="form-control" 
+                                placeholder="Pesquisar edifício, serviço ou sala..." 
+                                style="width: 250px;"
+                                value="<?= htmlspecialchars($pesquisa, ENT_QUOTES, 'UTF-8') ?>"
+                            >
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                        <a href="novo.php" class="btn btn-primary fw-semibold">+ Nova Localização</a>
                     </div>
-
-                    <div class="d-flex justify-content-between align-items-center mt-4 pt-4 border-top text-muted small">
-    <span class="text-muted small">Total de registos: <strong id="total-registos-loc">0</strong></span>
-    <nav>
-        <ul class="pagination pagination-sm m-0" id="paginacao-loc">
-            </ul>
-    </nav>
-</div>
-
                 </div>
+
+                <div class="table-responsive">
+                    <table id="tabela-localizacoes" class="table align-middle mb-0">
+                        <thead>
+                            <tr class="text-muted small">
+                                <th class="py-3 text-uppercase fw-bold border-0 bg-light">Edifício / Piso</th>
+                                <th class="py-3 text-uppercase fw-bold border-0 bg-light">Serviço / Departamento</th>
+                                <th class="py-3 text-uppercase fw-bold border-0 bg-light">Sala / Gabinete</th>
+                                <th class="py-3 text-uppercase fw-bold border-0 bg-light text-center">Equipamentos</th>
+                                <th class="py-3 text-uppercase fw-bold border-0 bg-light text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody class="border-top-0">
+                            <?php if (!empty($erro)): ?>
+                                <tr>
+                                    <td colspan="5" class="text-center text-danger fw-bold py-4">
+                                        <i class="fa-solid fa-triangle-exclamation me-2"></i><?= htmlspecialchars($erro, ENT_QUOTES, 'UTF-8') ?>
+                                    </td>
+                                </tr>
+                            <?php elseif (count($resultados) === 0): ?>
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        <i class="fa-solid fa-circle-info me-2"></i>Não existem localizações registadas.
+                                    </td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($resultados as $loc): ?>
+                                    <?php
+                                        $edificio = $loc->edificio ?? '';
+                                        $piso = $loc->piso ?? '';
+                                        $servico = $loc->servico ?? '';
+                                        $sala = $loc->sala ?? '';
+                                        $idEncriptado = urlencode(aes_encrypt($loc->id));
+                                    ?>
+                                    <tr>
+                                        <td class="py-3">
+                                            <span class="d-block fw-bold text-dark"><?= htmlspecialchars($edificio, ENT_QUOTES, 'UTF-8') ?></span>
+                                            <small class="text-muted"><?= htmlspecialchars($piso, ENT_QUOTES, 'UTF-8') ?></small>
+                                        </td>
+                                        <td><?= htmlspecialchars($servico, ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td><?= htmlspecialchars($sala, ENT_QUOTES, 'UTF-8') ?></td>
+                                        <td class="text-center">
+                                            <span class="badge bg-primary rounded-pill px-3 py-1">
+                                                <?= (int) $loc->total_equipamentos ?> alocados
+                                            </span>
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="btn-group gap-2">
+                                                <a href="detalhes.php?id_localizacao=<?= $idEncriptado ?>" class="btn btn-sm btn-outline-primary px-2 rounded" title="Ver Detalhes">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+                                                <a href="editar.php?id_localizacao=<?= $idEncriptado ?>" class="btn btn-sm btn-outline-warning px-2 rounded" title="Editar">
+                                                    <i class="fa-solid fa-pen-to-square"></i>
+                                                </a>
+                                                <button 
+                                                    type="button" 
+                                                    class="btn btn-sm btn-outline-danger px-2 rounded" 
+                                                    title="Remover" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#modalRemoverLocalizacao"
+                                                    data-id="<?= $idEncriptado ?>"
+                                                    data-servico="<?= htmlspecialchars($servico, ENT_QUOTES, 'UTF-8') ?>"
+                                                    data-edificio="<?= htmlspecialchars($edificio, ENT_QUOTES, 'UTF-8') ?>"
+                                                    data-piso="<?= htmlspecialchars($piso, ENT_QUOTES, 'UTF-8') ?>"
+                                                    data-sala="<?= htmlspecialchars($sala, ENT_QUOTES, 'UTF-8') ?>"
+                                                >
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-4 pt-4 border-top text-muted small">
+                    <span class="text-muted small">
+                        Total de registos: <strong id="total-registos-loc"><?= count($resultados) ?></strong>
+                    </span>
+                    <nav>
+                        <ul class="pagination pagination-sm m-0" id="paginacao-loc"></ul>
+                    </nav>
+                </div>
+
             </div>
         </div>
-
-        </div>
     </div>
+</div>
+
 <div class="modal fade" id="modalRemoverLocalizacao" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 shadow-lg rounded-4">
-                <div class="modal-body text-center p-5">
-                    
-                    <i class="fa-solid fa-triangle-exclamation text-warning mb-4" style="font-size: 4rem;"></i>
-                    
-                    <h5 class="text-dark mb-2">Deseja eliminar esta localização do sistema?</h5>
-                    <h3 class="fw-bold text-dark mb-4">Cuidados Intensivos (UCI)</h3>
-                    
-                    <div class="mb-4">
-                        <span class="d-block text-dark fw-bold mb-1" style="font-size: 0.95rem;">
-                            Edifício: <span class="text-secondary fw-medium">Edifício Principal (Piso 2)</span>
-                        </span>
-                        <span class="d-block text-dark fw-bold" style="font-size: 0.95rem;">
-                            Sala / Gabinete: <span class="text-secondary fw-medium">Box 4</span>
-                        </span>
-                    </div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-body text-center p-5">
+                
+                <i class="fa-solid fa-triangle-exclamation text-warning mb-4" style="font-size: 4rem;"></i>
+                
+                <h5 class="text-dark mb-2">Deseja remover esta localização da lista?</h5>
+                <h3 class="fw-bold text-dark mb-4" id="modalNomeLocalizacao">Localização</h3>
+                
+                <div class="mb-4">
+                    <span class="d-block text-dark fw-bold mb-1" style="font-size: 0.95rem;">
+                        Edifício:
+                        <span class="text-secondary fw-medium" id="modalEdificioLocalizacao">-</span>
+                    </span>
+                    <span class="d-block text-dark fw-bold" style="font-size: 0.95rem;">
+                        Sala / Gabinete:
+                        <span class="text-secondary fw-medium" id="modalSalaLocalizacao">-</span>
+                    </span>
+                </div>
 
-                    <div class="d-flex justify-content-center gap-3 mt-4">
-    <button type="button" class="btn btn-light border fw-medium px-4 py-2" data-bs-dismiss="modal">
-        <i class="fa-solid fa-xmark me-2 text-secondary"></i> Não
-    </button>
-    
-    <form action="apagar_localizacao.php" method="POST" class="m-0">
-        <input type="hidden" name="id_localizacao" value="1">
-        <button type="submit" class="btn btn-danger fw-medium px-4 py-2">
-            <i class="fa-solid fa-check me-2"></i> Sim
-        </button>
-    </form>
-</div>
+                <p class="text-muted small mb-4">
+                    Esta ação não apaga a localização da base de dados. Apenas a oculta da listagem através de soft delete.
+                </p>
+
+                <div class="d-flex justify-content-center gap-3 mt-4">
+                    <button type="button" class="btn btn-light border fw-medium px-4 py-2" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-xmark me-2 text-secondary"></i> Não
+                    </button>
+                    
+                    <form action="apagar_localizacao.php" method="POST" class="m-0">
+                        <input type="hidden" name="id_localizacao" id="modalIdLocalizacao">
+                        <button type="submit" class="btn btn-danger fw-medium px-4 py-2">
+                            <i class="fa-solid fa-check me-2"></i> Sim
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalAlterarPassword" tabindex="-1" aria-hidden="true">
+</div>
+
+<div class="modal fade" id="modalAlterarPassword" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4">
             <div class="modal-header border-0 pb-0 mt-3 px-4">
@@ -211,25 +313,28 @@ $subtitulo_pagina = "Consulte e administre os edifícios, serviços e salas do h
         </div>
     </div>
 </div>
-<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'inserido'): ?>
-    <div class="toast-container position-fixed top-0 end-0 p-4" style="z-index: 1055;">
-        <div id="toastSucessoLocalizacao" class="toast show align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body fw-medium fs-6">
-                    <i class="fa-solid fa-circle-check me-2"></i> Localização registada com sucesso no sistema!
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" onclick="this.closest('.toast').classList.remove('show');"></button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        setTimeout(function() {
-            var toastEl = document.getElementById('toastSucessoLocalizacao');
-            if (toastEl) {
-                toastEl.classList.remove('show');
-            }
-        }, 4000);
-    </script>
-<?php endif; ?>
-    <?php include '../includes/footer.php'; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('modalRemoverLocalizacao');
+
+    if (modal) {
+        modal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+
+            const id = button.getAttribute('data-id');
+            const servico = button.getAttribute('data-servico') || 'Localização';
+            const edificio = button.getAttribute('data-edificio') || '-';
+            const piso = button.getAttribute('data-piso') || '';
+            const sala = button.getAttribute('data-sala') || '-';
+
+            document.getElementById('modalIdLocalizacao').value = id;
+            document.getElementById('modalNomeLocalizacao').textContent = servico;
+            document.getElementById('modalEdificioLocalizacao').textContent = piso ? edificio + ' (' + piso + ')' : edificio;
+            document.getElementById('modalSalaLocalizacao').textContent = sala;
+        });
+    }
+});
+</script>
+
+<?php include __DIR__ . '/../includes/footer.php'; ?>

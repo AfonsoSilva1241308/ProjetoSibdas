@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$idParam = $_POST['id_equipamento'] ?? $_POST['id_escondido'] ?? '';
+$idParam = $_POST['id_fornecedor'] ?? $_POST['id_escondido'] ?? '';
 
 if (empty($idParam)) {
     header('Location: lista.php?erro=id_invalido');
@@ -18,20 +18,19 @@ if (empty($idParam)) {
 
 // Aceita ID encriptado ou ID normal
 if (is_numeric($idParam)) {
-    $id = (int) $idParam;
+    $idFornecedor = (int) $idParam;
 } else {
-    $id = aes_decrypt(urldecode($idParam));
+    $idFornecedor = aes_decrypt(urldecode($idParam));
 }
 
-if (!$id || !is_numeric($id)) {
+if (!$idFornecedor || !is_numeric($idFornecedor)) {
     header('Location: lista.php?erro=id_invalido');
     exit;
 }
 
-$id = (int) $id;
+$idFornecedor = (int) $idFornecedor;
 
 try {
-    // Ligação direta à base de dados
     $ligacao = new PDO(
         "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8mb4",
         MYSQL_USERNAME,
@@ -40,27 +39,28 @@ try {
 
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Apagamento lógico:
-    // o equipamento continua na BD, mas fica marcado como Abatido.
+    /*
+        SOFT DELETE:
+        Não apaga o fornecedor da base de dados.
+        Apenas marca deleted_at com a data atual.
+    */
     $stmt = $ligacao->prepare("
-        UPDATE equipamento
-        SET 
-            estado = 'Abatido',
-            atualizado_em = NOW()
+        UPDATE fornecedor
+        SET deleted_at = NOW()
         WHERE id = :id
         LIMIT 1
     ");
 
     $stmt->execute([
-        ':id' => $id
+        ':id' => $idFornecedor
     ]);
 
-    header('Location: lista.php?sucesso=abatido');
+    header('Location: lista.php?sucesso=fornecedor_apagado');
     exit;
 
 } catch (PDOException $err) {
-    $_SESSION['server_error'] = 'Não foi possível abater o equipamento. Tente novamente.';
-    header('Location: lista.php?erro=abater');
+    $_SESSION['server_error'] = 'Não foi possível remover o fornecedor da lista. Tente novamente.';
+    header('Location: lista.php?erro=apagar');
     exit;
 }
 ?>

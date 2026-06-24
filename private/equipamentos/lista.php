@@ -7,14 +7,21 @@ redirect_if_not_logged();
 try {
     // 1. Ligar ao servidor do ISEP (nota a porta 10464)
     $ligacao = new PDO(
-        "mysql:host=" . MYSQL_HOST . ";port=10464;dbname=" . MYSQL_DATABASE . ";charset=utf8",
+        "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8mb4",
         MYSQL_USERNAME,
         MYSQL_PASSWORD
     );
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     // 2. Executar a Query adaptada à tua tabela 'equipamento'
-    $resultados = $ligacao->query("SELECT * FROM equipamento")->fetchAll(PDO::FETCH_OBJ);
+    $resultados = $ligacao->query("
+        SELECT
+            e.*,
+            l.servico AS localizacao_servico
+        FROM equipamento e
+        LEFT JOIN localizacao l ON e.localizacao_id = l.id
+        ORDER BY e.id DESC
+    ")->fetchAll(PDO::FETCH_OBJ);
     $erro = '';
 
 } catch (PDOException $err) {
@@ -232,11 +239,33 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
                                     </td>
                                     
                                     <td class="text-end px-4">
-                                        <a href="detalhes.php?id=<?= $item->id ?>" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="editar.php?id_equipamento=<?= aes_encrypt($item->id) ?>" class="btn btn-sm btn-outline-warning">
-    <i class="fa-regular fa-pen-to-square"></i>
-</a>
-                                        <button type="button" class="btn btn-sm btn-outline-danger px-2" title="Remover" data-bs-toggle="modal" data-bs-target="#modalRemoverEquipamento"><i class="fa-solid fa-trash"></i></button>
+                                        <a href="detalhes.php?id_equipamento=<?= urlencode(aes_encrypt($item->id)) ?>" class="btn btn-sm btn-outline-primary px-2 me-1" title="Ver Ficha">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+
+                                        <a href="editar.php?id_equipamento=<?= urlencode(aes_encrypt($item->id)) ?>" class="btn btn-sm btn-outline-warning px-2 me-1" title="Editar">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </a>
+
+                                        <?php if (strtolower(trim((string)($item->estado ?? ''))) === 'abatido'): ?>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary px-2" title="Equipamento já abatido" disabled>
+                                                <i class="fa-solid fa-ban"></i>
+                                            </button>
+                                        <?php else: ?>
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-outline-danger px-2"
+                                                title="Abater equipamento"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalRemoverEquipamento"
+                                                data-id="<?= urlencode(aes_encrypt($item->id)) ?>"
+                                                data-designacao="<?= htmlspecialchars($item->designacao ?? 'Equipamento', ENT_QUOTES, 'UTF-8') ?>"
+                                                data-codigo="<?= htmlspecialchars($item->codigo_interno ?? 'Sem código', ENT_QUOTES, 'UTF-8') ?>"
+                                                data-servico="<?= htmlspecialchars($item->localizacao_servico ?? $item->servico ?? 'Sem serviço', ENT_QUOTES, 'UTF-8') ?>"
+                                            >
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -262,15 +291,21 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
                 <div class="modal-content border-0 shadow-lg rounded-4">
                     <div class="modal-body text-center p-5">
                         <i class="fa-solid fa-triangle-exclamation text-warning mb-4" style="font-size: 4rem;"></i>
-                        <h5 class="text-dark mb-2">Deseja eliminar o equipamento do inventário?</h5>
-                        <h3 class="fw-bold text-dark mb-4">Ventilador Pulmonar Evita V500</h3>
+
+                        <h5 class="text-dark mb-2">Deseja abater este equipamento do inventário?</h5>
+                        <p class="text-muted mb-3">O equipamento não será apagado da base de dados. Apenas ficará com o estado <strong>Abatido</strong>.</p>
+
+                        <h3 class="fw-bold text-dark mb-4" id="modalDesignacaoEquipamento">Equipamento</h3>
                         
                         <div class="mb-4">
                             <span class="d-block text-dark fw-bold mb-1" style="font-size: 0.95rem;">
-                                Cód. Interno: <span class="text-secondary fw-medium">EQ-V500-01</span>
+                                Cód. Interno:
+                                <span class="text-secondary fw-medium" id="modalCodigoEquipamento">-</span>
                             </span>
+
                             <span class="d-block text-dark fw-bold" style="font-size: 0.95rem;">
-                                Serviço Alocado: <span class="text-secondary fw-medium">Cuidados Intensivos (UCI)</span>
+                                Serviço Alocado:
+                                <span class="text-secondary fw-medium" id="modalServicoEquipamento">-</span>
                             </span>
                         </div>
 
@@ -280,9 +315,10 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
                             </button>
                             
                             <form action="apagar_equipamento.php" method="POST" class="m-0">
-                                <input type="hidden" name="codigo_interno" value="EV500-2021">
+                                <input type="hidden" name="id_equipamento" id="modalIdEquipamento">
+
                                 <button type="submit" class="btn btn-danger fw-medium px-4 py-2">
-                                    <i class="fa-solid fa-check me-2"></i> Sim
+                                    <i class="fa-solid fa-check me-2"></i> Sim, abater
                                 </button>
                             </form>
                         </div>
@@ -345,12 +381,43 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
 
     </div>
 </div>
-<?php if (isset($_GET['sucesso']) && $_GET['sucesso'] == 'inserido'): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const modal = document.getElementById('modalRemoverEquipamento');
+
+    if (modal) {
+        modal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+
+            if (!button) {
+                return;
+            }
+
+            const id = button.getAttribute('data-id') || '';
+            const designacao = button.getAttribute('data-designacao') || 'Equipamento';
+            const codigo = button.getAttribute('data-codigo') || '-';
+            const servico = button.getAttribute('data-servico') || '-';
+
+            document.getElementById('modalIdEquipamento').value = id;
+            document.getElementById('modalDesignacaoEquipamento').textContent = designacao;
+            document.getElementById('modalCodigoEquipamento').textContent = codigo;
+            document.getElementById('modalServicoEquipamento').textContent = servico;
+        });
+    }
+});
+</script>
+
+<?php if (isset($_GET['sucesso']) && in_array($_GET['sucesso'], ['inserido', 'abatido'], true)): ?>
+    <?php
+        $mensagemSucesso = $_GET['sucesso'] === 'abatido'
+            ? 'Equipamento abatido com sucesso. O registo continua guardado na base de dados.'
+            : 'Equipamento registado com sucesso no inventário!';
+    ?>
     <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;">
         <div id="toastSucesso" class="toast align-items-center text-bg-success border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body fw-medium fs-6">
-                    <i class="fa-solid fa-circle-check me-2"></i> Equipamento registado com sucesso no inventário!
+                    <i class="fa-solid fa-circle-check me-2"></i> <?= htmlspecialchars($mensagemSucesso, ENT_QUOTES, 'UTF-8') ?>
                 </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
@@ -358,14 +425,11 @@ $subtitulo_pagina = "Consulte e monitorize os equipamentos médicos.";
     </div>
 
     <script>
-        // Oculta a variável no URL e mostra o Toast usando o Bootstrap
         document.addEventListener("DOMContentLoaded", function() {
-            // 1. Mostrar o Toast
             const toastEl = document.getElementById('toastSucesso');
-            const toast = new bootstrap.Toast(toastEl, { delay: 4000 }); // Desaparece após 4 segundos
+            const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
             toast.show();
 
-            // 2. Limpar o '?sucesso=inserido' do URL (para não voltar a mostrar se fizer F5)
             window.history.replaceState(null, null, window.location.pathname);
         });
     </script>

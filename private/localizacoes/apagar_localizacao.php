@@ -9,58 +9,57 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$idParam = $_POST['id_equipamento'] ?? $_POST['id_escondido'] ?? '';
+$idParam = $_POST['id_localizacao'] ?? $_POST['localizacao_id'] ?? $_POST['id_escondido'] ?? '';
 
 if (empty($idParam)) {
     header('Location: lista.php?erro=id_invalido');
     exit;
 }
 
-// Aceita ID encriptado ou ID normal
+// Aceita ID encriptado ou ID normal.
 if (is_numeric($idParam)) {
-    $id = (int) $idParam;
+    $idLocalizacao = (int) $idParam;
 } else {
-    $id = aes_decrypt(urldecode($idParam));
+    $idLocalizacao = aes_decrypt(urldecode($idParam));
 }
 
-if (!$id || !is_numeric($id)) {
+if (!$idLocalizacao || !is_numeric($idLocalizacao)) {
     header('Location: lista.php?erro=id_invalido');
     exit;
 }
 
-$id = (int) $id;
+$idLocalizacao = (int) $idLocalizacao;
 
 try {
-    // Ligação direta à base de dados
     $ligacao = new PDO(
         "mysql:host=" . MYSQL_HOST . ";port=" . MYSQL_PORT . ";dbname=" . MYSQL_DATABASE . ";charset=utf8mb4",
         MYSQL_USERNAME,
         MYSQL_PASSWORD
     );
-
     $ligacao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Apagamento lógico:
-    // o equipamento continua na BD, mas fica marcado como Abatido.
+    /*
+        SOFT DELETE:
+        Não apaga a localização da base de dados.
+        Apenas marca deleted_at com a data atual.
+    */
     $stmt = $ligacao->prepare("
-        UPDATE equipamento
-        SET 
-            estado = 'Abatido',
-            atualizado_em = NOW()
+        UPDATE localizacao
+        SET deleted_at = NOW()
         WHERE id = :id
         LIMIT 1
     ");
 
     $stmt->execute([
-        ':id' => $id
+        ':id' => $idLocalizacao
     ]);
 
-    header('Location: lista.php?sucesso=abatido');
+    header('Location: lista.php?sucesso=removida');
     exit;
 
 } catch (PDOException $err) {
-    $_SESSION['server_error'] = 'Não foi possível abater o equipamento. Tente novamente.';
-    header('Location: lista.php?erro=abater');
+    $_SESSION['server_error'] = 'Não foi possível remover a localização da lista. Tente novamente.';
+    header('Location: lista.php?erro=apagar');
     exit;
 }
 ?>
